@@ -5,3 +5,4 @@ edition = "2024"
 
 [dependencies]
 rustcheevos.workspace = true
+rustcheevos-cli.workspace = true
