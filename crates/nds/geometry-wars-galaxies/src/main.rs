@@ -4,7 +4,10 @@ use rustcheevos::types::game::GameData;
 use rustcheevos_cli::{CliError, RustcheevosCli};
 use set::generate_set;
 
+use crate::notes::generate_code_notes;
+
 mod leaderboards;
+mod notes;
 mod rich;
 mod set;
 mod types;
@@ -18,7 +21,8 @@ fn main() -> Result<(), CliError> {
     game_data
         .set_achievements(generate_set())
         .set_leaderboards(generate_leaderboards())
-        .set_rich_presence(generate_rich_presence());
+        .set_rich_presence(generate_rich_presence())
+        .set_code_notes(generate_code_notes());
 
     RustcheevosCli::parse().run(&game_data)
 }

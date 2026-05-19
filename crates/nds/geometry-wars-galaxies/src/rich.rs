@@ -33,7 +33,7 @@ fn exploring_cond() -> ChainGroup {
 fn build_level_lookup_data() -> Vec<(u32, &'static str)> {
     Planet::all()
         .iter()
-        .map(|p| (p.lookup_key(), p.name()))
+        .map(|p| (p.lookup_key(), p.name))
         .collect()
 }
 
@@ -74,7 +74,8 @@ pub fn generate_rich_presence() -> RichPresence {
 
     let lives = rich_presence.register_format("Lives", FormatType::Value, Game::in_game_lives());
     let bombs = rich_presence.register_format("Bombs", FormatType::Value, Game::in_game_bombs());
-    let score = rich_presence.register_format("Score", FormatType::Value, Game::in_game_score());
+    let game_score =
+        rich_presence.register_format("GameScore", FormatType::Value, Game::in_game_score());
     let score_multiplier = rich_presence.register_format(
         "ScoreMultiplier",
         FormatType::Value,
@@ -86,13 +87,13 @@ pub fn generate_rich_presence() -> RichPresence {
     rich_presence.add_conditional_display(
         chain!(Game::in_game_cond(), Game::not_in_retro_evolved_cond(),),
         format!(
-            "Battling in {current_level} ({current_galaxy}) with {current_drone} 🛰️ | {lives}x♥️ {bombs}x💣 | {score} (x{score_multiplier})"
+            "Battling in {current_level} ({current_galaxy}) with {current_drone} 🛰️ | {lives}x♥️ {bombs}x💣 | {game_score} (x{score_multiplier})"
         ),
     );
     rich_presence.add_conditional_display(
         chain!(Game::in_game_cond(), Game::in_retro_evolved_cond()),
         format!(
-            "Battling in Retro Evolved | {lives}x♥️ {bombs}x💣 | {score} (x{score_multiplier})"
+            "Battling in Retro Evolved | {lives}x♥️ {bombs}x💣 | {game_score} (x{score_multiplier})"
         ),
     );
     rich_presence.add_conditional_display(

@@ -8,8 +8,6 @@ use crate::types::game::{Game, MenuState, PROFILE_STRIDE};
 
 use crate::types::planet::Planet;
 
-pub const RETRO_EVOLVED_ID: u32 = 0xffffffff;
-
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Galaxy {
     Alpha = 0x0,
@@ -55,7 +53,7 @@ impl Galaxy {
     }
 
     /// Returns the base address of the medal data for this galaxy.
-    pub fn medal_base_addr(self) -> u32 {
+    pub fn medal_base_addr(self) -> usize {
         match self {
             Galaxy::Alpha => 0x2e60cc,
             Galaxy::Beta => 0x2e6208,
@@ -70,7 +68,7 @@ impl Galaxy {
     }
 
     /// Returns the number of planets before this galaxy.
-    pub fn planets_before(self) -> u32 {
+    pub fn planets_before(self) -> usize {
         match self {
             Galaxy::Alpha => 0,
             Galaxy::Beta => 3,
@@ -85,7 +83,7 @@ impl Galaxy {
     }
 
     /// Returns the number of planets in this galaxy.
-    pub fn planet_count(self) -> u32 {
+    pub fn planet_count(self) -> usize {
         match self {
             Galaxy::Alpha => 3,
             Galaxy::Beta => 4,
@@ -99,8 +97,8 @@ impl Galaxy {
 
     /// Returns the planets in this galaxy.
     pub fn planets(self) -> &'static [Planet] {
-        let start = self.planets_before() as usize;
-        let count = self.planet_count() as usize;
+        let start = self.planets_before();
+        let count = self.planet_count();
         &Planet::all()[start..start + count]
     }
 

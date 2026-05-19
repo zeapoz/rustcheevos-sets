@@ -45,7 +45,7 @@ fn no_bullets_fired() -> Chain {
     )
 }
 
-/// Returns a chain that trigger wen the geoms collected is at least the given count.
+/// Returns a chain that triggers when the geoms collected is at least the given count.
 fn min_geoms(count: u32) -> Chain {
     chain!(
         delta!(Game::in_game_geoms()).lt(count),
@@ -81,7 +81,7 @@ pub fn add_retro_evolved_achievements(set: &mut AchievementSet) {
     set.push(retro_evolved_score(600752, 681342, "Retro Radiant", 1_000_000, "1,000,000", 50));
 }
 
-/// Returns an achievement for earning a score the Retro Evolved.
+/// Returns an achievement for earning a given score in Retro Evolved.
 fn retro_evolved_score(
     id: u32,
     badge_id: u32,

@@ -101,11 +101,12 @@ impl Game {
         Self::current_galaxy_index().eq(RETRO_EVOLVED_ID)
     }
 
+    /// Returns a chain that checks if the player is not playing Retro Evolved.
     pub fn not_in_retro_evolved_cond() -> Condition {
         Self::current_galaxy_index().ne(RETRO_EVOLVED_ID)
     }
 
-    /// Returns a chain that checks the in-game state
+    /// Returns a chain that checks the in-game state.
     pub fn in_game_cond() -> Chain {
         chain!(Self::in_game_state().eq(1))
     }
@@ -115,6 +116,7 @@ impl Game {
         chain!(delta!(Self::in_game_cond()), Self::in_game_cond())
     }
 
+    /// Returns a chain that checks the in-game state with delta and measures if.
     pub fn in_game_cond_with_delta_and_measured_if() -> Chain {
         measured_if!(Self::in_game_cond_with_delta())
     }

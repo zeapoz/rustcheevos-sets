@@ -14,15 +14,16 @@ impl MedalStatus {
     /// Returns the name of this medal status, if any.
     pub fn name(self) -> &'static str {
         match self {
+            MedalStatus::Unlocked => "Unlocked",
             MedalStatus::Bronze => "Bronze",
             MedalStatus::Silver => "Silver",
             MedalStatus::Gold => "Gold",
-            _ => "",
+            MedalStatus::Locked => "Locked",
         }
     }
 
     /// Returns the offset of this medal status, if any.
-    pub fn offset(self) -> u32 {
+    pub fn offset(self) -> usize {
         match self {
             MedalStatus::Bronze => 0x8,
             MedalStatus::Silver => 0x4,
