@@ -13,35 +13,35 @@ use crate::types::{galaxy::Galaxy, game::Game, planet::Planet, status::MedalStat
 /// Adds achievements for progression to the given set.
 #[rustfmt::skip]
 pub fn add_galaxy_medal_achievements(set: &mut AchievementSet) {
-    set.push(new_galaxy_medal_achievement(600707, "Alpha Amateur", Galaxy::Alpha, MedalStatus::Bronze, 3, Some(Tag::Progression)));
-    set.push(new_galaxy_medal_achievement(600708, "Beta Beginner", Galaxy::Beta, MedalStatus::Bronze, 4, Some(Tag::Progression)));
-    set.push(new_galaxy_medal_achievement(600709, "Gamma Greenhorn", Galaxy::Gamma, MedalStatus::Bronze, 5, Some(Tag::Progression)));
-    set.push(new_galaxy_medal_achievement(600710, "Delta Dabbler", Galaxy::Delta, MedalStatus::Bronze, 5, Some(Tag::Progression)));
-    set.push(new_galaxy_medal_achievement(600711, "Epsilon Entrant", Galaxy::Epsilon, MedalStatus::Bronze, 5, Some(Tag::Progression)));
-    set.push(new_galaxy_medal_achievement(600712, "Zeta Hopeful", Galaxy::Zeta, MedalStatus::Bronze, 10, Some(Tag::Progression)));
-    set.push(new_galaxy_medal_achievement(600713, "Eta Initiate", Galaxy::Eta, MedalStatus::Bronze, 10, Some(Tag::Progression)));
-    set.push(new_galaxy_medal_achievement(600714, "Theta Trainee", Galaxy::Theta, MedalStatus::Bronze, 10, Some(Tag::Progression)));
-    set.push(new_galaxy_medal_achievement(600715, "Kappa Cadet", Galaxy::Kappa, MedalStatus::Bronze, 10, Some(Tag::Progression)));
+    set.push(new_galaxy_medal_achievement(600707, 681297, "Alpha Amateur", Galaxy::Alpha, MedalStatus::Bronze, 3, Some(Tag::Progression)));
+    set.push(new_galaxy_medal_achievement(600708, 681298, "Beta Beginner", Galaxy::Beta, MedalStatus::Bronze, 4, Some(Tag::Progression)));
+    set.push(new_galaxy_medal_achievement(600709, 681299, "Gamma Greenhorn", Galaxy::Gamma, MedalStatus::Bronze, 5, Some(Tag::Progression)));
+    set.push(new_galaxy_medal_achievement(600710, 681300, "Delta Dabbler", Galaxy::Delta, MedalStatus::Bronze, 5, Some(Tag::Progression)));
+    set.push(new_galaxy_medal_achievement(600711, 681301, "Epsilon Entrant", Galaxy::Epsilon, MedalStatus::Bronze, 5, Some(Tag::Progression)));
+    set.push(new_galaxy_medal_achievement(600712, 681302, "Zeta Hopeful", Galaxy::Zeta, MedalStatus::Bronze, 10, Some(Tag::Progression)));
+    set.push(new_galaxy_medal_achievement(600713, 681303, "Eta Initiate", Galaxy::Eta, MedalStatus::Bronze, 10, Some(Tag::Progression)));
+    set.push(new_galaxy_medal_achievement(600714, 681304, "Theta Trainee", Galaxy::Theta, MedalStatus::Bronze, 10, Some(Tag::Progression)));
+    set.push(new_galaxy_medal_achievement(600715, 681305, "Kappa Cadet", Galaxy::Kappa, MedalStatus::Bronze, 10, Some(Tag::Progression)));
 
-    set.push(new_galaxy_medal_achievement(600716, "Alpha Armor", Galaxy::Alpha, MedalStatus::Silver, 5, None));
-    set.push(new_galaxy_medal_achievement(600717, "Beta Bulwark", Galaxy::Beta, MedalStatus::Silver, 5, None));
-    set.push(new_galaxy_medal_achievement(600718, "Gamma Guardian", Galaxy::Gamma, MedalStatus::Silver, 5, None));
-    set.push(new_galaxy_medal_achievement(600719, "Delta Defender", Galaxy::Delta, MedalStatus::Silver, 5, None));
-    set.push(new_galaxy_medal_achievement(600720, "Epsilon Sentinel", Galaxy::Epsilon, MedalStatus::Silver, 5, None));
-    set.push(new_galaxy_medal_achievement(600721, "Zeta Vigilante", Galaxy::Zeta, MedalStatus::Silver, 10, None));
-    set.push(new_galaxy_medal_achievement(600722, "Eta Escort", Galaxy::Eta, MedalStatus::Silver, 10, None));
-    set.push(new_galaxy_medal_achievement(600723, "Theta Trustee", Galaxy::Theta, MedalStatus::Silver, 10, None));
-    set.push(new_galaxy_medal_achievement(600724, "Kappa Custodian", Galaxy::Kappa, MedalStatus::Silver, 10, None));
+    set.push(new_galaxy_medal_achievement(600716, 681306, "Alpha Armor", Galaxy::Alpha, MedalStatus::Silver, 5, None));
+    set.push(new_galaxy_medal_achievement(600717, 681307, "Beta Bulwark", Galaxy::Beta, MedalStatus::Silver, 5, None));
+    set.push(new_galaxy_medal_achievement(600718, 681308, "Gamma Guardian", Galaxy::Gamma, MedalStatus::Silver, 5, None));
+    set.push(new_galaxy_medal_achievement(600719, 681309, "Delta Defender", Galaxy::Delta, MedalStatus::Silver, 5, None));
+    set.push(new_galaxy_medal_achievement(600720, 681310, "Epsilon Sentinel", Galaxy::Epsilon, MedalStatus::Silver, 5, None));
+    set.push(new_galaxy_medal_achievement(600721, 681311, "Zeta Vigilante", Galaxy::Zeta, MedalStatus::Silver, 10, None));
+    set.push(new_galaxy_medal_achievement(600722, 681312, "Eta Escort", Galaxy::Eta, MedalStatus::Silver, 10, None));
+    set.push(new_galaxy_medal_achievement(600723, 681313, "Theta Trustee", Galaxy::Theta, MedalStatus::Silver, 10, None));
+    set.push(new_galaxy_medal_achievement(600724, 681314, "Kappa Custodian", Galaxy::Kappa, MedalStatus::Silver, 10, None));
 
-    set.push(new_galaxy_medal_achievement(600725, "Alpha Ace", Galaxy::Alpha, MedalStatus::Gold, 10, None));
-    set.push(new_galaxy_medal_achievement(600726, "Beta Buff", Galaxy::Beta, MedalStatus::Gold, 10, None));
-    set.push(new_galaxy_medal_achievement(600727, "Gamma Guru", Galaxy::Gamma, MedalStatus::Gold, 10, None));
-    set.push(new_galaxy_medal_achievement(600728, "Delta Dab Hand", Galaxy::Delta, MedalStatus::Gold, 10, None));
-    set.push(new_galaxy_medal_achievement(600729, "Epsilon Enthusiast", Galaxy::Epsilon, MedalStatus::Gold, 25, None));
-    set.push(new_galaxy_medal_achievement(600730, "Zeta Virtuoso", Galaxy::Zeta, MedalStatus::Gold, 25, None));
-    set.push(new_galaxy_medal_achievement(600731, "Eta Expert", Galaxy::Eta, MedalStatus::Gold, 25, None));
-    set.push(new_galaxy_medal_achievement(600732, "Theta Maven", Galaxy::Theta, MedalStatus::Gold, 50, None));
-    set.push(new_galaxy_medal_achievement(600733, "Kappa Connoisseur", Galaxy::Kappa, MedalStatus::Gold, 50, None));
+    set.push(new_galaxy_medal_achievement(600725, 681315, "Alpha Ace", Galaxy::Alpha, MedalStatus::Gold, 10, None));
+    set.push(new_galaxy_medal_achievement(600726, 681316, "Beta Buff", Galaxy::Beta, MedalStatus::Gold, 10, None));
+    set.push(new_galaxy_medal_achievement(600727, 681317, "Gamma Guru", Galaxy::Gamma, MedalStatus::Gold, 10, None));
+    set.push(new_galaxy_medal_achievement(600728, 681318, "Delta Dab Hand", Galaxy::Delta, MedalStatus::Gold, 10, None));
+    set.push(new_galaxy_medal_achievement(600729, 681319, "Epsilon Enthusiast", Galaxy::Epsilon, MedalStatus::Gold, 25, None));
+    set.push(new_galaxy_medal_achievement(600730, 681320, "Zeta Virtuoso", Galaxy::Zeta, MedalStatus::Gold, 25, None));
+    set.push(new_galaxy_medal_achievement(600731, 681321, "Eta Expert", Galaxy::Eta, MedalStatus::Gold, 25, None));
+    set.push(new_galaxy_medal_achievement(600732, 681322, "Theta Maven", Galaxy::Theta, MedalStatus::Gold, 50, None));
+    set.push(new_galaxy_medal_achievement(600733, 681323, "Kappa Connoisseur", Galaxy::Kappa, MedalStatus::Gold, 50, None));
 
     set.push(
         Achievement::builder("Galactic Explorer")
@@ -49,6 +49,7 @@ pub fn add_galaxy_medal_achievements(set: &mut AchievementSet) {
             .requirements(Galaxy::unlocked_all_cond())
             .points(5)
             .id(600734)
+            .badge_id(681324)
             .tag(Tag::Progression)
             .build(),
     );
@@ -59,6 +60,7 @@ pub fn add_galaxy_medal_achievements(set: &mut AchievementSet) {
             .requirements(all_planets_medal_group(Planet::all(), MedalStatus::Bronze))
             .points(25)
             .id(600735)
+            .badge_id(681325)
             .tag(Tag::WinCondition)
             .build(),
     );
@@ -85,6 +87,7 @@ fn all_planets_medal_group(planets: &[Planet], status: MedalStatus) -> ChainGrou
 /// Creates a new galaxy medal achievement.
 fn new_galaxy_medal_achievement(
     id: u32,
+    badge_id: u32,
     title: &str,
     galaxy: Galaxy,
     status: MedalStatus,
@@ -97,6 +100,7 @@ fn new_galaxy_medal_achievement(
         ))
         .requirements(all_planets_medal_group(galaxy.planets(), status))
         .points(points)
+        .badge_id(badge_id)
         .id(id);
 
     if let Some(tag) = tag {

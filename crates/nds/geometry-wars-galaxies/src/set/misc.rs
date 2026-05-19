@@ -23,14 +23,14 @@ fn reset_if_not_in_game() -> Condition {
 /// Adds the drone achievements to the set.
 #[rustfmt::skip]
 pub fn add_drone_achievements(set: &mut AchievementSet) {
-    set.push(drone_reach_level_achievement( 600736, "The Best Defence...", DroneBehaviour::Attack));
-    set.push(drone_reach_level_achievement( 600737, "The Best Offence...", DroneBehaviour::Defend));
-    set.push(drone_reach_level_achievement( 600738, "Heart of a Hoarder", DroneBehaviour::Collect));
-    set.push(drone_reach_level_achievement( 600739, "Programmed for Precision", DroneBehaviour::Snipe));
-    set.push(drone_reach_level_achievement( 600740, "Cleared for Cleanup", DroneBehaviour::Sweep));
-    set.push(drone_reach_level_achievement( 600741, "Harbinger of Havoc", DroneBehaviour::Ram));
-    set.push(drone_reach_level_achievement( 600742, "Pocket Protector", DroneBehaviour::Turret));
-    set.push(drone_reach_level_achievement( 600743, "Magnetic Machine", DroneBehaviour::Bait));
+    set.push(drone_reach_level_achievement(600736, 681326, "The Best Defence...", DroneBehaviour::Attack));
+    set.push(drone_reach_level_achievement(600737, 681327, "The Best Offence...", DroneBehaviour::Defend));
+    set.push(drone_reach_level_achievement(600738, 681328, "Heart of a Hoarder", DroneBehaviour::Collect));
+    set.push(drone_reach_level_achievement(600739, 681329, "Programmed for Precision", DroneBehaviour::Snipe));
+    set.push(drone_reach_level_achievement(600740, 681330, "Cleared for Cleanup", DroneBehaviour::Sweep));
+    set.push(drone_reach_level_achievement(600741, 681331, "Harbinger of Havoc", DroneBehaviour::Ram));
+    set.push(drone_reach_level_achievement(600742, 681332, "Pocket Protector", DroneBehaviour::Turret));
+    set.push(drone_reach_level_achievement(600743, 681333, "Magnetic Machine", DroneBehaviour::Bait));
 
     let mut drone_max_level=  ChainGroup::new(Game::menu_state().eq(MenuState::DroneSelectOrResults as u32));
     for drone in DroneBehaviour::all() {    
@@ -47,6 +47,7 @@ pub fn add_drone_achievements(set: &mut AchievementSet) {
             .requirements(drone_max_level)
             .points(25)
             .id(600744)
+            .badge_id(681334)
             .build(),
     );
 
@@ -64,12 +65,18 @@ pub fn add_drone_achievements(set: &mut AchievementSet) {
             .requirements(all_drones_unlocked)
             .points(5)
             .id(600745)
+            .badge_id(681335)
             .build(),
     );
 }
 
 /// Returns an achievement for reaching a level with a drone.
-fn drone_reach_level_achievement(id: u32, title: &str, drone: DroneBehaviour) -> Achievement {
+fn drone_reach_level_achievement(
+    id: u32,
+    badge_id: u32,
+    title: &str,
+    drone: DroneBehaviour,
+) -> Achievement {
     const LEVEL_TARGET: u32 = 5;
     Achievement::builder(title)
         .description(format!(
@@ -83,6 +90,7 @@ fn drone_reach_level_achievement(id: u32, title: &str, drone: DroneBehaviour) ->
         ))
         .points(5)
         .id(id)
+        .badge_id(badge_id)
         .build()
 }
 
@@ -98,6 +106,7 @@ pub fn add_misc_achievements(set: &mut AchievementSet) {
             ))
             .points(3)
             .id(600746)
+            .badge_id(681336)
             .build(),
     );
 
@@ -111,6 +120,7 @@ pub fn add_misc_achievements(set: &mut AchievementSet) {
             ))
             .points(2)
             .id(600747)
+            .badge_id(681337)
             .build(),
     );
 
@@ -125,6 +135,7 @@ pub fn add_misc_achievements(set: &mut AchievementSet) {
             ))
             .points(3)
             .id(600748)
+            .badge_id(681338)
             .build(),
     );
 }

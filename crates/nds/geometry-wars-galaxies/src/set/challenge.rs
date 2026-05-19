@@ -75,15 +75,16 @@ fn drone_condition(drone: DroneBehaviour) -> Condition {
 /// Adds the Retro Evolved achievements to the set.
 #[rustfmt::skip]
 pub fn add_retro_evolved_achievements(set: &mut AchievementSet) {
-    set.push(retro_evolved_score( 600749, "Retro Rookie", 100_000, "100,000", 5));
-    set.push(retro_evolved_score( 600750, "Retro Rising", 250_000, "250,000", 10));
-    set.push(retro_evolved_score( 600751, "Retro Rival", 500_000, "500,000", 25));
-    set.push(retro_evolved_score( 600752, "Retro Radiant", 1_000_000, "1,000,000", 50));
+    set.push(retro_evolved_score(600749, 681339, "Retro Rookie", 100_000, "100,000", 5));
+    set.push(retro_evolved_score(600750, 681340, "Retro Rising", 250_000, "250,000", 10));
+    set.push(retro_evolved_score(600751, 681341, "Retro Rival", 500_000, "500,000", 25));
+    set.push(retro_evolved_score(600752, 681342, "Retro Radiant", 1_000_000, "1,000,000", 50));
 }
 
 /// Returns an achievement for earning a score the Retro Evolved.
 fn retro_evolved_score(
     id: u32,
+    badge_id: u32,
     title: &str,
     target: u32,
     target_str: &str,
@@ -100,6 +101,7 @@ fn retro_evolved_score(
         ))
         .points(points)
         .id(id)
+        .badge_id(badge_id)
         .build()
 }
 
@@ -120,6 +122,7 @@ pub fn add_galaxy_challenge_achievements(set: &mut AchievementSet) {
             ))
             .points(10)
             .id(600753)
+            .badge_id(681343)
             .build(),
     );
 
@@ -136,6 +139,7 @@ pub fn add_galaxy_challenge_achievements(set: &mut AchievementSet) {
             ))
             .points(10)
             .id(600754)
+            .badge_id(681344)
             .build(),
     );
 
@@ -152,6 +156,7 @@ pub fn add_galaxy_challenge_achievements(set: &mut AchievementSet) {
             ))
             .points(10)
             .id(600755)
+            .badge_id(681345)
             .build(),
     );
 
@@ -167,6 +172,7 @@ pub fn add_galaxy_challenge_achievements(set: &mut AchievementSet) {
             ))
             .points(10)
             .id(600756)
+            .badge_id(681346)
             .build(),
     );
 
@@ -183,6 +189,7 @@ pub fn add_galaxy_challenge_achievements(set: &mut AchievementSet) {
             ))
             .points(25)
             .id(600757)
+            .badge_id(681347)
             .build(),
     );
 
@@ -199,6 +206,7 @@ pub fn add_galaxy_challenge_achievements(set: &mut AchievementSet) {
             ))
             .points(10)
             .id(600758)
+            .badge_id(681348)
             .build(),
     );
 
@@ -213,8 +221,9 @@ pub fn add_galaxy_challenge_achievements(set: &mut AchievementSet) {
                 planet_condition(&SURTETRA),
                 drone_condition(DroneBehaviour::Turret),
             ))
-            .points(10)
+            .points(25)
             .id(600759)
+            .badge_id(681349)
             .build(),
     );
 
@@ -229,6 +238,7 @@ pub fn add_galaxy_challenge_achievements(set: &mut AchievementSet) {
             ))
             .points(10)
             .id(600760)
+            .badge_id(681350)
             .build(),
     );
 
@@ -245,6 +255,7 @@ pub fn add_galaxy_challenge_achievements(set: &mut AchievementSet) {
             ))
             .points(50)
             .id(600761)
+            .badge_id(681351)
             .build(),
     );
 }
