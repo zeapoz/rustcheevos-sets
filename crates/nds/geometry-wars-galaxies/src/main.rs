@@ -1,9 +1,7 @@
-use std::io;
-
 use leaderboards::generate_leaderboards;
 use rich::generate_rich_presence;
 use rustcheevos::types::game::GameData;
-use rustcheevos_cli::RustcheevosCli;
+use rustcheevos_cli::{CliError, RustcheevosCli};
 use set::generate_set;
 
 mod leaderboards;
@@ -14,7 +12,7 @@ mod types;
 const GAME_ID: u32 = 20374;
 const GAME_NAME: &str = "Geometry Wars: Galaxies";
 
-fn main() -> io::Result<()> {
+fn main() -> Result<(), CliError> {
     let mut game_data = GameData::new(GAME_ID, GAME_NAME);
 
     game_data

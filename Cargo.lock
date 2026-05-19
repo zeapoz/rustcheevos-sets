@@ -296,7 +296,7 @@ checksum = "b50b8869d9fc858ce7266cce0194bd74df58b9d0e3f6df3a9fc8eb470d95c09d"
 [[package]]
 name = "rustcheevos"
 version = "0.1.0"
-source = "git+https://github.com/zeapoz/rustcheevos#32efd27965d3fd67dd6f9cb06caf71385587ae62"
+source = "git+https://github.com/zeapoz/rustcheevos#faae598e2bbebfc7bd71780c583fed460f997337"
 dependencies = [
  "rustcheevos-proc",
  "serde",
@@ -308,7 +308,7 @@ dependencies = [
 [[package]]
 name = "rustcheevos-cli"
 version = "0.1.0"
-source = "git+https://github.com/zeapoz/rustcheevos#32efd27965d3fd67dd6f9cb06caf71385587ae62"
+source = "git+https://github.com/zeapoz/rustcheevos#faae598e2bbebfc7bd71780c583fed460f997337"
 dependencies = [
  "clap",
  "color-eyre",
@@ -316,12 +316,13 @@ dependencies = [
  "heck",
  "rustcheevos",
  "serde_json",
+ "thiserror",
 ]
 
 [[package]]
 name = "rustcheevos-proc"
 version = "0.1.0"
-source = "git+https://github.com/zeapoz/rustcheevos#32efd27965d3fd67dd6f9cb06caf71385587ae62"
+source = "git+https://github.com/zeapoz/rustcheevos#faae598e2bbebfc7bd71780c583fed460f997337"
 dependencies = [
  "heck",
  "proc-macro2",
