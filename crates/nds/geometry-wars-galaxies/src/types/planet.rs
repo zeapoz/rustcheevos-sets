@@ -15,9 +15,9 @@ use crate::types::game::Game;
 use crate::types::galaxy::Galaxy;
 use crate::types::status::MedalStatus;
 
-pub const LEVEL_DATA_BASE_ADDR: u32 = 0x1a9c24;
-pub const LEVEL_ADDR_STRIDE: u32 = 0x30;
-pub const MEDAL_ADDR_STRIDE: u32 = 0x58;
+pub const LEVEL_DATA_BASE_ADDR: usize = 0x1a9c24;
+pub const LEVEL_ADDR_STRIDE: usize = 0x30;
+pub const MEDAL_ADDR_STRIDE: usize = 0x58;
 
 #[derive(Debug, Clone, Copy)]
 pub struct Planet {
@@ -32,21 +32,26 @@ impl Planet {
         self.galaxy as u32 * 10 + self.index
     }
 
+    /// Returns the 0-based index of this planet.
+    fn index_usize(&self) -> usize {
+        self.index as usize - 1
+    }
+
     /// Returns the address of the level file data for this planet.
-    fn file_data_addr(&self) -> u32 {
+    pub fn file_data_addr(&self) -> usize {
         LEVEL_DATA_BASE_ADDR
             + self.galaxy.planets_before() * LEVEL_ADDR_STRIDE
-            + (self.index - 1) * LEVEL_ADDR_STRIDE
+            + self.index_usize() * LEVEL_ADDR_STRIDE
     }
 
     /// Returns the address of the medal for this planet.
-    fn medal_addr(&self, medal: MedalStatus) -> u32 {
-        self.galaxy.medal_base_addr() + (self.index - 1) * MEDAL_ADDR_STRIDE + medal.offset()
+    fn medal_addr(&self, medal: MedalStatus) -> usize {
+        self.galaxy.medal_base_addr() + self.index_usize() * MEDAL_ADDR_STRIDE + medal.offset()
     }
 
     /// Returns the required score for this planet.
     pub fn required_score(&self, status: MedalStatus) -> MemoryRef {
-        bits32!(self.medal_addr(status) as usize)
+        bits32!(self.medal_addr(status))
     }
 
     /// Returns a chain that checks if the player is in this planet.
@@ -57,17 +62,16 @@ impl Planet {
         )
     }
 
-    /// Returns the name of this planet.
-    pub fn name(&self) -> &'static str {
-        self.name
+    /// Returns the address of the status of this planet.
+    pub fn status_addr(&self) -> usize {
+        self.file_data_addr() + 0x29
     }
 
     /// Returns the status of this planet as a pending chain.
     pub fn status(&self) -> PendingChain<MemoryRef> {
-        let addr = self.file_data_addr() + 0x29;
         chain!(
             add_address!(Game::current_profile().mul(2)),
-            upper4!(addr as usize)
+            upper4!(self.status_addr())
         )
     }
 
@@ -106,18 +110,18 @@ mod planets {
     pub const ORBEIS: Planet = Planet { name: "Orbeis", index: 1, galaxy: Galaxy::Gamma };
     pub const BATDUO: Planet = Planet { name: "Batduo", index: 2, galaxy: Galaxy::Gamma };
     pub const MINEIS: Planet = Planet { name: "Mineis", index: 3, galaxy: Galaxy::Gamma };
-    pub const VARIES: Planet = Planet { name: "Vareis", index: 4, galaxy: Galaxy::Gamma };
+    pub const VAREIS: Planet = Planet { name: "Vareis", index: 4, galaxy: Galaxy::Gamma };
     pub const FLIEIS: Planet = Planet { name: "Flieis", index: 5, galaxy: Galaxy::Gamma };
     pub const SURPENTE: Planet = Planet { name: "Surpente", index: 1, galaxy: Galaxy::Delta };
     pub const BATTRIS: Planet = Planet { name: "Battris", index: 2, galaxy: Galaxy::Delta };
     pub const FLIDUO: Planet = Planet { name: "Fliduo", index: 3, galaxy: Galaxy::Delta };
-    pub const ZODEIS: Planet = Planet { name: "Zodeis", index: 4, galaxy: Galaxy::Delta };
+    pub const ZOOEIS: Planet = Planet { name: "Zooeis", index: 4, galaxy: Galaxy::Delta };
     pub const MASDUO: Planet = Planet { name: "Masduo", index: 5, galaxy: Galaxy::Delta };
-    pub const CLATRIS: Planet = Planet { name: "Clarris", index: 6, galaxy: Galaxy::Delta };
+    pub const CLATRIS: Planet = Planet { name: "Clatris", index: 6, galaxy: Galaxy::Delta };
     pub const CLAHEX: Planet = Planet { name: "Clahex", index: 1, galaxy: Galaxy::Epsilon };
-    pub const BATETRA: Planet = Planet { name: "Battetra", index: 2, galaxy: Galaxy::Epsilon };
+    pub const BATTETRA: Planet = Planet { name: "Battetra", index: 2, galaxy: Galaxy::Epsilon };
     pub const SURDUO: Planet = Planet { name: "Surduo", index: 3, galaxy: Galaxy::Epsilon };
-    pub const LOSDIS: Planet = Planet { name: "Losdis", index: 4, galaxy: Galaxy::Epsilon };
+    pub const LOSEIS: Planet = Planet { name: "Loseis", index: 4, galaxy: Galaxy::Epsilon };
     pub const MINDUO: Planet = Planet { name: "Minduo", index: 5, galaxy: Galaxy::Epsilon };
     pub const VARDUO: Planet = Planet { name: "Varduo", index: 6, galaxy: Galaxy::Epsilon };
     pub const ROCEIS: Planet = Planet { name: "Roceis", index: 7, galaxy: Galaxy::Epsilon };
@@ -131,11 +135,11 @@ mod planets {
     pub const SURTETRA: Planet = Planet { name: "Surtetra", index: 1, galaxy: Galaxy::Eta };
     pub const BATHEX: Planet = Planet { name: "Bathex", index: 2, galaxy: Galaxy::Eta };
     pub const VIREIS: Planet = Planet { name: "Vireis", index: 3, galaxy: Galaxy::Eta };
-    pub const CLATETRA: Planet = Planet { name: "Claretra", index: 4, galaxy: Galaxy::Eta };
-    pub const MASTETRA: Planet = Planet { name: "Masretra", index: 5, galaxy: Galaxy::Eta };
+    pub const CLATETRA: Planet = Planet { name: "Clatetra", index: 4, galaxy: Galaxy::Eta };
+    pub const MASTETRA: Planet = Planet { name: "Mastetra", index: 5, galaxy: Galaxy::Eta };
     pub const MINTRIS: Planet = Planet { name: "Mintris", index: 6, galaxy: Galaxy::Eta };
     pub const LOSDUO: Planet = Planet { name: "Losduo", index: 7, galaxy: Galaxy::Eta };
-    pub const FLITETRA: Planet = Planet { name: "Fliretra", index: 8, galaxy: Galaxy::Eta };
+    pub const FLITETRA: Planet = Planet { name: "Flitetra", index: 8, galaxy: Galaxy::Eta };
     pub const VARPENTE: Planet = Planet { name: "Varpente", index: 1, galaxy: Galaxy::Theta };
     pub const BATHEPTA: Planet = Planet { name: "Bathepta", index: 2, galaxy: Galaxy::Theta };
     pub const CLAPENTE: Planet = Planet { name: "Clapente", index: 3, galaxy: Galaxy::Theta };
@@ -143,13 +147,13 @@ mod planets {
     pub const ROCDUO: Planet = Planet { name: "Rocduo", index: 5, galaxy: Galaxy::Theta };
     pub const FLIPENTE: Planet = Planet { name: "Flipente", index: 6, galaxy: Galaxy::Theta };
     pub const POREIS: Planet = Planet { name: "Poreis", index: 7, galaxy: Galaxy::Theta };
-    pub const VARTETRA: Planet = Planet { name: "Varretra", index: 8, galaxy: Galaxy::Theta };
+    pub const VARTETRA: Planet = Planet { name: "Vartetra", index: 8, galaxy: Galaxy::Theta };
     pub const LOSTRIS: Planet = Planet { name: "Lostris", index: 9, galaxy: Galaxy::Theta };
     pub const FLIHEX: Planet = Planet { name: "Flihex", index: 1, galaxy: Galaxy::Kappa };
     pub const ORBTRIS: Planet = Planet { name: "Orbtris", index: 2, galaxy: Galaxy::Kappa };
     pub const MASPENTE: Planet = Planet { name: "Maspente", index: 3, galaxy: Galaxy::Kappa };
     pub const SURHEX: Planet = Planet { name: "Surhex", index: 4, galaxy: Galaxy::Kappa };
-    pub const LOSTETRA: Planet = Planet { name: "Losretra", index: 5, galaxy: Galaxy::Kappa };
+    pub const LOSTETRA: Planet = Planet { name: "Lostetra", index: 5, galaxy: Galaxy::Kappa };
     pub const ROCTRIS: Planet = Planet { name: "Roctris", index: 6, galaxy: Galaxy::Kappa };
     pub const ZOOTRIS: Planet = Planet { name: "Zootris", index: 7, galaxy: Galaxy::Kappa };
     pub const VIRTRIS: Planet = Planet { name: "Virtris", index: 8, galaxy: Galaxy::Kappa };
@@ -171,20 +175,20 @@ pub const ALL: &[Planet] = &[
     ORBEIS,
     BATDUO,
     MINEIS,
-    VARIES,
+    VAREIS,
     FLIEIS,
     // Delta
     SURPENTE,
     BATTRIS,
     FLIDUO,
-    ZODEIS,
+    ZOOEIS,
     MASDUO,
     CLATRIS,
     // Epsilon
     CLAHEX,
-    BATETRA,
+    BATTETRA,
     SURDUO,
-    LOSDIS,
+    LOSEIS,
     MINDUO,
     VARDUO,
     ROCEIS,

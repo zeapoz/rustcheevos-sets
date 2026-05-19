@@ -40,15 +40,15 @@
 | ![Eta Escort](https://media.retroachievements.org/Badge/681312.png) | Eta Escort | Earn a Silver medal or higher on every planet of the Eta galaxy | 10 |  |
 | ![Theta Trustee](https://media.retroachievements.org/Badge/681313.png) | Theta Trustee | Earn a Silver medal or higher on every planet of the Theta galaxy | 10 |  |
 | ![Kappa Custodian](https://media.retroachievements.org/Badge/681314.png) | Kappa Custodian | Earn a Silver medal or higher on every planet of the Kappa galaxy | 10 |  |
-| ![Alpha Ace](https://media.retroachievements.org/Badge/681315.png) | Alpha Ace | Earn a Gold medal or higher on every planet of the Alpha galaxy | 10 |  |
-| ![Beta Buff](https://media.retroachievements.org/Badge/681316.png) | Beta Buff | Earn a Gold medal or higher on every planet of the Beta galaxy | 10 |  |
-| ![Gamma Guru](https://media.retroachievements.org/Badge/681317.png) | Gamma Guru | Earn a Gold medal or higher on every planet of the Gamma galaxy | 10 |  |
-| ![Delta Dab Hand](https://media.retroachievements.org/Badge/681318.png) | Delta Dab Hand | Earn a Gold medal or higher on every planet of the Delta galaxy | 10 |  |
-| ![Epsilon Enthusiast](https://media.retroachievements.org/Badge/681319.png) | Epsilon Enthusiast | Earn a Gold medal or higher on every planet of the Epsilon galaxy | 25 |  |
-| ![Zeta Virtuoso](https://media.retroachievements.org/Badge/681320.png) | Zeta Virtuoso | Earn a Gold medal or higher on every planet of the Zeta galaxy | 25 |  |
-| ![Eta Expert](https://media.retroachievements.org/Badge/681321.png) | Eta Expert | Earn a Gold medal or higher on every planet of the Eta galaxy | 25 |  |
-| ![Theta Maven](https://media.retroachievements.org/Badge/681322.png) | Theta Maven | Earn a Gold medal or higher on every planet of the Theta galaxy | 50 |  |
-| ![Kappa Connoisseur](https://media.retroachievements.org/Badge/681323.png) | Kappa Connoisseur | Earn a Gold medal or higher on every planet of the Kappa galaxy | 50 |  |
+| ![Alpha Ace](https://media.retroachievements.org/Badge/681315.png) | Alpha Ace | Earn a Gold medal on every planet of the Alpha galaxy | 10 |  |
+| ![Beta Buff](https://media.retroachievements.org/Badge/681316.png) | Beta Buff | Earn a Gold medal on every planet of the Beta galaxy | 10 |  |
+| ![Gamma Guru](https://media.retroachievements.org/Badge/681317.png) | Gamma Guru | Earn a Gold medal on every planet of the Gamma galaxy | 10 |  |
+| ![Delta Dab Hand](https://media.retroachievements.org/Badge/681318.png) | Delta Dab Hand | Earn a Gold medal on every planet of the Delta galaxy | 10 |  |
+| ![Epsilon Enthusiast](https://media.retroachievements.org/Badge/681319.png) | Epsilon Enthusiast | Earn a Gold medal on every planet of the Epsilon galaxy | 25 |  |
+| ![Zeta Virtuoso](https://media.retroachievements.org/Badge/681320.png) | Zeta Virtuoso | Earn a Gold medal on every planet of the Zeta galaxy | 25 |  |
+| ![Eta Expert](https://media.retroachievements.org/Badge/681321.png) | Eta Expert | Earn a Gold medal on every planet of the Eta galaxy | 25 |  |
+| ![Theta Maven](https://media.retroachievements.org/Badge/681322.png) | Theta Maven | Earn a Gold medal on every planet of the Theta galaxy | 50 |  |
+| ![Kappa Connoisseur](https://media.retroachievements.org/Badge/681323.png) | Kappa Connoisseur | Earn a Gold medal on every planet of the Kappa galaxy | 50 |  |
 | ![Galactic Explorer](https://media.retroachievements.org/Badge/681324.png) | Galactic Explorer | Unlock every galaxy excluding the Lambda galaxy | 5 | Progression |
 | ![Solar System Sentinel](https://media.retroachievements.org/Badge/681325.png) | Solar System Sentinel | Earn a Bronze medal or higher on every planet in every galaxy excluding the Lambda galaxy | 25 | Win Condition |
 | ![The Best Defence...](https://media.retroachievements.org/Badge/681326.png) | The Best Defence... | Get the Attack Drone Behaviour to level 5 | 5 |  |
@@ -62,8 +62,8 @@
 | ![I Choose You](https://media.retroachievements.org/Badge/681334.png) | I Choose You | Get any Drone Behaviour to level 10 | 25 |  |
 | ![Drone Hoarder](https://media.retroachievements.org/Badge/681335.png) | Drone Hoarder | Unlock every Drone Behaviour | 5 |  |
 | ![Maximum Overdrive](https://media.retroachievements.org/Badge/681336.png) | Maximum Overdrive | Acquire a 150x multiplier | 3 |  |
-| ![Second Chance](https://media.retroachievements.org/Badge/681337.png) | Second Chance | Earn an extra life in one level | 2 |  |
-| ![Triple Life](https://media.retroachievements.org/Badge/681338.png) | Triple Life | Earn three extra lives in one level | 3 |  |
+| ![Second Chance](https://media.retroachievements.org/Badge/681337.png) | Second Chance | Earn an extra life in one planet | 2 |  |
+| ![Triple Life](https://media.retroachievements.org/Badge/681338.png) | Triple Life | Earn three extra lives in one planet | 3 |  |
 | ![Retro Rookie](https://media.retroachievements.org/Badge/681339.png) | Retro Rookie | In Retro Evolved, earn a score of 100,000 points or higher | 5 |  |
 | ![Retro Rising](https://media.retroachievements.org/Badge/681340.png) | Retro Rising | In Retro Evolved, earn a score of 250,000 points or higher | 10 |  |
 | ![Retro Rival](https://media.retroachievements.org/Badge/681341.png) | Retro Rival | In Retro Evolved, earn a score of 500,000 points or higher | 25 |  |
@@ -82,73 +82,73 @@
 
 **58 leaderboards**
 
-| Name | Format |
-|------|--------|
-| Claeis (Alpha) | Value |
-| Trainer Duo (Alpha) | Value |
-| Trainer Eis (Alpha) | Value |
-| Bateis (Beta) | Value |
-| Sureis (Beta) | Value |
-| Claduo (Beta) | Value |
-| Maseis (Beta) | Value |
-| Orbeis (Gamma) | Value |
-| Batduo (Gamma) | Value |
-| Mineis (Gamma) | Value |
-| Vareis (Gamma) | Value |
-| Flieis (Gamma) | Value |
-| Surpente (Delta) | Value |
-| Battris (Delta) | Value |
-| Fliduo (Delta) | Value |
-| Zodeis (Delta) | Value |
-| Masduo (Delta) | Value |
-| Clarris (Delta) | Value |
-| Clahex (Epsilon) | Value |
-| Battetra (Epsilon) | Value |
-| Surduo (Epsilon) | Value |
-| Losdis (Epsilon) | Value |
-| Minduo (Epsilon) | Value |
-| Varduo (Epsilon) | Value |
-| Roceis (Epsilon) | Value |
-| Virduo (Zeta) | Value |
-| Batpente (Zeta) | Value |
-| Surtris (Zeta) | Value |
-| Flitris (Zeta) | Value |
-| Zooduo (Zeta) | Value |
-| Mastris (Zeta) | Value |
-| Vartris (Zeta) | Value |
-| Surtetra (Eta) | Value |
-| Bathex (Eta) | Value |
-| Vireis (Eta) | Value |
-| Claretra (Eta) | Value |
-| Masretra (Eta) | Value |
-| Mintris (Eta) | Value |
-| Losduo (Eta) | Value |
-| Fliretra (Eta) | Value |
-| Varpente (Theta) | Value |
-| Bathepta (Theta) | Value |
-| Clapente (Theta) | Value |
-| Orbduo (Theta) | Value |
-| Rocduo (Theta) | Value |
-| Flipente (Theta) | Value |
-| Poreis (Theta) | Value |
-| Varretra (Theta) | Value |
-| Lostris (Theta) | Value |
-| Flihex (Kappa) | Value |
-| Orbtris (Kappa) | Value |
-| Maspente (Kappa) | Value |
-| Surhex (Kappa) | Value |
-| Losretra (Kappa) | Value |
-| Roctris (Kappa) | Value |
-| Zootris (Kappa) | Value |
-| Virtris (Kappa) | Value |
-| Retro Evolved | Value |
+| Name | Description | Format |
+|------|-------------|--------|
+| Claeis (Alpha) | Earn the highest score in Claeis! | Value |
+| Trainer Duo (Alpha) | Earn the highest score in Trainer Duo! | Value |
+| Trainer Eis (Alpha) | Earn the highest score in Trainer Eis! | Value |
+| Bateis (Beta) | Earn the highest score in Bateis! | Value |
+| Sureis (Beta) | Earn the highest score in Sureis! | Value |
+| Claduo (Beta) | Earn the highest score in Claduo! | Value |
+| Maseis (Beta) | Earn the highest score in Maseis! | Value |
+| Orbeis (Gamma) | Earn the highest score in Orbeis! | Value |
+| Batduo (Gamma) | Earn the highest score in Batduo! | Value |
+| Mineis (Gamma) | Earn the highest score in Mineis! | Value |
+| Vareis (Gamma) | Earn the highest score in Vareis! | Value |
+| Flieis (Gamma) | Earn the highest score in Flieis! | Value |
+| Surpente (Delta) | Earn the highest score in Surpente! | Value |
+| Battris (Delta) | Earn the highest score in Battris! | Value |
+| Fliduo (Delta) | Earn the highest score in Fliduo! | Value |
+| Zooeis (Delta) | Earn the highest score in Zooeis! | Value |
+| Masduo (Delta) | Earn the highest score in Masduo! | Value |
+| Clatris (Delta) | Earn the highest score in Clatris! | Value |
+| Clahex (Epsilon) | Earn the highest score in Clahex! | Value |
+| Battetra (Epsilon) | Earn the highest score in Battetra! | Value |
+| Surduo (Epsilon) | Earn the highest score in Surduo! | Value |
+| Loseis (Epsilon) | Earn the highest score in Loseis! | Value |
+| Minduo (Epsilon) | Earn the highest score in Minduo! | Value |
+| Varduo (Epsilon) | Earn the highest score in Varduo! | Value |
+| Roceis (Epsilon) | Earn the highest score in Roceis! | Value |
+| Virduo (Zeta) | Earn the highest score in Virduo! | Value |
+| Batpente (Zeta) | Earn the highest score in Batpente! | Value |
+| Surtris (Zeta) | Earn the highest score in Surtris! | Value |
+| Flitris (Zeta) | Earn the highest score in Flitris! | Value |
+| Zooduo (Zeta) | Earn the highest score in Zooduo! | Value |
+| Mastris (Zeta) | Earn the highest score in Mastris! | Value |
+| Vartris (Zeta) | Earn the highest score in Vartris! | Value |
+| Surtetra (Eta) | Earn the highest score in Surtetra! | Value |
+| Bathex (Eta) | Earn the highest score in Bathex! | Value |
+| Vireis (Eta) | Earn the highest score in Vireis! | Value |
+| Clatetra (Eta) | Earn the highest score in Clatetra! | Value |
+| Mastetra (Eta) | Earn the highest score in Mastetra! | Value |
+| Mintris (Eta) | Earn the highest score in Mintris! | Value |
+| Losduo (Eta) | Earn the highest score in Losduo! | Value |
+| Flitetra (Eta) | Earn the highest score in Flitetra! | Value |
+| Varpente (Theta) | Earn the highest score in Varpente! | Value |
+| Bathepta (Theta) | Earn the highest score in Bathepta! | Value |
+| Clapente (Theta) | Earn the highest score in Clapente! | Value |
+| Orbduo (Theta) | Earn the highest score in Orbduo! | Value |
+| Rocduo (Theta) | Earn the highest score in Rocduo! | Value |
+| Flipente (Theta) | Earn the highest score in Flipente! | Value |
+| Poreis (Theta) | Earn the highest score in Poreis! | Value |
+| Vartetra (Theta) | Earn the highest score in Vartetra! | Value |
+| Lostris (Theta) | Earn the highest score in Lostris! | Value |
+| Flihex (Kappa) | Earn the highest score in Flihex! | Value |
+| Orbtris (Kappa) | Earn the highest score in Orbtris! | Value |
+| Maspente (Kappa) | Earn the highest score in Maspente! | Value |
+| Surhex (Kappa) | Earn the highest score in Surhex! | Value |
+| Lostetra (Kappa) | Earn the highest score in Lostetra! | Value |
+| Roctris (Kappa) | Earn the highest score in Roctris! | Value |
+| Zootris (Kappa) | Earn the highest score in Zootris! | Value |
+| Virtris (Kappa) | Earn the highest score in Virtris! | Value |
+| Retro Evolved | Earn the highest score in Retro Evolved! | Value |
 
 ## Rich Presence
 
 | Display |
 |---------|
-| `Battling in [Level] ([Galaxy]) with [Drone] 🛰️ \| [Lives]x♥️ [Bombs]x💣 \| [Score] (x[ScoreMultiplier])` |
-| `Battling in Retro Evolved \| [Lives]x♥️ [Bombs]x💣 \| [Score] (x[ScoreMultiplier])` |
-| `Exploring the Universe 🌌 \| [TotalGeoms] Geoms` |
+| `Battling in {Level} ({Galaxy}) with {Drone} 🛰️ \| {Lives}x♥️ {Bombs}x💣 \| {GameScore} (x{ScoreMultiplier})` |
+| `Battling in Retro Evolved \| {Lives}x♥️ {Bombs}x💣 \| {GameScore} (x{ScoreMultiplier})` |
+| `Exploring the Universe 🌌 \| {TotalGeoms} Geoms` |
 | `Stargazing in the Menu ✨` |
 

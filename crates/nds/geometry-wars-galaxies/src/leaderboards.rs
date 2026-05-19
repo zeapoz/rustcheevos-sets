@@ -8,7 +8,12 @@ use rustcheevos::{
     },
 };
 
-use crate::types::{galaxy::RETRO_EVOLVED_ID, game::Game, planet::Planet};
+use crate::types::{
+    game::{Game, RETRO_EVOLVED_ID},
+    planet::Planet,
+};
+
+const PLANET_LB_START_ID: u32 = 161_021;
 
 /// Returns a chain that checks if the player just died in a certain level.
 fn leaderboard_condition(level_clause: impl Into<Chain>) -> Chain {
@@ -21,20 +26,26 @@ fn leaderboard_condition(level_clause: impl Into<Chain>) -> Chain {
     )
 }
 
-/// Returns a new leaderboard for the given planet.
-fn new_leaderboard(planet: &Planet) -> Leaderboard {
+/// Returns a leaderboard for the given planet.
+fn planet_leaderboard(planet: &Planet, id: u32) -> Leaderboard {
     Leaderboard::builder(format!("{planet} ({})", planet.galaxy.name()))
         .description(format!("Earn the highest score in {planet}!"))
         .start(leaderboard_condition(planet.player_in_planet()))
         .value(measured!(Game::in_game_score()))
         .format(LeaderboardFormat::Value)
         .lower_is_better(false)
+        .id(id)
         .build()
 }
 
 /// Returns all leaderboards.
 pub fn generate_leaderboards() -> LeaderboardSet {
-    let mut leaderboards: LeaderboardSet = Planet::all().iter().map(new_leaderboard).collect();
+    let mut leaderboards: LeaderboardSet = (PLANET_LB_START_ID..)
+        .zip(Planet::all())
+        .map(|(id, p)| planet_leaderboard(p, id))
+        .collect();
+
+    let retro_evolved_id = PLANET_LB_START_ID + Planet::all().len() as u32;
     let retro_evolved = Leaderboard::builder("Retro Evolved")
         .description("Earn the highest score in Retro Evolved!")
         .start(leaderboard_condition(
@@ -43,6 +54,7 @@ pub fn generate_leaderboards() -> LeaderboardSet {
         .value(measured!(Game::in_game_score()))
         .format(LeaderboardFormat::Value)
         .lower_is_better(false)
+        .id(retro_evolved_id)
         .build();
 
     leaderboards.push(retro_evolved);

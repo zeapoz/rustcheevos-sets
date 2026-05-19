@@ -72,7 +72,7 @@ fn all_planets_medal_group(planets: &[Planet], status: MedalStatus) -> ChainGrou
         .iter()
         .map(|p| p.status_is_at_least(status))
         .collect();
-    let core = chain!(planets_are_at_least, Game::in_game_cond_with_delta());
+    let core = chain!(planets_are_at_least, Game::in_game_cond());
 
     let alt_groups: Vec<Chain> = planets
         .iter()
@@ -94,9 +94,15 @@ fn new_galaxy_medal_achievement(
     points: u32,
     tag: Option<Tag>,
 ) -> Achievement {
+    let insert = if status == MedalStatus::Gold {
+        ""
+    } else {
+        "or higher "
+    };
+
     let mut builder = Achievement::builder(title)
         .description(format!(
-            "Earn a {status} medal or higher on every planet of the {galaxy} galaxy"
+            "Earn a {status} medal {insert}on every planet of the {galaxy} galaxy"
         ))
         .requirements(all_planets_medal_group(galaxy.planets(), status))
         .points(points)

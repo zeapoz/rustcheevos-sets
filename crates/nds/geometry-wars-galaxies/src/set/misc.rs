@@ -15,7 +15,7 @@ use crate::types::{
     game::{Game, MenuState},
 };
 
-/// Returns a condition that resets the achievment if the player is not in a game.
+/// Returns a condition that resets the achievement if the player is not in a game.
 fn reset_if_not_in_game() -> Condition {
     reset_if!(Game::in_game_state().ne(1))
 }
@@ -32,11 +32,10 @@ pub fn add_drone_achievements(set: &mut AchievementSet) {
     set.push(drone_reach_level_achievement(600742, 681332, "Pocket Protector", DroneBehaviour::Turret));
     set.push(drone_reach_level_achievement(600743, 681333, "Magnetic Machine", DroneBehaviour::Bait));
 
-    let mut drone_max_level=  ChainGroup::new(Game::menu_state().eq(MenuState::DroneSelectOrResults as u32));
-    for drone in DroneBehaviour::all() {    
+    let mut drone_max_level =  ChainGroup::new(Game::in_game_cond_with_delta());
+    for drone in DroneBehaviour::all() {
         let chain = chain!(
-            add_source!(1),
-            delta!(drone.level()).eq(DroneBehaviour::MAX_LEVEL),
+            delta!(drone.level()).eq(DroneBehaviour::MAX_LEVEL - 1),
             drone.level().eq(DroneBehaviour::MAX_LEVEL),
         );
         drone_max_level.push_alt_group(chain);
@@ -50,7 +49,6 @@ pub fn add_drone_achievements(set: &mut AchievementSet) {
             .badge_id(681334)
             .build(),
     );
-
 
     let core = chain!(
         DroneBehaviour::all().iter().copied().map(DroneBehaviour::is_unlocked).collect::<Chain>(),
@@ -83,10 +81,9 @@ fn drone_reach_level_achievement(
             "Get the {drone} Drone Behaviour to level {LEVEL_TARGET}"
         ))
         .requirements(chain!(
-            add_source!(1),
-            delta!(drone.level()).eq(LEVEL_TARGET),
+            delta!(drone.level()).eq(LEVEL_TARGET - 1),
             drone.level().eq(LEVEL_TARGET),
-            Game::menu_state().eq(MenuState::DroneSelectOrResults as u32)
+            Game::in_game_cond_with_delta(),
         ))
         .points(5)
         .id(id)
@@ -112,7 +109,7 @@ pub fn add_misc_achievements(set: &mut AchievementSet) {
 
     set.push(
         Achievement::builder("Second Chance")
-            .description("Earn an extra life in one level")
+            .description("Earn an extra life in one planet")
             .requirements(chain!(
                 add_source!(1),
                 delta!(Game::in_game_lives()).eq(Game::in_game_lives()),
@@ -126,7 +123,7 @@ pub fn add_misc_achievements(set: &mut AchievementSet) {
 
     set.push(
         Achievement::builder("Triple Life")
-            .description("Earn three extra lives in one level")
+            .description("Earn three extra lives in one planet")
             .requirements(chain!(
                 add_source!(1),
                 measured!(delta!(Game::in_game_lives()).eq(Game::in_game_lives())).with_hits(3),
