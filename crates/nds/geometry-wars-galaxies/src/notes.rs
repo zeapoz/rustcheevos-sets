@@ -4,7 +4,7 @@ use crate::types::planet::Planet;
 
 const HIGH_SCORE_TEMPLATE: &str = "[32-bit] {planet} - High Score (Divided by 25)";
 
-const STATUSES_TEMPLATE: &str = r#"[6-byte Array][Upper4] {planet} - Statuses
+const STATUSES_TEMPLATE: &str = r#"[6 bytes][Array] {planet} - Statuses
 0x0 = Unlocked
 0x1 = Bronze
 0x2 = Silver

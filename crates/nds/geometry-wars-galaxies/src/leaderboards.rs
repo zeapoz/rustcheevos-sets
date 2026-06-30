@@ -29,7 +29,7 @@ fn leaderboard_condition(level_clause: impl Into<Chain>) -> Chain {
 /// Returns a leaderboard for the given planet.
 fn planet_leaderboard(planet: &Planet, id: u32) -> Leaderboard {
     Leaderboard::builder(format!("{planet} ({})", planet.galaxy.name()))
-        .description(format!("Earn the highest score in {planet}!"))
+        .description(format!("Earn the highest score on {planet}!"))
         .start(leaderboard_condition(planet.player_in_planet()))
         .value(measured!(Game::in_game_score()))
         .format(LeaderboardFormat::Value)

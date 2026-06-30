@@ -72,7 +72,7 @@ fn all_planets_medal_group(planets: &[Planet], status: MedalStatus) -> ChainGrou
         .iter()
         .map(|p| p.status_is_at_least(status))
         .collect();
-    let core = chain!(planets_are_at_least, Game::in_game_cond());
+    let core = chain!(planets_are_at_least, Game::in_game_cond_with_delta());
 
     let alt_groups: Vec<Chain> = planets
         .iter()

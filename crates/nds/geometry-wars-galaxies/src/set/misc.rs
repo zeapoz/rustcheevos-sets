@@ -59,7 +59,7 @@ pub fn add_drone_achievements(set: &mut AchievementSet) {
 
     set.push(
         Achievement::builder("Drone Hoarder")
-            .description("Unlock every Drone Behaviour")
+            .description("Unlock all 8 Drone Behaviours")
             .requirements(all_drones_unlocked)
             .points(5)
             .id(600745)
@@ -78,7 +78,7 @@ fn drone_reach_level_achievement(
     const LEVEL_TARGET: u32 = 5;
     Achievement::builder(title)
         .description(format!(
-            "Get the {drone} Drone Behaviour to level {LEVEL_TARGET}"
+            "Upgrade the {drone} Drone Behaviour to level {LEVEL_TARGET}"
         ))
         .requirements(chain!(
             delta!(drone.level()).eq(LEVEL_TARGET - 1),
@@ -109,7 +109,7 @@ pub fn add_misc_achievements(set: &mut AchievementSet) {
 
     set.push(
         Achievement::builder("Second Chance")
-            .description("Earn an extra life in one planet")
+            .description("Earn an extra life on one planet")
             .requirements(chain!(
                 add_source!(1),
                 delta!(Game::in_game_lives()).eq(Game::in_game_lives()),
@@ -123,7 +123,7 @@ pub fn add_misc_achievements(set: &mut AchievementSet) {
 
     set.push(
         Achievement::builder("Triple Life")
-            .description("Earn three extra lives in one planet")
+            .description("Earn 3 extra lives on one planet")
             .requirements(chain!(
                 add_source!(1),
                 measured!(delta!(Game::in_game_lives()).eq(Game::in_game_lives())).with_hits(3),

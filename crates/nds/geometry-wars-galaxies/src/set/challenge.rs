@@ -2,7 +2,12 @@ use rustcheevos::{
     add_source, chain, delta, pause_if,
     prelude::*,
     reset_next_if, trigger,
-    types::{achievement::Achievement, chain::Chain, game::AchievementSet, requirement::Condition},
+    types::{
+        achievement::Achievement,
+        chain::{Chain, ChainGroup},
+        game::AchievementSet,
+        requirement::Condition,
+    },
 };
 
 use crate::types::{
@@ -42,14 +47,6 @@ fn no_bullets_fired() -> Chain {
         reset_next_if_not_in_game(),
         pause_if!(delta!(Game::active_player_bullets()).lt(Game::active_player_bullets()))
             .with_hits(1)
-    )
-}
-
-/// Returns a chain that triggers when the geoms collected is at least the given count.
-fn min_geoms(count: u32) -> Chain {
-    chain!(
-        delta!(Game::in_game_geoms()).lt(count),
-        trigger!(Game::in_game_geoms().ge(count)),
     )
 }
 
@@ -110,7 +107,7 @@ pub fn add_galaxy_challenge_achievements(set: &mut AchievementSet) {
     set.push(
         Achievement::builder("Going Round and Round")
             .description(
-                "Acquire a 150x multiplier in Claeis using the Sweep Drone and without firing",
+                "Acquire a 150x multiplier on Claeis using the Sweep Drone and without firing",
             )
             .requirements(chain!(
                 delta!(Game::in_game_score_multiplier()).lt(Game::MAX_MULTIPLIER),
@@ -129,7 +126,7 @@ pub fn add_galaxy_challenge_achievements(set: &mut AchievementSet) {
     set.push(
         Achievement::builder("Lossless Defence")
             .description(
-                "Earn a Gold medal in Bateis using the Defend Drone and without using any bombs",
+                "Earn a Gold medal on Bateis using the Defend Drone and without using any bombs",
             )
             .requirements(chain!(
                 score_threshold(&BATEIS, MedalStatus::Gold),
@@ -146,7 +143,7 @@ pub fn add_galaxy_challenge_achievements(set: &mut AchievementSet) {
     set.push(
         Achievement::builder("Going with the Flow")
             .description(
-                "Earn a Gold medal in Orbeis using the Bait Drone and without using any bombs",
+                "Earn a Gold medal on Orbeis using the Bait Drone and without using any bombs",
             )
             .requirements(chain!(
                 score_threshold(&ORBEIS, MedalStatus::Gold),
@@ -162,7 +159,7 @@ pub fn add_galaxy_challenge_achievements(set: &mut AchievementSet) {
 
     set.push(
         Achievement::builder("Ram Spam")
-            .description("Earn a Bronze medal or higher in Surpente using the Ram Drone without firing or using bombs")
+            .description("Earn a Bronze medal or higher on Surpente using the Ram Drone without firing or using any bombs")
             .requirements(chain!(
                 score_threshold(&SURPENTE, MedalStatus::Bronze),
                 no_bullets_fired(),
@@ -179,7 +176,7 @@ pub fn add_galaxy_challenge_achievements(set: &mut AchievementSet) {
     set.push(
         Achievement::builder("Back to the Basics")
             .description(
-                "Earn a Gold medal in Clahex using the Attack Drone and without losing any lives",
+                "Earn a Gold medal on Clahex using the Attack Drone and without losing any lives",
             )
             .requirements(chain!(
                 score_threshold(&CLAHEX, MedalStatus::Gold),
@@ -196,7 +193,7 @@ pub fn add_galaxy_challenge_achievements(set: &mut AchievementSet) {
     set.push(
         Achievement::builder("Silent Sniper")
             .description(
-                "Earn a Gold medal in Virduo using the Snipe Drone and without using any bombs",
+                "Earn a Gold medal on Virduo using the Snipe Drone and without using any bombs",
             )
             .requirements(chain!(
                 score_threshold(&VIRDUO, MedalStatus::Gold),
@@ -213,7 +210,7 @@ pub fn add_galaxy_challenge_achievements(set: &mut AchievementSet) {
     set.push(
         Achievement::builder("Fortify and Go")
             .description(
-                "Earn a Gold medal in Surtetra using the Turret Drone and without losing any lives",
+                "Earn a Gold medal on Surtetra using the Turret Drone and without losing any lives",
             )
             .requirements(chain!(
                 score_threshold(&SURTETRA, MedalStatus::Gold),
@@ -227,15 +224,22 @@ pub fn add_galaxy_challenge_achievements(set: &mut AchievementSet) {
             .build(),
     );
 
+    const TARGET_GEOMS: u32 = 10_000;
+    let core = chain!(
+        trigger!(Game::in_game_score().ge(VARPENTE.required_score(MedalStatus::Gold))),
+        trigger!(Game::in_game_geoms().ge(TARGET_GEOMS)),
+        planet_condition(&VARPENTE),
+        drone_condition(DroneBehaviour::Collect),
+    );
+    let mut group = ChainGroup::new(core);
+    group.push_alt_group(chain!(delta!(
+        Game::in_game_score().lt(VARPENTE.required_score(MedalStatus::Gold))
+    ),));
+    group.push_alt_group(chain!(delta!(Game::in_game_geoms().lt(TARGET_GEOMS)),));
     set.push(
         Achievement::builder("Grabbing Gold and Geoms")
-            .description("Earn a Gold medal in Varpente using the Collect Drone while collecting at least 10,000 Geoms")
-            .requirements(chain!(
-                score_threshold(&VARPENTE, MedalStatus::Gold),
-                min_geoms(10_000),
-                planet_condition(&VARPENTE),
-                drone_condition(DroneBehaviour::Collect),
-            ))
+            .description("Earn a Gold medal on Varpente using the Collect Drone while collecting at least 10,000 Geoms")
+            .requirements(group)
             .points(10)
             .id(600760)
             .badge_id(681350)
@@ -245,7 +249,7 @@ pub fn add_galaxy_challenge_achievements(set: &mut AchievementSet) {
     set.push(
         Achievement::builder("The Perfect Run")
             .description(
-                "Earn a Gold medal in Flihex without losing any lives and without using any bombs",
+                "Earn a Gold medal on Flihex without losing any lives and without using any bombs",
             )
             .requirements(chain!(
                 score_threshold(&FLIHEX, MedalStatus::Gold),

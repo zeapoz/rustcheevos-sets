@@ -15,8 +15,14 @@ pub enum MenuState {
     PlanetSelect = 0x02,
     DroneSelectOrResults = 0x03,
     ProfileSelect = 0x04,
-    HighScores = 0x06,
+    Highscores = 0x06,
+    ConnectivityMenu = 0x08,
+    ConnectToWii = 0x09,
     Credits = 0x0a,
+    MultiplayerMenu = 0x0b,
+    GameShare = 0x0c,
+    MultiplayerHost = 0x0d,
+    MultiplayerHostWaitingForPlayer = 0x0e,
     MainMenu = 0x0f,
     InGame = 0x10,
     InGamePauseScreen = 0x11,
@@ -24,6 +30,51 @@ pub enum MenuState {
     AudioMenu = 0x14,
     PreferencesMenu = 0x15,
     Startup = 0x16,
+    MultiplayerScanningForHostedGames = 0x18,
+}
+
+impl MenuState {
+    /// Returns the name for this menu entry.
+    pub fn name(&self) -> Option<&'static str> {
+        match self {
+            MenuState::RetroEvolvedMenu => Some("Retro Evolved"),
+            MenuState::ProfileSelect => Some("Profile Select"),
+            MenuState::Highscores => Some("Highscores"),
+            MenuState::ConnectivityMenu | MenuState::ConnectToWii | MenuState::GameShare => {
+                Some("Connectivity")
+            }
+            MenuState::MultiplayerMenu
+            | MenuState::MultiplayerHost
+            | MenuState::MultiplayerHostWaitingForPlayer
+            | MenuState::MultiplayerScanningForHostedGames => Some("Multiplayer"),
+            MenuState::MainMenu | MenuState::Startup => Some("Main"),
+            MenuState::OptionsMenu | MenuState::AudioMenu | MenuState::PreferencesMenu => {
+                Some("Options")
+            }
+            _ => None,
+        }
+    }
+
+    /// Returns an array of all named menu states.
+    pub fn all_named() -> &'static [Self] {
+        &[
+            Self::RetroEvolvedMenu,
+            Self::ProfileSelect,
+            Self::Highscores,
+            Self::ConnectivityMenu,
+            Self::ConnectToWii,
+            Self::GameShare,
+            Self::MultiplayerMenu,
+            Self::MultiplayerHost,
+            Self::MultiplayerHostWaitingForPlayer,
+            Self::MultiplayerScanningForHostedGames,
+            Self::MainMenu,
+            Self::Startup,
+            Self::OptionsMenu,
+            Self::AudioMenu,
+            Self::PreferencesMenu,
+        ]
+    }
 }
 
 pub struct Game;
