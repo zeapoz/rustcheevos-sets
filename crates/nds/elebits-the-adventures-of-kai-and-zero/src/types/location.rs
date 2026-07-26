@@ -27,7 +27,7 @@ impl Location {
         (Self::XEarthOmegaBossArena as u32, "the X Earth Omega"),
         (Self::XWaterOmegaBossArena as u32, "the X Water Omega"),
         (Self::MobiusBossArena as u32, "Mobius"),
-        (Self::LeoBossArena as u32, "a mysterious kid"),
+        (Self::LeoBossArena as u32, "Leo"),
         (
             Self::MobiusSecondPhaseBossArena as u32,
             "an empowered Mobius",

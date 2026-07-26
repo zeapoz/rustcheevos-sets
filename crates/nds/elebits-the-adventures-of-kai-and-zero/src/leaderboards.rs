@@ -56,9 +56,7 @@ fn combo_leaderboard(world: Location) -> Leaderboard {
             combo_text_pointer(),
             remember!(delta!(bits32!(COMBO_NUMBER_OFFSET))),
             combo_text_pointer(),
-            bits32!(COMBO_NUMBER_OFFSET).ne(TypedValue::Recall),
-            combo_text_pointer(),
-            bits32!(COMBO_NUMBER_OFFSET).ne(0),
+            bits32!(COMBO_NUMBER_OFFSET).gt(TypedValue::Recall),
             mem::current_game_scene().eq(world.id()),
             mem::game_state().eq(GameState::Overworld.id()),
             Game::in_game(),
@@ -74,11 +72,9 @@ fn boss_time_attack(
 ) -> Leaderboard {
     Leaderboard::builder(format!("Time Attack - {}", boss_name_title))
         .description(description)
-        .value(chain!(
-            boss_timer_pointer(),
-            measured!(bits32!(0x84).mul(60))
-        ))
-        .format(LeaderboardFormat::Seconds)
+        .format(LeaderboardFormat::Frames)
+        .lower_is_better(true)
+        .value(chain!(boss_timer_pointer(), measured!(bits32!(0x84))))
         .start(chain!(
             boss_health_numerator(true).ne(0),
             boss_health_numerator(false).eq(0),

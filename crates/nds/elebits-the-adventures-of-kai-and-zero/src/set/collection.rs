@@ -1,6 +1,5 @@
 use rustcheevos::{
     add_source, bit0, bit1, bit2, bit3, bit4, bitcount, chain, delta, measured, measured_if,
-    or_next,
     prelude::*,
     types::{achievement::Achievement, chain::ChainGroup},
 };
@@ -17,7 +16,7 @@ use crate::{
 #[rustfmt::skip]
 pub fn generate_collection_achievements() -> Vec<Achievement> {
     let mut result = Vec::with_capacity(7);
-    result.push(pink_elebits_achievement("Hidden Pink Among the Leaves", "Find all Pink Elebits in the Elebit Forest", Location::ElebitForest));
+    result.push(pink_elebits_achievement("Leafy Pink Locator", "Find all Pink Elebits in the Elebit Forest", Location::ElebitForest));
     result.push(pink_elebits_achievement("Deep Pink Discovery", "Find all Pink Elebits in the Elebit Mine", Location::ElebitMine));
     result.push(pink_elebits_achievement("Pink Paradise Hunter", "Find all Pink Elebits in the Resort Island", Location::ResortIsland));
     result.push(pink_elebits_achievement("Chilled Pink Collector", "Find all Pink Elebits in the Ice World", Location::IceWorld));

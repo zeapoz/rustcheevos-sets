@@ -40,7 +40,7 @@ pub(crate) fn generate_rich_presence() -> RichPresence {
     );
     rich.add_conditional_display(
         mem::game_state().eq(GameState::InBossFight.id()),
-        format!("Kai and {active_omega} are fighting against {boss_arena_lt} • {current_health}/{max_health} 🔴"),
+        format!("Kai and {active_omega}{omega_form} are fighting against {boss_arena_lt} • {current_health}/{max_health} 🔴"),
     );
     for &world in Location::all_worlds() {
         let num_pink_elebits = num_pink_elebits_macro(world, &mut rich);
