@@ -53,6 +53,7 @@ fn pink_elebits_achievement(title: &str, description: &str, world: Location) -> 
     Achievement::builder(title)
         .description(description)
         .requirements(requirements)
+        .points(10)
         .build()
 }
 
@@ -78,6 +79,7 @@ fn battery_achievement(title: &str, description: &str, world: Location) -> Achie
     Achievement::builder(title)
         .description(description)
         .requirements(requirements)
+        .points(10)
         .build()
 }
 
@@ -103,5 +105,6 @@ fn guard_boosts_achievement(title: &str, description: &str) -> Achievement {
     Achievement::builder(title)
         .description(description)
         .requirements(requirements)
+        .points(25)
         .build()
 }

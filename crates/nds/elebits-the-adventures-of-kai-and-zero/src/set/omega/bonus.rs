@@ -22,10 +22,10 @@ use crate::{
 pub fn generate_loaded_watts_achievements() -> Vec<Achievement> {
     vec![
         obtain_night(),
-        loaded_watts_achievement("First Charge", "Load 2500 Watts into the Capture Gun and obtain Takosuke", Omega::Takosuke, 2500),
-        loaded_watts_achievement("Powering Up", "Load 5000 Watts into the Capture Gun and obtain Penta", Omega::Penta, 5000),
-        loaded_watts_achievement("High Voltage", "Load 7500 Watts into the Capture Gun and obtain Twinbee", Omega::TwinBee, 7500),
-        loaded_watts_achievement("Full Power! Maximum Capacity!", "Load 10000 Watts into the Capture Gun and obtain Moai", Omega::Moai, 10000),
+        loaded_watts_achievement("First Charge", "Load 2500 Watts into the Capture Gun and obtain Takosuke", Omega::Takosuke, 2500, 4),
+        loaded_watts_achievement("Powering Up", "Load 5000 Watts into the Capture Gun and obtain Penta", Omega::Penta, 5000, 5),
+        loaded_watts_achievement("High Voltage", "Load 7500 Watts into the Capture Gun and obtain Twinbee", Omega::TwinBee, 7500, 10),
+        loaded_watts_achievement("Full Power! Maximum Capacity!", "Load 10000 Watts into the Capture Gun and obtain Moai", Omega::Moai, 10000, 10),
         obtain_dewy(),
         obtain_big_green(),
         obtain_big_red(),
@@ -52,6 +52,7 @@ fn obtain_night() -> Achievement {
     Achievement::builder("Echoes of the Past")
         .description("Gather all diary scraps and obtain Night")
         .requirements(requirements)
+        .points(3)
         .build()
 }
 
@@ -81,6 +82,7 @@ fn obtain_dewy() -> Achievement {
     Achievement::builder("Complete Collection")
         .description("Obtain all standard Omegas and obtain Dewy")
         .requirements(requirements)
+        .points(25)
         .build()
 }
 
@@ -114,12 +116,14 @@ fn obtain_big_green() -> Achievement {
     Achievement::builder("Omega Overdrive")
         .description("Evolve all evolvable Omegas into their adult forms and obtain Big Green")
         .requirements(requirements)
+        .points(25)
         .build()
 }
 
 fn obtain_big_red() -> Achievement {
     Achievement::builder("Code Red")
         .description("Enter a secret code and obtain Big Red")
+        .points(2)
         .requirements(chain!(
             delta!(
                 Omega::BigRed
@@ -140,6 +144,7 @@ fn loaded_watts_achievement(
     description: &str,
     omega: Omega,
     target: u32,
+    points: u32,
 ) -> Achievement {
     const SAVE_FILE_DATA_STRIDE_BYTES: u32 =
         (mem::omega_vector_save_data_file_2() - mem::omega_vector_save_data_file_1()) as u32;
@@ -163,5 +168,6 @@ fn loaded_watts_achievement(
     Achievement::builder(title)
         .description(description)
         .requirements(requirements)
+        .points(points)
         .build()
 }

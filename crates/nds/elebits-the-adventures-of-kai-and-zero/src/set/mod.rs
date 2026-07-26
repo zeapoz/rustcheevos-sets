@@ -40,6 +40,7 @@ fn win_condition() -> Achievement {
             delta!(mem::game_state().eq(GameState::Overworld.id())),
             mem::game_state().eq(GameState::Credits.id())
         ))
+        .points(25)
         .tag(Tag::WinCondition)
         .build()
 }

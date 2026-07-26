@@ -42,6 +42,7 @@ fn item_pickup_achievement(title: &str, description: &str, bit: u32) -> Achievem
     Achievement::builder(title)
         .description(description)
         .requirements(requirements)
+        .points(2)
         .build()
 }
 
@@ -64,6 +65,7 @@ fn all_power_ups_achievement() -> Achievement {
     Achievement::builder("Power-Up Package")
         .description("Have all power-ups active at once")
         .requirements(requirements)
+        .points(10)
         .build()
 }
 
@@ -89,5 +91,6 @@ fn combo_challenge_achievement(
             Game::in_game(),
             combo_text_pointer_not_null()
         ))
+        .points(10)
         .build()
 }

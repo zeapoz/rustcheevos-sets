@@ -24,7 +24,7 @@ use crate::{
 pub fn generate_boss_achievements() -> Vec<Achievement> {
     vec![
         disarm_achievement("A Chilly Surprise", "Disarm the Power Omega using the Ice Omega"),
-        beat_boss_damageless("Unshaken", "Defeat the Earth Omega without letting it damage your cart", Location::EarthOmegaBossArena),
+        beat_boss_damageless("Unshaken", "Defeat the Earth Omega without letting it damage your cart", Location::EarthOmegaBossArena, 10),
         tag_team_achievement("Power-Duo Tag Team", "In the fight against the X Fire Omega, break at least 1 pillar each with the Power Omega and the X Power Omega"),
         many_projectiles_achievement("Sharpshooter"),
         beat_boss_achievement("Return to Sender", "Defeat Leo with Zero's newfound power", Location::LeoBossArena),
@@ -33,7 +33,8 @@ pub fn generate_boss_achievements() -> Vec<Achievement> {
         no_dig_holes_achievement("Earth Environmentalist", "Defeat the X Water Omega while digging at most 15 holes in the ground"),
         beat_boss_damageless("Multi-Ender",
             "Defeat the second phase of Mobius without taking a single hit",
-            Location::MobiusSecondPhaseBossArena
+            Location::MobiusSecondPhaseBossArena,
+            25
 ),
     ]
 }
@@ -48,6 +49,7 @@ fn beat_boss_achievement(title: &str, description: &str, location: Location) -> 
             Game::in_game(),
             boss_data_null_pointer_check(),
         ))
+        .points(10)
         .tag(Tag::Progression)
         .build()
 }
@@ -67,11 +69,17 @@ fn disarm_achievement(title: &str, description: &str) -> Achievement {
             Game::in_game(),
             boss_data_null_pointer_check(),
         ))
+        .points(2)
         .tag(Tag::Missable)
         .build()
 }
 
-fn beat_boss_damageless(title: &str, description: &str, location: Location) -> Achievement {
+fn beat_boss_damageless(
+    title: &str,
+    description: &str,
+    location: Location,
+    points: u32,
+) -> Achievement {
     Achievement::builder(title)
         .description(description)
         .requirements(chain!(
@@ -83,6 +91,7 @@ fn beat_boss_damageless(title: &str, description: &str, location: Location) -> A
             Game::in_game(),
             boss_data_null_pointer_check(),
         ))
+        .points(points)
         .tag(Tag::Missable)
         .build()
 }
@@ -109,6 +118,7 @@ fn tag_team_achievement(title: &str, description: &str) -> Achievement {
             Game::in_game(),
             boss_data_null_pointer_check(),
         ))
+        .points(5)
         .tag(Tag::Missable)
         .build()
 }
@@ -134,6 +144,7 @@ fn many_projectiles_achievement(title: &str) -> Achievement {
             boss_data_null_pointer_check(),
             // TODO: Add hits indicator?
         ))
+        .points(10)
         .tag(Tag::Missable)
         .build()
 }
@@ -156,6 +167,7 @@ fn back_to_back_achievement(title: &str, description: &str) -> Achievement {
             Game::in_game(),
             boss_data_null_pointer_check(),
         ))
+        .points(10)
         .tag(Tag::Missable)
         .build()
 }
@@ -184,6 +196,7 @@ fn beat_boss_fast_achievement(title: &str, description: &str) -> Achievement {
             Game::in_game(),
             boss_data_null_pointer_check(),
         ))
+        .points(10)
         .tag(Tag::Missable)
         .build()
 }
@@ -219,6 +232,7 @@ fn no_dig_holes_achievement(title: &str, description: &str) -> Achievement {
     Achievement::builder(title)
         .description(description)
         .requirements(requirements)
+        .points(10)
         .tag(Tag::Missable)
         .build()
 }

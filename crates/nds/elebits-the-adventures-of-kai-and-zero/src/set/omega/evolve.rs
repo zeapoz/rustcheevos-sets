@@ -45,6 +45,7 @@ fn evolve_omega_achivement() -> Achievement {
     Achievement::builder("Omega Charger")
         .description("Evolve an Omega into its adult form")
         .requirements(requirements)
+        .points(5)
         .build()
 }
 
@@ -76,5 +77,6 @@ fn evolve_half_achivement() -> Achievement {
     Achievement::builder("Omega Conduit")
         .description("Evolve 12 Omegas into their adult forms")
         .requirements(requirements)
+        .points(5)
         .build()
 }
