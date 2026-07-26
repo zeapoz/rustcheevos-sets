@@ -74,7 +74,7 @@ fn evolve_half_achivement() -> Achievement {
     }
 
     Achievement::builder("Omega Conduit")
-        .description("Evolve 12 Omegas into their master form")
+        .description("Evolve 12 Omegas into their adult forms")
         .requirements(requirements)
         .build()
 }

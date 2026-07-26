@@ -22,10 +22,10 @@ use crate::{
 pub fn generate_loaded_watts_achievements() -> Vec<Achievement> {
     vec![
         obtain_night(),
-        loaded_watts_achievement("First Charge", "Load 2500 Watts into the Capture Gun and obtain the Takosuke Omega", Omega::Takosuke, 2500),
-        loaded_watts_achievement("Powering Up", "Load 5000 Watts into the Capture Gun and obtain the Penta Omega", Omega::Penta, 5000),
-        loaded_watts_achievement("High Voltage", "Load 7500 Watts into the Capture Gun and obtain the Twinbee Omega", Omega::TwinBee, 7500),
-        loaded_watts_achievement("Full Power! Maximum Capacity!", "Load 10000 Watts into the Capture Gun and obtain the Moai Omega", Omega::Moai, 10000),
+        loaded_watts_achievement("First Charge", "Load 2500 Watts into the Capture Gun and obtain Takosuke", Omega::Takosuke, 2500),
+        loaded_watts_achievement("Powering Up", "Load 5000 Watts into the Capture Gun and obtain Penta", Omega::Penta, 5000),
+        loaded_watts_achievement("High Voltage", "Load 7500 Watts into the Capture Gun and obtain Twinbee", Omega::TwinBee, 7500),
+        loaded_watts_achievement("Full Power! Maximum Capacity!", "Load 10000 Watts into the Capture Gun and obtain Moai", Omega::Moai, 10000),
         obtain_dewy(),
         obtain_big_green(),
         obtain_big_red(),
@@ -119,7 +119,7 @@ fn obtain_big_green() -> Achievement {
 
 fn obtain_big_red() -> Achievement {
     Achievement::builder("Code Red")
-        .description("Enter a secret code and obtain the Big Red Omega")
+        .description("Enter a secret code and obtain Big Red")
         .requirements(chain!(
             delta!(
                 Omega::BigRed

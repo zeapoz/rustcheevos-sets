@@ -22,7 +22,7 @@ pub fn generate_items_achievements() -> Vec<Achievement> {
         item_pickup_achievement("Ablaze", "Pick up a Fever Laser x3", 1),
         all_power_ups_achievement(),
         combo_challenge_achievement("Trailblazer", "With the Trace Laser active, net a combo of 17 or more in the Elebit Forest", 17, &Location::ElebitForest, Some(chain!(mem::trace_laser_timer().ne(0)))),
-        combo_challenge_achievement("Deep Burn", "With the Fever Laser x3 active, net a combo of 20 or more in the Elebit Mines", 20, &Location::ElebitMine, Some(chain!(mem::fever_laser_x3_timer().ne(0)))),
+        combo_challenge_achievement("Deep Burn", "With the Fever Laser x3 active, net a combo of 20 or more in the Elebit Mine", 20, &Location::ElebitMine, Some(chain!(mem::fever_laser_x3_timer().ne(0)))),
         combo_challenge_achievement("Hot Spot", "With the Fever Laser x2 active, net a combo of 19 or more in the Resort Island", 19, &Location::ResortIsland, Some(chain!(mem::fever_laser_x2_timer().ne(0)))),
         combo_challenge_achievement("Cold Rush", "Net a combo of 25 or more in the Ice World", 25, &Location::IceWorld, None),
         combo_challenge_achievement("Molten Momentum", "Net a combo of 16 or more in the Ruined World", 16, &Location::RuinedWorld, None),
