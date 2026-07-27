@@ -33,7 +33,7 @@ impl GameState {
             GameState::MultiplayerMenu
             | GameState::MulticardPlay
             | GameState::MultiplayerWifiMenu => "In the multiplayer menu",
-            GameState::DownloadAdditionalOmegas => "Downloadinging additional Omegas",
+            GameState::DownloadAdditionalOmegas => "Downloading additional Omegas",
             GameState::Overworld | GameState::InMultiplayerGame | GameState::InBossFight => {
                 unreachable!()
             }
