@@ -1,3 +1,5 @@
+use std::fmt;
+
 use rustcheevos::{
     add_address, add_source, bit0, bit4, bits8, bits32, chain, measured,
     prelude::*,
@@ -137,6 +139,10 @@ impl Omega {
         self.base_addr() + 6
     }
 
+    pub fn id_addr(self) -> usize {
+        self.base_addr() + 8
+    }
+
     /// Returns the address holding the obtained state for this Omega.
     pub fn obtained_state(self) -> MemoryRef {
         bits8!(self.obtained_addr())
@@ -273,5 +279,52 @@ impl Omega {
             Omega::BigGreen,
             Omega::BigRed,
         ]
+    }
+}
+
+impl fmt::Display for Omega {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Omega::Zero => write!(f, "Zero"),
+            Omega::Mobius => write!(f, "Mobius"),
+            Omega::Ice => write!(f, "Ice"),
+            Omega::XIce => write!(f, "X Ice"),
+            Omega::Mirror => write!(f, "Mirror"),
+            Omega::Fire => write!(f, "Fire"),
+            Omega::XFire => write!(f, "X Fire"),
+            Omega::Water => write!(f, "Water"),
+            Omega::XWater => write!(f, "X Water"),
+            Omega::Sponge => write!(f, "Sponge"),
+            Omega::Earth => write!(f, "Earth"),
+            Omega::XEarth => write!(f, "X Earth"),
+            Omega::Magnet => write!(f, "Magnet"),
+            Omega::XMagnet => write!(f, "X Magnet"),
+            Omega::Wind => write!(f, "Wind"),
+            Omega::XWind => write!(f, "X Wind"),
+            Omega::Time => write!(f, "Time"),
+            Omega::Power => write!(f, "Power"),
+            Omega::XPower => write!(f, "X Power"),
+            Omega::Surf => write!(f, "Surf"),
+            Omega::Flight => write!(f, "Flight"),
+            Omega::Speed => write!(f, "Speed"),
+            Omega::Melody => write!(f, "Melody"),
+            Omega::XMelody => write!(f, "X Melody"),
+            Omega::Warp => write!(f, "Warp"),
+            Omega::Radar => write!(f, "Radar"),
+            Omega::Blizzard => write!(f, "Blizzard"),
+            Omega::Flame => write!(f, "Flame"),
+            Omega::Aqua => write!(f, "Aqua"),
+            Omega::Land => write!(f, "Land"),
+            Omega::Storm => write!(f, "Storm"),
+            Omega::Strong => write!(f, "Strong"),
+            Omega::Night => write!(f, "Night"),
+            Omega::TwinBee => write!(f, "TwinBee"),
+            Omega::Penta => write!(f, "Penta"),
+            Omega::Takosuke => write!(f, "Takosuke"),
+            Omega::Dewy => write!(f, "Dewy"),
+            Omega::Moai => write!(f, "Moai"),
+            Omega::BigGreen => write!(f, "Big Green"),
+            Omega::BigRed => write!(f, "Big Red"),
+        }
     }
 }
