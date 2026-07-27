@@ -28,6 +28,7 @@ pub fn generate_set() -> AchievementSet {
     set.push(win_condition());
     set.extend(generate_collection_achievements());
     set.extend(generate_items_achievements());
+    set.push(warning_achievement());
     set
 }
 
@@ -44,5 +45,19 @@ fn win_condition() -> Achievement {
         .tag(Tag::WinCondition)
         .id(626355)
         .badge_id(712189)
+        .build()
+}
+
+fn warning_achievement() -> Achievement {
+    Achievement::builder("WARNING: BizHawk Only!")
+        .description(
+            "This set currently only works on BizHawk due to unexposed memory in other emulators",
+        )
+        .requirements(chain!(
+            delta!(mem::game_state().eq(GameState::Startup.id())),
+            mem::game_state().eq(GameState::MenuCutscene.id()),
+        ))
+        .id(626491)
+        .badge_id(712446)
         .build()
 }
