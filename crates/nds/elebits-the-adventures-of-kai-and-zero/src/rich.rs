@@ -1,5 +1,6 @@
+use rustcheevos::types::chain::Chain;
 use rustcheevos::types::rich::{BuiltInMacro, LookupTable, MacroRef, RichPresence};
-use rustcheevos::{add_source, chain, measured, prelude::*};
+use rustcheevos::{add_address, add_source, bits8, bits24, chain, measured, prelude::*};
 
 use crate::types::game_state::GameState;
 use crate::types::omega::{Omega, OmegaState};
@@ -25,6 +26,13 @@ pub(crate) fn generate_rich_presence() -> RichPresence {
         Omega::active_form(),
     );
 
+    let action_lt = rich.register_lookup(
+        LookupTable::new("GameAction")
+            .with_entry((0x0, "adventuring"))
+            .with_entry((0x1, "capturing Elebits")),
+        capturing_state(),
+    );
+
     let menu = rich.register_lookup(
         LookupTable::new("Menu").with_entries(build_menu_lookup_data()),
         mem::game_state(),
@@ -39,6 +47,12 @@ pub(crate) fn generate_rich_presence() -> RichPresence {
         "Playing Elebits: The Adventures of Kai and Zero in an unsupported emulator | Play in BizHawk to earn achievements",
     );
     rich.add_conditional_display(
+        mem::game_state().eq(GameState::InMultiplayerGame.id()),
+        format!(
+            "Kai and {active_omega}{omega_form} are {action_lt} in a multiplayer game • {watts}w"
+        ),
+    );
+    rich.add_conditional_display(
         mem::game_state().eq(GameState::InBossFight.id()),
         format!("Kai and {active_omega}{omega_form} are fighting against {boss_arena_lt} • {current_health}/{max_health} 🔴"),
     );
@@ -47,7 +61,7 @@ pub(crate) fn generate_rich_presence() -> RichPresence {
         let num_batteries = num_batteries_macro(world, &mut rich);
         rich.add_conditional_display(
             chain!(mem::current_game_scene().eq(world.id())),
-            format!("Kai and {active_omega}{omega_form} are adventuring in {} | {current_health}/{max_health} 🔴 • {watts}W | {num_pink_elebits}/3 🟣 • {num_batteries}/6 🔋", world.world_name()),
+            format!("Kai and {active_omega}{omega_form} are {action_lt} in {} | {current_health}/{max_health} 🔴 • {watts}w | {num_pink_elebits}/3 🟣 • {num_batteries}/6 🔋", world.world_name()),
         );
     }
     rich.add_conditional_display(Game::in_menu(), format!("{menu}"));
@@ -86,4 +100,12 @@ fn num_batteries_macro(world: Location, rich: &mut RichPresence) -> MacroRef {
     );
 
     rich.builtin_macro(BuiltInMacro::Number, chain)
+}
+
+fn capturing_state() -> Chain {
+    chain!(
+        add_address!(bits24!(mem::game_data_struct())),
+        add_address!(bits24!(0x6c)),
+        measured!(bits8!(0x48)),
+    )
 }

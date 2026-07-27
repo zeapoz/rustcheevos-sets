@@ -13,6 +13,7 @@ pub enum GameState {
     MultiplayerWifiMenu = 0x0a,
     DownloadAdditionalOmegas = 0x0b,
     Overworld = 0x0c,
+    InMultiplayerGame = 0x0d,
     InBossFight = 0x0e,
     EndingCutscene = 0x10,
     TransitioningWorldCutscene = 0x11,
@@ -33,7 +34,9 @@ impl GameState {
             | GameState::MulticardPlay
             | GameState::MultiplayerWifiMenu => "In the multiplayer menu",
             GameState::DownloadAdditionalOmegas => "Downloadinging additional Omegas",
-            GameState::Overworld | GameState::InBossFight => unreachable!(),
+            GameState::Overworld | GameState::InMultiplayerGame | GameState::InBossFight => {
+                unreachable!()
+            }
             GameState::EndingCutscene => "Watching a special cutscene",
             GameState::TransitioningWorldCutscene => "Kai and G.G. are travelling to a new world",
             GameState::Credits => "Watching the credits and reminiscing about the journey",
