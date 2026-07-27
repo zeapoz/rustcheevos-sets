@@ -45,7 +45,7 @@ pub fn generate_omega_achievements() -> Vec<Achievement> {
         obtain_standard_omega_achievement(626325, 712159, "Smooth Sailing", "Defeat and obtain the X Water Omega", Omega::XWater, Location::SeaTemple, true, 10),
         obtain_standard_omega_achievement(626326, 712160, "Mirror, Mirror", "Guide the light and obtain the Mirror Omega", Omega::Mirror, Location::LibraOfCrystal, true, 3),
         obtain_standard_omega_achievement(626327, 712161, "Perfect Pitch", "Play a chime and obtain the X Melody Omega", Omega::XMelody, Location::LibraOfCrystal, true, 3),
-        obtain_standard_omega_achievement(626328, 712162, "Frozen in Time", "Discover and obtain the Time Omega", Omega::Time, Location::LibraOfCrystal, true, 3),
+        obtain_standard_omega_achievement(626328, 712162, "Frozen in Time", "Bare witness to a time freeze and obtain the Time Omega", Omega::Time, Location::LibraOfCrystal, true, 3),
         obtain_standard_omega_achievement(626329, 712163, "Blown Away", "Find and obtain the Storm Omega in a distant forest", Omega::Storm, Location::ElebitForest, false, 5),
         obtain_standard_omega_achievement(626330, 712164, "Digging It", "Find and obtain the Land Omega in a puzzling taiga", Omega::Land, Location::IceWorld, false, 5),
         obtain_standard_omega_achievement(626331, 712165, "Cleared for Takeoff", "Find and obtain the Flight Omega on a frozen lake", Omega::Flight, Location::IceWorld, false, 5),

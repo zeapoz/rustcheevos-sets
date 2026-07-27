@@ -7,10 +7,10 @@ const CHARGED_WATTS_TEMPLATE: &str = "[32-bit] {omega} - Charged Watts";
 const FORM_ENUM_TEMPLATE: &str = r#"[8-bit] {omega} - Form
 0x00 = Not Obtained
 0x11 = Child
-0x22 = Adult
-"#;
+0x22 = Adult"#;
 
-const ID_TEMPLATE: &str = "[32-bit] {omega} - Unique Omega ID";
+const ID_TEMPLATE: &str = r#"[32-bit] {omega} - Unique Omega ID ({id})
+0xff if this Omega has not been obtained yet"#;
 
 /// Generates predictable code notes for the game.
 pub fn generate_code_notes() -> Vec<CodeNote> {
@@ -22,7 +22,9 @@ pub fn generate_code_notes() -> Vec<CodeNote> {
         let form = FORM_ENUM_TEMPLATE.replace("{omega}", &omega.to_string());
         notes.push(CodeNote::new(omega.obtained_addr(), form));
 
-        let id = ID_TEMPLATE.replace("{omega}", &omega.to_string());
+        let id = ID_TEMPLATE
+            .replace("{omega}", &omega.to_string())
+            .replace("{id}", &format!("{:#04x}", omega.id()));
         notes.push(CodeNote::new(omega.id_addr(), id));
     }
 
