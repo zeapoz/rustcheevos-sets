@@ -16,22 +16,28 @@ use crate::{
 #[rustfmt::skip]
 pub fn generate_items_achievements() -> Vec<Achievement> {
     vec![
-        item_pickup_achievement("Pathfinder", "Pick up a Trace Laser", 3),
-        item_pickup_achievement("Target Acquired", "Pick up a Wide Lock Laser", 2),
-        item_pickup_achievement("On Fire", "Pick up a Fever Laser x2", 0),
-        item_pickup_achievement("Ablaze", "Pick up a Fever Laser x3", 1),
+        item_pickup_achievement(626371, 712205, "Pathfinder", "Pick up a Trace Laser", 3),
+        item_pickup_achievement(626372, 712206, "Target Acquired", "Pick up a Wide Lock Laser", 2),
+        item_pickup_achievement(626373, 712207, "On Fire", "Pick up a Fever Laser x2", 0),
+        item_pickup_achievement(626374, 712208, "Ablaze", "Pick up a Fever Laser x3", 1),
         all_power_ups_achievement(),
-        combo_challenge_achievement("Trailblazer", "With the Trace Laser active, net a combo of 17 or more in the Elebit Forest", 17, &Location::ElebitForest, Some(chain!(mem::trace_laser_timer().ne(0)))),
-        combo_challenge_achievement("Deep Burn", "With the Fever Laser x3 active, net a combo of 20 or more in the Elebit Mine", 20, &Location::ElebitMine, Some(chain!(mem::fever_laser_x3_timer().ne(0)))),
-        combo_challenge_achievement("Hot Spot", "With the Fever Laser x2 active, net a combo of 19 or more in the Resort Island", 19, &Location::ResortIsland, Some(chain!(mem::fever_laser_x2_timer().ne(0)))),
-        combo_challenge_achievement("Cold Rush", "With the Fever Laser x3 active, net a combo of 25 or more in the Ice World", 25, &Location::IceWorld, Some(chain!(mem::fever_laser_x3_timer().ne(0)))),
-        combo_challenge_achievement("Molten Momentum", "Net a combo of 16 or more in the Ruined World", 16, &Location::RuinedWorld, None),
-        combo_challenge_achievement("Reef Raider", "With the Fever Laser x2 active, net a combo of 28 or more in the Sea Temple", 28, &Location::SeaTemple, Some(chain!(mem::fever_laser_x2_timer().ne(0)))),
-        combo_challenge_achievement("Crystal Catcher", "With the Fever Laser x3 active, net a combo of 22 or more in the Libra of Crystal", 22, &Location::LibraOfCrystal, Some(chain!(mem::fever_laser_x3_timer().ne(0)))),
+        combo_challenge_achievement(626376, 712210, "Trailblazer", "With the Trace Laser active, net a combo of 17 or more in the Elebit Forest", 17, &Location::ElebitForest, Some(chain!(mem::trace_laser_timer().ne(0)))),
+        combo_challenge_achievement(626377, 712211, "Deep Burn", "With the Fever Laser x3 active, net a combo of 20 or more in the Elebit Mine", 20, &Location::ElebitMine, Some(chain!(mem::fever_laser_x3_timer().ne(0)))),
+        combo_challenge_achievement(626378, 712212, "Hot Spot", "With the Fever Laser x2 active, net a combo of 19 or more in the Resort Island", 19, &Location::ResortIsland, Some(chain!(mem::fever_laser_x2_timer().ne(0)))),
+        combo_challenge_achievement(626379, 712213, "Cold Rush", "With the Fever Laser x3 active, net a combo of 25 or more in the Ice World", 25, &Location::IceWorld, Some(chain!(mem::fever_laser_x3_timer().ne(0)))),
+        combo_challenge_achievement(626380, 712214, "Molten Momentum", "Net a combo of 16 or more in the Ruined World", 16, &Location::RuinedWorld, None),
+        combo_challenge_achievement(626381, 712215, "Reef Raider", "With the Fever Laser x2 active, net a combo of 28 or more in the Sea Temple", 28, &Location::SeaTemple, Some(chain!(mem::fever_laser_x2_timer().ne(0)))),
+        combo_challenge_achievement(626382, 712216, "Crystal Catcher", "With the Fever Laser x3 active, net a combo of 22 or more in the Libra of Crystal", 22, &Location::LibraOfCrystal, Some(chain!(mem::fever_laser_x3_timer().ne(0)))),
     ]
 }
 
-fn item_pickup_achievement(title: &str, description: &str, bit: u32) -> Achievement {
+fn item_pickup_achievement(
+    id: u32,
+    badge_id: u32,
+    title: &str,
+    description: &str,
+    bit: u32,
+) -> Achievement {
     let requirements = ChainGroup::new(chain!(
         delta!(bit_at(mem::item_collected_flags(), bit).eq(0)),
         bit_at(mem::item_collected_flags(), bit).eq(1),
@@ -43,6 +49,8 @@ fn item_pickup_achievement(title: &str, description: &str, bit: u32) -> Achievem
         .description(description)
         .requirements(requirements)
         .points(2)
+        .id(id)
+        .badge_id(badge_id)
         .build()
 }
 
@@ -66,10 +74,14 @@ fn all_power_ups_achievement() -> Achievement {
         .description("Have all power-ups active at once")
         .requirements(requirements)
         .points(10)
+        .id(626375)
+        .badge_id(712209)
         .build()
 }
 
 fn combo_challenge_achievement(
+    id: u32,
+    badge_id: u32,
     title: &str,
     description: &str,
     target: u32,
@@ -92,5 +104,7 @@ fn combo_challenge_achievement(
             combo_text_pointer_not_null()
         ))
         .points(10)
+        .id(id)
+        .badge_id(badge_id)
         .build()
 }

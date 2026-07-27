@@ -42,5 +42,7 @@ fn win_condition() -> Achievement {
         ))
         .points(25)
         .tag(Tag::WinCondition)
+        .id(626355)
+        .badge_id(712189)
         .build()
 }

@@ -22,10 +22,10 @@ use crate::{
 pub fn generate_loaded_watts_achievements() -> Vec<Achievement> {
     vec![
         obtain_night(),
-        loaded_watts_achievement("First Charge", "Load 2500 Watts into the Capture Gun and obtain Takosuke", Omega::Takosuke, 2500, 3),
-        loaded_watts_achievement("Powering Up", "Load 5000 Watts into the Capture Gun and obtain Penta", Omega::Penta, 5000, 5),
-        loaded_watts_achievement("High Voltage", "Load 7500 Watts into the Capture Gun and obtain Twinbee", Omega::TwinBee, 7500, 10),
-        loaded_watts_achievement("Full Power! Maximum Capacity!", "Load 10000 Watts into the Capture Gun and obtain Moai", Omega::Moai, 10000, 10),
+        loaded_watts_achievement(626339, 712173, "First Charge", "Load 2500 Watts into the Capture Gun and obtain Takosuke", Omega::Takosuke, 2500, 3),
+        loaded_watts_achievement(626340, 712174, "Powering Up", "Load 5000 Watts into the Capture Gun and obtain Penta", Omega::Penta, 5000, 5),
+        loaded_watts_achievement(626341, 712175, "High Voltage", "Load 7500 Watts into the Capture Gun and obtain Twinbee", Omega::TwinBee, 7500, 10),
+        loaded_watts_achievement(626342, 712176, "Full Power! Maximum Capacity!", "Load 10000 Watts into the Capture Gun and obtain Moai", Omega::Moai, 10000, 10),
         obtain_dewy(),
         obtain_big_green(),
         obtain_big_red(),
@@ -53,6 +53,8 @@ fn obtain_night() -> Achievement {
         .description("Gather all diary scraps and obtain Night")
         .requirements(requirements)
         .points(3)
+        .id(626338)
+        .badge_id(712172)
         .build()
 }
 
@@ -83,6 +85,8 @@ fn obtain_dewy() -> Achievement {
         .description("Obtain all standard Omegas and obtain Dewy")
         .requirements(requirements)
         .points(25)
+        .id(626343)
+        .badge_id(712177)
         .build()
 }
 
@@ -117,6 +121,8 @@ fn obtain_big_green() -> Achievement {
         .description("Evolve all evolvable Omegas into their adult forms and obtain Big Green")
         .requirements(requirements)
         .points(25)
+        .id(626344)
+        .badge_id(712178)
         .build()
 }
 
@@ -124,6 +130,8 @@ fn obtain_big_red() -> Achievement {
     Achievement::builder("Code Red")
         .description("Enter a secret code and obtain Big Red")
         .points(1)
+        .id(626345)
+        .badge_id(712179)
         .requirements(chain!(
             delta!(
                 Omega::BigRed
@@ -140,6 +148,8 @@ fn obtain_big_red() -> Achievement {
 }
 
 fn loaded_watts_achievement(
+    id: u32,
+    badge_id: u32,
     title: &str,
     description: &str,
     omega: Omega,
@@ -169,5 +179,7 @@ fn loaded_watts_achievement(
         .description(description)
         .requirements(requirements)
         .points(points)
+        .id(id)
+        .badge_id(badge_id)
         .build()
 }

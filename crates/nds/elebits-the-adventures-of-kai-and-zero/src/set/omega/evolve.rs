@@ -46,6 +46,8 @@ fn evolve_omega_achivement() -> Achievement {
         .description("Evolve an Omega into its adult form")
         .requirements(requirements)
         .points(5)
+        .id(626336)
+        .badge_id(712170)
         .build()
 }
 
@@ -78,5 +80,7 @@ fn evolve_half_achivement() -> Achievement {
         .description("Evolve 12 Omegas into their adult forms")
         .requirements(requirements)
         .points(5)
+        .id(626337)
+        .badge_id(712171)
         .build()
 }

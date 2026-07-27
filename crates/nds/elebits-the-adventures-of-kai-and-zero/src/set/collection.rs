@@ -16,27 +16,33 @@ use crate::{
 #[rustfmt::skip]
 pub fn generate_collection_achievements() -> Vec<Achievement> {
     let mut result = Vec::with_capacity(7);
-    result.push(pink_elebits_achievement("Leafy Pink Locator", "Find all Pink Elebits in the Elebit Forest", Location::ElebitForest));
-    result.push(pink_elebits_achievement("Deep Pink Discovery", "Find all Pink Elebits in the Elebit Mine", Location::ElebitMine));
-    result.push(pink_elebits_achievement("Pink Paradise Hunter", "Find all Pink Elebits in the Resort Island", Location::ResortIsland));
-    result.push(pink_elebits_achievement("Chilled Pink Collector", "Find all Pink Elebits in the Ice World", Location::IceWorld));
-    result.push(pink_elebits_achievement("Flaming Pink Forager", "Find all Pink Elebits in the Ruined World", Location::RuinedWorld));
-    result.push(pink_elebits_achievement("Aquatic Pink Adventurer", "Find all Pink Elebits in the Sea Temple", Location::SeaTemple));
-    result.push(pink_elebits_achievement("Crystal Pink Connoisseur", "Find all Pink Elebits in the Libra of Crystal", Location::LibraOfCrystal));
+    result.push(pink_elebits_achievement(626356, 712190, "Leafy Pink Locator", "Find all Pink Elebits in the Elebit Forest", Location::ElebitForest));
+    result.push(pink_elebits_achievement(626357, 712191, "Deep Pink Discovery", "Find all Pink Elebits in the Elebit Mine", Location::ElebitMine));
+    result.push(pink_elebits_achievement(626358, 712192, "Pink Paradise Hunter", "Find all Pink Elebits in the Resort Island", Location::ResortIsland));
+    result.push(pink_elebits_achievement(626359, 712193, "Chilled Pink Collector", "Find all Pink Elebits in the Ice World", Location::IceWorld));
+    result.push(pink_elebits_achievement(626360, 712194, "Flaming Pink Forager", "Find all Pink Elebits in the Ruined World", Location::RuinedWorld));
+    result.push(pink_elebits_achievement(626361, 712195, "Aquatic Pink Adventurer", "Find all Pink Elebits in the Sea Temple", Location::SeaTemple));
+    result.push(pink_elebits_achievement(626362, 712196, "Crystal Pink Connoisseur", "Find all Pink Elebits in the Libra of Crystal", Location::LibraOfCrystal));
 
-    result.push(battery_achievement("Wooded Watts", "Find all 6 Batteries in the Elebit Forest", Location::ElebitForest));
-    result.push(battery_achievement("Lithic Watts", "Find all 6 Batteries in the Elebit Mine", Location::ElebitMine));
-    result.push(battery_achievement("Igneous Watts", "Find all 6 Batteries in the Resort Island", Location::ResortIsland));
-    result.push(battery_achievement("Glacial Watts", "Find all 6 Batteries in the Ice World", Location::IceWorld));
-    result.push(battery_achievement("Volcanic Watts", "Find all 6 Batteries in the Ruined World", Location::RuinedWorld));
-    result.push(battery_achievement("Tidal Watts", "Find all 6 Batteries in the Sea Temple", Location::SeaTemple));
-    result.push(battery_achievement("Prismatic Watts", "Find all 6 Batteries in the Libra of Crystal", Location::LibraOfCrystal));
+    result.push(battery_achievement(626363, 712197, "Wooded Watts", "Find all 6 Batteries in the Elebit Forest", Location::ElebitForest));
+    result.push(battery_achievement(626364, 712198, "Lithic Watts", "Find all 6 Batteries in the Elebit Mine", Location::ElebitMine));
+    result.push(battery_achievement(626365, 712199, "Igneous Watts", "Find all 6 Batteries in the Resort Island", Location::ResortIsland));
+    result.push(battery_achievement(626366, 712200, "Glacial Watts", "Find all 6 Batteries in the Ice World", Location::IceWorld));
+    result.push(battery_achievement(626367, 712201, "Volcanic Watts", "Find all 6 Batteries in the Ruined World", Location::RuinedWorld));
+    result.push(battery_achievement(626368, 712202, "Tidal Watts", "Find all 6 Batteries in the Sea Temple", Location::SeaTemple));
+    result.push(battery_achievement(626369, 712203, "Prismatic Watts", "Find all 6 Batteries in the Libra of Crystal", Location::LibraOfCrystal));
 
     result.push(guard_boosts_achievement("Fully Guarded", "Obtain all 13 Guard Boosts"));
     result
 }
 
-fn pink_elebits_achievement(title: &str, description: &str, world: Location) -> Achievement {
+fn pink_elebits_achievement(
+    id: u32,
+    badge_id: u32,
+    title: &str,
+    description: &str,
+    world: Location,
+) -> Achievement {
     let bits = world_pink_elebit_bits(world);
     let requirements = ChainGroup::new(chain!(
         add_source!(delta!(bit_at(bits[0].0, bits[0].1))),
@@ -53,10 +59,18 @@ fn pink_elebits_achievement(title: &str, description: &str, world: Location) -> 
         .description(description)
         .requirements(requirements)
         .points(10)
+        .id(id)
+        .badge_id(badge_id)
         .build()
 }
 
-fn battery_achievement(title: &str, description: &str, world: Location) -> Achievement {
+fn battery_achievement(
+    id: u32,
+    badge_id: u32,
+    title: &str,
+    description: &str,
+    world: Location,
+) -> Achievement {
     let bits = world_battery_bits(world);
     let requirements = ChainGroup::new(chain!(
         add_source!(delta!(bit_at(bits[0].0, bits[0].1))),
@@ -79,6 +93,8 @@ fn battery_achievement(title: &str, description: &str, world: Location) -> Achie
         .description(description)
         .requirements(requirements)
         .points(10)
+        .id(id)
+        .badge_id(badge_id)
         .build()
 }
 
@@ -105,5 +121,7 @@ fn guard_boosts_achievement(title: &str, description: &str) -> Achievement {
         .description(description)
         .requirements(requirements)
         .points(25)
+        .id(626370)
+        .badge_id(712204)
         .build()
 }

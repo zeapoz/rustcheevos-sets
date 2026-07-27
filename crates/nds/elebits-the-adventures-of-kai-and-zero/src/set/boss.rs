@@ -25,22 +25,30 @@ use crate::{
 pub fn generate_boss_achievements() -> Vec<Achievement> {
     vec![
         disarm_achievement("A Chilly Surprise", "Disarm the Power Omega using the Ice Omega"),
-        beat_boss_damageless("Unshaken", "Defeat the Earth Omega without taking a single hit", Location::EarthOmegaBossArena, 10),
-        tag_team_achievement("Power-Duo Tag Team", "In the fight against the X Fire Omega, break at least 1 pillar each with the Power Omega and the X Power Omega"),
+        beat_boss_damageless("Unshaken", "Defeat the Earth Omega without taking a single hit", Location::EarthOmegaBossArena, 10, 626347, 712181),
+        tag_team_achievement(626348, "Power-Duo Tag Team", "In the fight against the X Fire Omega, break at least 1 pillar each with the Power Omega and the X Power Omega"),
         many_projectiles_achievement("Sharpshooter"),
-        beat_boss_achievement("Return to Sender", "Defeat Leo with Zero's newfound power", Location::LeoBossArena),
+        beat_boss_achievement("Return to Sender", "Defeat Leo with Zero's newfound power", Location::LeoBossArena, 626350, 712184),
         back_to_back_achievement("Back-to-Back", "In the fight against Leo, reflect back the same energy ball twice in a single turn"),
-        beat_boss_fast_achievement("Speed Demon", "Defeat the X Earth Omega in less than 2 minutes"),
+        beat_boss_fast_achievement(626352, "Speed Demon", "Defeat the X Earth Omega in less than 2 minutes"),
         no_dig_holes_achievement("Earth Environmentalist", "Defeat the X Water Omega while digging at most 15 holes in the ground"),
         beat_boss_damageless("Multi-Ender",
             "Defeat the second phase of Mobius without taking a single hit",
             Location::MobiusSecondPhaseBossArena,
-            25
+            25,
+            626354,
+            712188
 ),
     ]
 }
 
-fn beat_boss_achievement(title: &str, description: &str, location: Location) -> Achievement {
+fn beat_boss_achievement(
+    title: &str,
+    description: &str,
+    location: Location,
+    id: u32,
+    badge_id: u32,
+) -> Achievement {
     Achievement::builder(title)
         .description(description)
         .requirements(chain!(
@@ -52,6 +60,8 @@ fn beat_boss_achievement(title: &str, description: &str, location: Location) -> 
         ))
         .points(10)
         .tag(Tag::Progression)
+        .id(id)
+        .badge_id(badge_id)
         .build()
 }
 
@@ -72,6 +82,8 @@ fn disarm_achievement(title: &str, description: &str) -> Achievement {
         ))
         .points(2)
         .tag(Tag::Missable)
+        .id(626346)
+        .badge_id(712180)
         .build()
 }
 
@@ -80,6 +92,8 @@ fn beat_boss_damageless(
     description: &str,
     location: Location,
     points: u32,
+    id: u32,
+    badge_id: u32,
 ) -> Achievement {
     Achievement::builder(title)
         .description(description)
@@ -94,10 +108,12 @@ fn beat_boss_damageless(
         ))
         .points(points)
         .tag(Tag::Missable)
+        .id(id)
+        .badge_id(badge_id)
         .build()
 }
 
-fn tag_team_achievement(title: &str, description: &str) -> Achievement {
+fn tag_team_achievement(id: u32, title: &str, description: &str) -> Achievement {
     const ATTACK_STATE_OFFSET: usize = 0x2f2;
     Achievement::builder(title)
         .description(description)
@@ -121,6 +137,8 @@ fn tag_team_achievement(title: &str, description: &str) -> Achievement {
         ))
         .points(2)
         .tag(Tag::Missable)
+        .id(id)
+        .badge_id(712182)
         .build()
 }
 
@@ -147,6 +165,8 @@ fn many_projectiles_achievement(title: &str) -> Achievement {
         ))
         .points(10)
         .tag(Tag::Missable)
+        .id(626349)
+        .badge_id(712183)
         .build()
 }
 
@@ -170,6 +190,8 @@ fn back_to_back_achievement(title: &str, description: &str) -> Achievement {
         ))
         .points(10)
         .tag(Tag::Missable)
+        .id(626351)
+        .badge_id(712185)
         .build()
 }
 
@@ -181,7 +203,7 @@ pub fn boss_timer_pointer() -> Chain {
     )
 }
 
-fn beat_boss_fast_achievement(title: &str, description: &str) -> Achievement {
+fn beat_boss_fast_achievement(id: u32, title: &str, description: &str) -> Achievement {
     const TIME_LIMIT: u32 = 120 * 60; // 2 minutes at 60 fps.
     Achievement::builder(title)
         .description(description)
@@ -199,6 +221,8 @@ fn beat_boss_fast_achievement(title: &str, description: &str) -> Achievement {
         ))
         .points(10)
         .tag(Tag::Missable)
+        .id(id)
+        .badge_id(712186)
         .build()
 }
 
@@ -233,5 +257,7 @@ fn no_dig_holes_achievement(title: &str, description: &str) -> Achievement {
         .requirements(requirements)
         .points(10)
         .tag(Tag::Missable)
+        .id(626353)
+        .badge_id(712187)
         .build()
 }
