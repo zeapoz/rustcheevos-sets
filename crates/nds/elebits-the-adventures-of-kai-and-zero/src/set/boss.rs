@@ -28,7 +28,7 @@ pub fn generate_boss_achievements() -> Vec<Achievement> {
         beat_boss_damageless("Unshaken", "Defeat the Earth Omega without taking a single hit", Location::EarthOmegaBossArena, 10, 626347, 712181),
         tag_team_achievement(626348, "Power-Duo Tag Team", "In the fight against the X Fire Omega, break at least 1 pillar each with the Power Omega and the X Power Omega"),
         many_projectiles_achievement("Sharpshooter"),
-        beat_boss_achievement("Return to Sender", "Defeat Leo with Zero's newfound power", Location::LeoBossArena, 626350, 712184),
+        beat_boss_achievement("Return to Sender", "Defeat Leo with Zero's newfound power", Location::LeoBossArena, 626350, 712562),
         back_to_back_achievement("Back-to-Back", "In the fight against Leo, reflect back the same energy ball twice in a single turn"),
         beat_boss_fast_achievement(626352, "Speed Demon", "Defeat the X Earth Omega in less than 2 minutes"),
         no_dig_holes_achievement("Earth Environmentalist", "Defeat the X Water Omega while digging at most 15 holes in the ground"),
