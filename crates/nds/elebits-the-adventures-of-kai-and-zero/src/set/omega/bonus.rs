@@ -22,10 +22,10 @@ use crate::{
 pub fn generate_loaded_watts_achievements() -> Vec<Achievement> {
     vec![
         obtain_night(),
-        loaded_watts_achievement(626339, 712173, "First Charge", "Load 2500 Watts into the Capture Gun and obtain Takosuke", Omega::Takosuke, 2500, 3),
-        loaded_watts_achievement(626340, 712174, "Powering Up", "Load 5000 Watts into the Capture Gun and obtain Penta", Omega::Penta, 5000, 5),
-        loaded_watts_achievement(626341, 712175, "High Voltage", "Load 7500 Watts into the Capture Gun and obtain Twinbee", Omega::TwinBee, 7500, 10),
-        loaded_watts_achievement(626342, 712176, "Full Power! Maximum Capacity!", "Load 10000 Watts into the Capture Gun and obtain Moai", Omega::Moai, 10000, 10),
+        loaded_watts_achievement(626339, 712173, "First Charge", "Load 2,500 Watts into the Capture Gun and obtain Takosuke", Omega::Takosuke, 2500, 3),
+        loaded_watts_achievement(626340, 712174, "Powering Up", "Load 5,000 Watts into the Capture Gun and obtain Penta", Omega::Penta, 5000, 5),
+        loaded_watts_achievement(626341, 712175, "High Voltage", "Load 7,500 Watts into the Capture Gun and obtain Twinbee", Omega::TwinBee, 7500, 10),
+        loaded_watts_achievement(626342, 712176, "Full Power! Maximum Capacity!", "Load 10,000 Watts into the Capture Gun and obtain Moai", Omega::Moai, 10000, 10),
         obtain_dewy(),
         obtain_big_green(),
         obtain_big_red(),

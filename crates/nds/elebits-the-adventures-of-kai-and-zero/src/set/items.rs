@@ -71,7 +71,7 @@ fn all_power_ups_achievement() -> Achievement {
     ]);
 
     Achievement::builder("Power-Up Package")
-        .description("Have all power-ups active at once")
+        .description("Have every power-up active at once")
         .requirements(requirements)
         .points(10)
         .id(626375)
