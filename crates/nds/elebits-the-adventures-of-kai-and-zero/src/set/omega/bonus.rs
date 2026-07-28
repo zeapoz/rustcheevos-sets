@@ -45,8 +45,9 @@ fn obtain_night() -> Achievement {
         mem::current_game_scene().eq(Location::SeaTemple.id()),
         sub_source!(bit0!(mem::diary_scrap_flags())),
         measured!(bitcount!(mem::diary_scrap_flags()).eq(7)),
-        measured_if!(mem::game_state().eq(GameState::Overworld.id())),
-        Game::in_game(),
+        or_next!(mem::game_state().eq(GameState::TransitioningWorldCutscene.id())),
+        or_next!(mem::game_state().eq(GameState::Overworld.id())),
+        measured_if!(Game::in_game()),
     ));
 
     Achievement::builder("Echoes of the Past")
@@ -77,8 +78,8 @@ fn obtain_dewy() -> Achievement {
                 .eq(standard_omegas_len as u32)
         ),
         or_next!(mem::game_state().eq(GameState::TransitioningWorldCutscene.id())),
-        or_next!(mem::game_state().eq(GameState::FileConfiguration.id())),
-        measured_if!(mem::game_state().eq(GameState::Overworld.id())),
+        or_next!(mem::game_state().eq(GameState::Overworld.id())),
+        measured_if!(mem::game_state().eq(GameState::FileConfiguration.id())),
     ));
 
     Achievement::builder("Complete Collection")
@@ -113,8 +114,8 @@ fn obtain_big_green() -> Achievement {
                 .eq(evolvable_omegas_len as u32)
         ),
         or_next!(mem::game_state().eq(GameState::TransitioningWorldCutscene.id())),
-        or_next!(mem::game_state().eq(GameState::FileConfiguration.id())),
-        measured_if!(mem::game_state().eq(GameState::Overworld.id())),
+        or_next!(mem::game_state().eq(GameState::Overworld.id())),
+        measured_if!(mem::game_state().eq(GameState::FileConfiguration.id())),
     ));
 
     Achievement::builder("Omega Overdrive")

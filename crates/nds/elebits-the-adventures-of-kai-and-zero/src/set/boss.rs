@@ -229,6 +229,8 @@ fn beat_boss_fast_achievement(id: u32, title: &str, description: &str) -> Achiev
 fn no_dig_holes_achievement(title: &str, description: &str) -> Achievement {
     const NUM_ALLOWED: u32 = 15;
 
+    // TODO: I think we can simplify this by using Remember/Recall?
+    // Maybe even AddHits OR?
     let mut requirements = ChainGroup::new(chain!(
         boss_health_numerator(true).ne(0),
         trigger!(boss_health_numerator(false).eq(0)),
