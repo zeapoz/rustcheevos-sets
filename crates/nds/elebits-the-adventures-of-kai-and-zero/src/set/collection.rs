@@ -1,6 +1,6 @@
 use rustcheevos::{
-    add_source, bit0, bit1, bit2, bit3, bit4, bitcount, chain, delta, measured, measured_if,
-    or_next,
+    add_source, and_next, bit0, bit1, bit2, bit3, bit4, bitcount, chain, delta, measured,
+    measured_if, or_next,
     prelude::*,
     types::{achievement::Achievement, chain::ChainGroup},
 };
@@ -52,7 +52,8 @@ fn pink_elebits_achievement(
         add_source!(bit_at(bits[0].0, bits[0].1)),
         add_source!(bit_at(bits[1].0, bits[1].1)),
         measured!(bit_at(bits[2].0, bits[2].1).eq(PINK_ELEBITS_PER_WORLD)),
-        measured_if!(mem::current_game_scene().eq(world.id())),
+        and_next!(mem::current_game_scene().eq(world.id())),
+        measured_if!(mem::game_state().eq(GameState::Overworld.id())),
         Game::in_game(),
     ));
 
@@ -86,7 +87,8 @@ fn battery_achievement(
         add_source!(bit_at(bits[3].0, bits[3].1)),
         add_source!(bit_at(bits[4].0, bits[4].1)),
         measured!(bit_at(bits[5].0, bits[5].1).eq(BATTERIES_PER_WORLD)),
-        measured_if!(mem::current_game_scene().eq(world.id())),
+        and_next!(mem::current_game_scene().eq(world.id())),
+        measured_if!(mem::game_state().eq(GameState::Overworld.id())),
         Game::in_game(),
     ));
 
