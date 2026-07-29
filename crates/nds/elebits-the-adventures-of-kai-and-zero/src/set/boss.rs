@@ -1,12 +1,10 @@
 use rustcheevos::{
     add_address, and_next, bits16, bits24, bits32, chain, delta, measured, measured_if, or_next,
-    pause_if,
     prelude::*,
     remember, reset_if, reset_next_if, trigger,
     types::{
         achievement::{Achievement, Tag},
-        chain::{Chain, ChainGroup, PendingChain},
-        memory::MemoryRef,
+        chain::{Chain, ChainGroup},
         requirement::Condition,
         value::TypedValue,
     },
@@ -229,16 +227,19 @@ fn beat_boss_fast_achievement(id: u32, title: &str, description: &str) -> Achiev
 fn no_dig_holes_achievement(title: &str, description: &str) -> Achievement {
     const NUM_ALLOWED: u32 = 15;
 
-    // TODO: I think we can simplify this by using Remember/Recall?
-    // Maybe even AddHits OR?
-    let mut requirements = ChainGroup::new(chain!(
+    let mut requirements = ChainGroup::new(chain!(Condition::always_true(),));
+
+    requirements.push_alt_group(chain!(
         boss_health_numerator(true).ne(0),
         trigger!(boss_health_numerator(false).eq(0)),
         or_next!(Omega::active_id().eq(Omega::Earth.id())),
         and_next!(Omega::active_id().eq(Omega::XEarth.id())),
         and_next!(delta!(mem::omega_action_flag()).eq(0)),
-        pause_if!(mem::omega_action_flag().eq(1)).with_hits(NUM_ALLOWED + 1),
-        mem::current_game_scene().eq(Location::XWaterOmegaBossArena.id()),
+        reset_next_if!(mem::omega_action_flag().eq(1)).with_hits(NUM_ALLOWED + 1),
+        mem::current_game_scene()
+            .eq(Location::XWaterOmegaBossArena.id())
+            .with_hits(1),
+        reset_if!(mem::current_game_scene().ne(Location::XWaterOmegaBossArena.id())),
         Game::in_game(),
         boss_data_null_pointer_check(),
     ));
@@ -249,10 +250,8 @@ fn no_dig_holes_achievement(title: &str, description: &str) -> Achievement {
         and_next!(delta!(mem::omega_action_flag()).eq(0)),
         measured!(mem::omega_action_flag().eq(1)).with_hits(NUM_ALLOWED),
         measured_if!(mem::current_game_scene().eq(Location::XWaterOmegaBossArena.id())),
-        reset_if!(mem::current_game_scene().ne(Location::XWaterOmegaBossArena.id())),
+        Condition::always_false()
     ));
-
-    requirements.push_alt_group(Condition::always_true());
 
     Achievement::builder(title)
         .description(description)

@@ -69,8 +69,8 @@ fn evolve_half_achivement() -> Achievement {
                 .eq((num_evolvable / 2) as u32)
         ),
         or_next!(mem::game_state().eq(GameState::TransitioningWorldCutscene.id())),
-        or_next!(mem::game_state().eq(GameState::Overworld.id())),
-        measured_if!(Game::in_game()),
+        measured_if!(mem::game_state().eq(GameState::Overworld.id())),
+        Game::in_game(),
     ));
     for cond in alt_groups {
         requirements.push_alt_group(cond);

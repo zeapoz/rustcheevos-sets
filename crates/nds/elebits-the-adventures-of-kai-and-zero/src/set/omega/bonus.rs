@@ -1,5 +1,6 @@
 use rustcheevos::{
-    add_address, add_source, bit0, bit1, bitcount, chain, delta, measured, measured_if, or_next,
+    add_address, add_source, and_next, bit0, bit1, bitcount, chain, delta, measured, measured_if,
+    or_next,
     prelude::*,
     sub_source, trigger,
     types::{
@@ -34,11 +35,6 @@ pub fn generate_loaded_watts_achievements() -> Vec<Achievement> {
 
 fn obtain_night() -> Achievement {
     let requirements = ChainGroup::new(chain!(
-        delta!(
-            Omega::Night
-                .obtained_state()
-                .eq(OmegaState::NotObtained as u32)
-        ),
         Omega::Night
             .obtained_state()
             .eq(OmegaState::Obtained as u32),
@@ -46,8 +42,13 @@ fn obtain_night() -> Achievement {
         sub_source!(bit0!(mem::diary_scrap_flags())),
         measured!(bitcount!(mem::diary_scrap_flags()).eq(7)),
         or_next!(mem::game_state().eq(GameState::TransitioningWorldCutscene.id())),
-        or_next!(mem::game_state().eq(GameState::Overworld.id())),
-        measured_if!(Game::in_game()),
+        and_next!(mem::game_state().eq(GameState::Overworld.id())),
+        measured_if!(delta!(
+            Omega::Night
+                .obtained_state()
+                .eq(OmegaState::NotObtained as u32)
+        )),
+        Game::in_game(),
     ));
 
     Achievement::builder("Echoes of the Past")
@@ -66,20 +67,20 @@ fn obtain_dewy() -> Achievement {
         .map(|o| add_source!(bit0!(o.obtained_addr())))
         .collect();
     let requirements = ChainGroup::new(chain!(
-        delta!(
-            Omega::Dewy
-                .obtained_state()
-                .eq(OmegaState::NotObtained as u32)
-        ),
         trigger!(Omega::Dewy.obtained_state().eq(OmegaState::Obtained as u32)),
         all_standard_omegas_obtained,
         measured!(
             bit0!(Omega::all_standard().last().unwrap().obtained_addr())
                 .eq(standard_omegas_len as u32)
         ),
+        or_next!(mem::game_state().eq(GameState::FileConfiguration.id())),
         or_next!(mem::game_state().eq(GameState::TransitioningWorldCutscene.id())),
-        or_next!(mem::game_state().eq(GameState::Overworld.id())),
-        measured_if!(mem::game_state().eq(GameState::FileConfiguration.id())),
+        and_next!(mem::game_state().eq(GameState::Overworld.id())),
+        measured_if!(delta!(
+            Omega::Dewy
+                .obtained_state()
+                .eq(OmegaState::NotObtained as u32)
+        )),
     ));
 
     Achievement::builder("Complete Collection")
@@ -98,11 +99,6 @@ fn obtain_big_green() -> Achievement {
         .map(|o| add_source!(bit1!(o.obtained_addr())))
         .collect();
     let requirements = ChainGroup::new(chain!(
-        delta!(
-            Omega::BigGreen
-                .obtained_state()
-                .eq(OmegaState::NotObtained as u32)
-        ),
         trigger!(
             Omega::BigGreen
                 .obtained_state()
@@ -113,9 +109,14 @@ fn obtain_big_green() -> Achievement {
             bit1!(Omega::all_evolvable().last().unwrap().obtained_addr())
                 .eq(evolvable_omegas_len as u32)
         ),
+        or_next!(mem::game_state().eq(GameState::FileConfiguration.id())),
         or_next!(mem::game_state().eq(GameState::TransitioningWorldCutscene.id())),
-        or_next!(mem::game_state().eq(GameState::Overworld.id())),
-        measured_if!(mem::game_state().eq(GameState::FileConfiguration.id())),
+        and_next!(mem::game_state().eq(GameState::Overworld.id())),
+        measured_if!(delta!(
+            Omega::BigGreen
+                .obtained_state()
+                .eq(OmegaState::NotObtained as u32)
+        )),
     ));
 
     Achievement::builder("Omega Overdrive")
