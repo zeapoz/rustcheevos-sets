@@ -69,6 +69,7 @@ fn evolve_half_achivement() -> Achievement {
                 .eq((num_evolvable / 2) as u32)
         ),
         or_next!(mem::game_state().eq(GameState::TransitioningWorldCutscene.id())),
+        or_next!(mem::game_state().eq(GameState::InBossFight.id())),
         measured_if!(mem::game_state().eq(GameState::Overworld.id())),
         Game::in_game(),
     ));
@@ -79,7 +80,7 @@ fn evolve_half_achivement() -> Achievement {
     Achievement::builder("Omega Conduit")
         .description("Evolve 12 Omegas into their adult forms")
         .requirements(requirements)
-        .points(5)
+        .points(10)
         .id(626337)
         .badge_id(712171)
         .build()

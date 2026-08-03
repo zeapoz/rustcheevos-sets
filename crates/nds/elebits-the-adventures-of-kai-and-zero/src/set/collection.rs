@@ -53,6 +53,7 @@ fn pink_elebits_achievement(
         add_source!(bit_at(bits[1].0, bits[1].1)),
         measured!(bit_at(bits[2].0, bits[2].1).eq(PINK_ELEBITS_PER_WORLD)),
         and_next!(mem::current_game_scene().eq(world.id())),
+        or_next!(mem::game_state().eq(GameState::InBossFight.id())),
         measured_if!(mem::game_state().eq(GameState::Overworld.id())),
         Game::in_game(),
     ));
@@ -88,6 +89,7 @@ fn battery_achievement(
         add_source!(bit_at(bits[4].0, bits[4].1)),
         measured!(bit_at(bits[5].0, bits[5].1).eq(BATTERIES_PER_WORLD)),
         and_next!(mem::current_game_scene().eq(world.id())),
+        or_next!(mem::game_state().eq(GameState::InBossFight.id())),
         measured_if!(mem::game_state().eq(GameState::Overworld.id())),
         Game::in_game(),
     ));
@@ -117,6 +119,7 @@ fn guard_boosts_achievement(title: &str, description: &str) -> Achievement {
         add_source!(bit3!(mem::guard_booster_flags() + 1)),
         measured!(bit4!(mem::guard_booster_flags() + 1).eq(NUM_GUARD_BOOSTS)),
         or_next!(mem::game_state().eq(GameState::TransitioningWorldCutscene.id())),
+        or_next!(mem::game_state().eq(GameState::InBossFight.id())),
         measured_if!(mem::game_state().eq(GameState::Overworld.id())),
         Game::in_game(),
     ));

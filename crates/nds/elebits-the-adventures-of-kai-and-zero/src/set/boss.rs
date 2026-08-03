@@ -23,20 +23,15 @@ use crate::{
 pub fn generate_boss_achievements() -> Vec<Achievement> {
     vec![
         disarm_achievement("A Chilly Surprise", "Disarm the Power Omega using the Ice Omega"),
-        beat_boss_damageless("Unshaken", "Defeat the Earth Omega without taking a single hit", Location::EarthOmegaBossArena, 10, 626347, 712181),
+        beat_boss_damageless("Unshaken", "Defeat the Earth Omega without taking a single hit", Location::EarthOmegaBossArena, 10, 626347, 713055),
         tag_team_achievement(626348, "Power-Duo Tag Team", "In the fight against the X Fire Omega, break at least 1 pillar each with the Power Omega and the X Power Omega"),
         many_projectiles_achievement("Sharpshooter"),
         beat_boss_achievement("Return to Sender", "Defeat Leo with Zero's newfound power", Location::LeoBossArena, 626350, 712562),
         back_to_back_achievement("Back-to-Back", "In the fight against Leo, reflect back the same energy ball twice in a single turn"),
         beat_boss_fast_achievement(626352, "Speed Demon", "Defeat the X Earth Omega in less than 2 minutes"),
         no_dig_holes_achievement("Earth Environmentalist", "Defeat the X Water Omega while digging at most 15 holes in the ground"),
-        beat_boss_damageless("Multi-Ender",
-            "Defeat the second phase of Mobius without taking a single hit",
-            Location::MobiusSecondPhaseBossArena,
-            25,
-            626354,
-            712188
-),
+        beat_boss_damageless("Sunchaser", "Defeat the first phase of Mobius without taking a single hit", Location::MobiusBossArena, 10, 627149, 713057),
+        beat_boss_damageless("Multi-Ender", "Defeat the second phase of Mobius without taking a single hit", Location::MobiusSecondPhaseBossArena, 25, 626354, 713056),
     ]
 }
 
@@ -161,7 +156,7 @@ fn many_projectiles_achievement(title: &str) -> Achievement {
             boss_data_null_pointer_check(),
             // TODO: Add hits indicator?
         ))
-        .points(10)
+        .points(5)
         .tag(Tag::Missable)
         .id(626349)
         .badge_id(712183)
@@ -186,7 +181,7 @@ fn back_to_back_achievement(title: &str, description: &str) -> Achievement {
             Game::in_game(),
             boss_data_null_pointer_check(),
         ))
-        .points(10)
+        .points(5)
         .tag(Tag::Missable)
         .id(626351)
         .badge_id(712185)

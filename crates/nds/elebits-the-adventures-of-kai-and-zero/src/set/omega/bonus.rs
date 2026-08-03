@@ -1,11 +1,12 @@
 use rustcheevos::{
-    add_address, add_source, and_next, bit0, bit1, bitcount, chain, delta, measured, measured_if,
-    or_next,
+    add_address, add_hits, add_source, and_next, bit0, bit1, bitcount, chain, delta, measured,
+    measured_if, or_next,
     prelude::*,
-    sub_source, trigger,
+    reset_if, sub_source, trigger,
     types::{
         achievement::Achievement,
         chain::{Chain, ChainGroup},
+        requirement::Condition,
     },
 };
 
@@ -42,6 +43,7 @@ fn obtain_night() -> Achievement {
         sub_source!(bit0!(mem::diary_scrap_flags())),
         measured!(bitcount!(mem::diary_scrap_flags()).eq(7)),
         or_next!(mem::game_state().eq(GameState::TransitioningWorldCutscene.id())),
+        or_next!(mem::game_state().eq(GameState::InBossFight.id())),
         and_next!(mem::game_state().eq(GameState::Overworld.id())),
         measured_if!(delta!(
             Omega::Night
@@ -62,31 +64,31 @@ fn obtain_night() -> Achievement {
 
 fn obtain_dewy() -> Achievement {
     let standard_omegas_len = Omega::all_standard().len();
-    let all_standard_omegas_obtained: Chain = Omega::all_standard()[..standard_omegas_len - 1]
+    let all_standard_omegas_obtained: Chain = Omega::all_standard()
         .into_iter()
-        .map(|o| add_source!(bit0!(o.obtained_addr())))
+        .map(|o| add_hits!(o.obtained_state().ne(OmegaState::NotObtained as u32)).with_hits(1))
         .collect();
+
     let requirements = ChainGroup::new(chain!(
         trigger!(Omega::Dewy.obtained_state().eq(OmegaState::Obtained as u32)),
         all_standard_omegas_obtained,
-        measured!(
-            bit0!(Omega::all_standard().last().unwrap().obtained_addr())
-                .eq(standard_omegas_len as u32)
-        ),
+        measured!(Condition::always_false().with_hits(standard_omegas_len as u32)),
         or_next!(mem::game_state().eq(GameState::FileConfiguration.id())),
         or_next!(mem::game_state().eq(GameState::TransitioningWorldCutscene.id())),
+        or_next!(mem::game_state().eq(GameState::InBossFight.id())),
         and_next!(mem::game_state().eq(GameState::Overworld.id())),
         measured_if!(delta!(
             Omega::Dewy
                 .obtained_state()
                 .eq(OmegaState::NotObtained as u32)
         )),
+        reset_if!(mem::currently_selected_file().ne(delta!(mem::currently_selected_file()))),
     ));
 
     Achievement::builder("Complete Collection")
         .description("Obtain all standard Omegas and obtain Dewy")
         .requirements(requirements)
-        .points(25)
+        .points(10)
         .id(626343)
         .badge_id(712177)
         .build()
@@ -111,6 +113,7 @@ fn obtain_big_green() -> Achievement {
         ),
         or_next!(mem::game_state().eq(GameState::FileConfiguration.id())),
         or_next!(mem::game_state().eq(GameState::TransitioningWorldCutscene.id())),
+        or_next!(mem::game_state().eq(GameState::InBossFight.id())),
         and_next!(mem::game_state().eq(GameState::Overworld.id())),
         measured_if!(delta!(
             Omega::BigGreen

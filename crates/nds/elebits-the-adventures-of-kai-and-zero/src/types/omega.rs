@@ -236,6 +236,19 @@ impl Omega {
         ]
     }
 
+    pub fn all_standard_non_evolvable() -> &'static [Omega] {
+        &[
+            Omega::Zero,
+            Omega::Mobius,
+            Omega::Blizzard,
+            Omega::Flame,
+            Omega::Aqua,
+            Omega::Land,
+            Omega::Storm,
+            Omega::Strong,
+        ]
+    }
+
     pub fn all() -> &'static [Omega] {
         &[
             Omega::Zero,
