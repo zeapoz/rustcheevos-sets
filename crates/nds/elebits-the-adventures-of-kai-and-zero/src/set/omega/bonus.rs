@@ -54,7 +54,7 @@ fn obtain_night() -> Achievement {
     ));
 
     Achievement::builder("Echoes of the Past")
-        .description("Gather all diary scraps and obtain Night")
+        .description("Collect every diary scrap and obtain Night")
         .requirements(requirements)
         .points(3)
         .id(626338)
@@ -86,7 +86,7 @@ fn obtain_dewy() -> Achievement {
     ));
 
     Achievement::builder("Complete Collection")
-        .description("Obtain all standard Omegas and obtain Dewy")
+        .description("Collect every standard Omega and obtain Dewy")
         .requirements(requirements)
         .points(10)
         .id(626343)
@@ -123,7 +123,7 @@ fn obtain_big_green() -> Achievement {
     ));
 
     Achievement::builder("Omega Overdrive")
-        .description("Evolve all evolvable Omegas into their adult forms and obtain Big Green")
+        .description("Evolve every evolvable Omega into their adult form and obtain Big Green")
         .requirements(requirements)
         .points(25)
         .id(626344)
