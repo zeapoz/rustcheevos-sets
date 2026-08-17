@@ -14,8 +14,8 @@ const ID_TEMPLATE: &str = r#"[32-bit] {omega} - Unique Omega ID ({id})
 
 /// Generates predictable code notes for the game.
 pub fn generate_code_notes() -> Vec<CodeNote> {
-    let mut notes = Vec::with_capacity(Omega::all().len() * 3);
-    for omega in Omega::all() {
+    let mut notes = Vec::with_capacity(Omega::ALL.len() * 3);
+    for omega in Omega::ALL {
         let charged_watts = CHARGED_WATTS_TEMPLATE.replace("{omega}", &omega.to_string());
         notes.push(CodeNote::new(omega.base_addr(), charged_watts));
 

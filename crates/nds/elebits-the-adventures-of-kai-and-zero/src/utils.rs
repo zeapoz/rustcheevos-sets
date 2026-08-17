@@ -24,32 +24,32 @@ pub fn bit_at(address: usize, bit: u32) -> MemoryRef {
         5 => bit5!(address),
         6 => bit6!(address),
         7 => bit7!(address),
-        _ => unreachable!(),
+        _ => panic!("invalid bit index"),
     }
 }
 
-pub fn world_pink_elebit_bits(world: Location) -> [(usize, u32); 3] {
+pub fn world_pink_elebit_bits(world: Location) -> [MemoryRef; 3] {
     let starting_bit = (world.number() - 1) * PINK_ELEBITS_PER_WORLD;
-    let mut result = [(0usize, 0u32); 3];
+    let mut result = [bit_at(0, 0); 3];
     for i in 0..PINK_ELEBITS_PER_WORLD {
         let bit = starting_bit + i;
-        result[i as usize] = (mem::pink_elebit_flags() + (bit / 8) as usize, bit % 8);
+        result[i as usize] = bit_at(mem::pink_elebit_flags() + (bit / 8) as usize, bit % 8);
     }
     result
 }
 
-pub fn world_battery_bits(world: Location) -> [(usize, u32); 6] {
-    let mut result = [(0usize, 0u32); 6];
+pub fn world_battery_bits(world: Location) -> [MemoryRef; 6] {
+    let mut result = [bit_at(0, 0); 6];
     let yellow_start = (world.number() - 1) * YELLOW_PER_WORLD;
     for i in 0..YELLOW_PER_WORLD {
         let bit = yellow_start + i;
-        result[i as usize] = (mem::yellow_battery_flags() + (bit / 8) as usize, bit % 8);
+        result[i as usize] = bit_at(mem::yellow_battery_flags() + (bit / 8) as usize, bit % 8);
     }
     let red_start = (world.number() - 1) * RED_PER_WORLD;
     for i in 0..RED_PER_WORLD {
         let bit = red_start + i;
         result[(YELLOW_PER_WORLD + i) as usize] =
-            (mem::red_battery_flags() + (bit / 8) as usize, bit % 8);
+            bit_at(mem::red_battery_flags() + (bit / 8) as usize, bit % 8);
     }
     result
 }

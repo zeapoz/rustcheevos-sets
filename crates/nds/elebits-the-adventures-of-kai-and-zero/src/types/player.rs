@@ -9,10 +9,6 @@ impl Player {
         mem::current_watts()
     }
 
-    pub fn max_watts() -> MemoryRef {
-        mem::max_watts()
-    }
-
     pub fn current_health() -> MemoryRef {
         mem::current_health()
     }

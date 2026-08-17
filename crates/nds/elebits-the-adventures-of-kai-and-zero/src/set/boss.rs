@@ -12,7 +12,12 @@ use rustcheevos::{
 
 use crate::{
     mem,
-    types::{game::Game, location::Location, omega::Omega, player::Player},
+    types::{
+        game::Game,
+        location::Location,
+        omega::{Omega, active::ActiveOmega},
+        player::Player,
+    },
     utils::{
         boss_data_base_pointer, boss_data_null_pointer_check, boss_data_pointer,
         boss_health_numerator,
@@ -62,7 +67,7 @@ fn disarm_achievement(title: &str, description: &str) -> Achievement {
     Achievement::builder(title)
         .description(description)
         .requirements(chain!(
-            and_next!(Omega::active_id().eq(Omega::Ice.id())),
+            and_next!(ActiveOmega::id().eq(Omega::Ice.id())),
             boss_data_pointer(),
             and_next!(delta!(bits32!(0x2ac)).eq(0x4)), // Attack State
             boss_data_pointer(),
@@ -111,12 +116,12 @@ fn tag_team_achievement(id: u32, title: &str, description: &str) -> Achievement 
     Achievement::builder(title)
         .description(description)
         .requirements(chain!(
-            and_next!(Omega::active_id().eq(Omega::Power.id())),
+            and_next!(ActiveOmega::id().eq(Omega::Power.id())),
             boss_data_pointer(),
             and_next!(delta!(bits16!(ATTACK_STATE_OFFSET).eq(6))), // Attack State
             boss_data_pointer(),
             trigger!(bits16!(ATTACK_STATE_OFFSET).eq(3).with_hits(1)), // Attack State
-            and_next!(Omega::active_id().eq(Omega::XPower.id())),
+            and_next!(ActiveOmega::id().eq(Omega::XPower.id())),
             boss_data_pointer(),
             and_next!(delta!(bits16!(ATTACK_STATE_OFFSET).eq(6))), // Attack State
             boss_data_pointer(),
@@ -227,8 +232,8 @@ fn no_dig_holes_achievement(title: &str, description: &str) -> Achievement {
     requirements.push_alt_group(chain!(
         boss_health_numerator(true).ne(0),
         trigger!(boss_health_numerator(false).eq(0)),
-        or_next!(Omega::active_id().eq(Omega::Earth.id())),
-        and_next!(Omega::active_id().eq(Omega::XEarth.id())),
+        or_next!(ActiveOmega::id().eq(Omega::Earth.id())),
+        and_next!(ActiveOmega::id().eq(Omega::XEarth.id())),
         and_next!(delta!(mem::omega_action_flag()).eq(0)),
         reset_next_if!(mem::omega_action_flag().eq(1)).with_hits(NUM_ALLOWED + 1),
         mem::current_game_scene()
@@ -240,8 +245,8 @@ fn no_dig_holes_achievement(title: &str, description: &str) -> Achievement {
     ));
 
     requirements.push_alt_group(chain!(
-        or_next!(Omega::active_id().eq(Omega::Earth.id())),
-        and_next!(Omega::active_id().eq(Omega::XEarth.id())),
+        or_next!(ActiveOmega::id().eq(Omega::Earth.id())),
+        and_next!(ActiveOmega::id().eq(Omega::XEarth.id())),
         and_next!(delta!(mem::omega_action_flag()).eq(0)),
         measured!(mem::omega_action_flag().eq(1)).with_hits(NUM_ALLOWED),
         measured_if!(mem::current_game_scene().eq(Location::XWaterOmegaBossArena.id())),

@@ -75,38 +75,6 @@ pub const fn game_data_struct() -> usize {
     0xe3b98
 }
 
-/// [16-bit] Touchpad X-Position
-pub const fn touchpad_x_position() -> MemoryRef {
-    bits16!(0xe91cc)
-}
-
-/// [16-bit] Touchpad Y-Position
-pub const fn touchpad_y_position() -> MemoryRef {
-    bits16!(0xe91ce)
-}
-
-/// [8-bit][Bitflags] Input Map
-/// Bit0 = A
-/// Bit1 = B
-/// Bit2 = Select
-/// Bit3 = Start
-/// Bit4 = D-Pad Right
-/// Bit5 = D-Pad Left
-/// Bit6 = D-Pad Up
-/// Bit7 = D-Pad Down
-pub const fn input_map_1() -> MemoryRef {
-    bits8!(0xe91ec)
-}
-
-/// [8-bit][Bitflags] Input Map
-/// Bit0 = R
-/// Bit1 = L
-/// Bit2 = X
-/// Bit3 = Y
-pub const fn input_map_2() -> MemoryRef {
-    bits8!(0xe91ed)
-}
-
 /// [8-bit][Bool] In-Game Flag
 /// 0x0 = In-Game
 /// 0x1 = In Menu
@@ -159,49 +127,6 @@ pub const fn game_state() -> MemoryRef {
     bits32!(0x1186e4)
 }
 
-/// [64-bit][ASCII] Active File Name
-pub const fn active_file_name() -> usize {
-    0x14339c
-}
-
-/// [32-bit] Active Message Speed
-/// Normal = 0x0
-/// Fast = 0x1
-/// Slow = 0x2
-pub const fn active_message_speed() -> MemoryRef {
-    bits32!(0x1442b8)
-}
-
-/// [32-bit] Active Language
-/// Values other than specified default to Japanese (Kanji)
-///
-/// 0x0 = Japanese (Kanji)
-/// 0x1 = Japanese (No Kanji)
-/// 0x2-0x3 = English
-/// 0x4-0x5 = French
-/// 0x6 = German
-/// 0x7 = Italian
-/// 0x8 = Spanish
-pub const fn active_language() -> MemoryRef {
-    bits32!(0x1442bc)
-}
-
-/// [32-bit] Active Control Settings - Movement
-/// 0x0 = Stylus & D-Pad
-/// 0x1 = Stylus
-/// 0x2 = D-Pad
-pub const fn active_control_settings_movement() -> MemoryRef {
-    bits32!(0x1442c0)
-}
-
-/// [32-bit] Active Control Settings - Switch Kai/Omega
-/// 0x0 = Stylus & Right/Left Bumpers
-/// 0x1 = Stylus
-/// 0x2 = Right/Left Bumpers
-pub const fn active_control_settings_switch_kai_omega() -> MemoryRef {
-    bits32!(0x1442c4)
-}
-
 /// [480 Bytes][Array] Omega Vector Save Data (File 1)
 /// - Refer to 0x1000580 for the Omega struct layout
 pub const fn omega_vector_save_data_file_1() -> usize {
@@ -232,11 +157,6 @@ pub const fn current_watts() -> MemoryRef {
     bits32!(0x10001a4)
 }
 
-/// [32-bit] Max Watts
-pub const fn max_watts() -> MemoryRef {
-    bits32!(0x10001a8)
-}
-
 /// [32-bit] Loaded Watts
 /// Set to the maximum amount of Watts that have been recorded for this file. Specific values unlock bonus Omegas when reloading the save, these are as follows:
 /// 0x9c4 = Takosuke
@@ -262,64 +182,6 @@ pub const fn max_health() -> MemoryRef {
 /// - Refer to 0x1000580 for the Omega struct layout
 pub const fn active_omega_party() -> usize {
     0x10001c4
-}
-
-/// [32-bit] Player X-Position
-pub const fn player_x_position() -> MemoryRef {
-    bits32!(0x1000218)
-}
-
-/// [32-bit] Player Y-Position
-pub const fn player_y_position() -> MemoryRef {
-    bits32!(0x100021c)
-}
-
-/// [32-bit] Player Logical Z-Elevation Level
-pub const fn player_logical_z_elevation_level() -> MemoryRef {
-    bits32!(0x1000220)
-}
-
-/// [32-bit] Echo of Active Player X-Position
-pub const fn echo_of_active_player_x_position() -> MemoryRef {
-    bits32!(0x1000224)
-}
-
-/// [32-bit] Echo of Active Player Y-Position
-pub const fn echo_of_active_player_y_position() -> MemoryRef {
-    bits32!(0x1000228)
-}
-
-/// [32-bit] Player Facing Direction
-/// 0x0 = South
-/// 0x1 = Southeast
-/// 0x2 = East
-/// 0x3 = Northeast
-/// 0x4 = North
-/// 0x5 = Northwest
-/// 0x6 = West
-/// 0x7 = Southwest
-pub const fn player_facing_direction() -> MemoryRef {
-    bits32!(0x1000230)
-}
-
-/// [32-bit] Active Omega X-Position
-pub const fn active_omega_x_position() -> MemoryRef {
-    bits32!(0x1000234)
-}
-
-/// [32-bit] Active Omega Y-Position
-pub const fn active_omega_y_position() -> MemoryRef {
-    bits32!(0x1000238)
-}
-
-/// [32-bit] Echo of Active Omega X-Position
-pub const fn echo_of_active_omega_x_position() -> MemoryRef {
-    bits32!(0x1000240)
-}
-
-/// [32-bit] Echo of Active Omega Y-Position
-pub const fn echo_of_active_omega_y_position() -> MemoryRef {
-    bits32!(0x1000244)
 }
 
 /// [16-bit] Fever Laser x2 Timer
@@ -358,178 +220,15 @@ pub const fn trace_laser_timer() -> MemoryRef {
     bits16!(0x1000252)
 }
 
-/// [16-bit] Capture Mode Timer
-/// Starts at 0x0 and increments by 1 every other frame
-///
-/// Stops at:
-/// No modifier = 0x64
-/// Big Red = c8
-pub const fn capture_mode_timer() -> MemoryRef {
-    bits16!(0x1000254)
-}
-
-/// [32-bit] Active Omega Facing Direction
-/// 0x0 = South
-/// 0x1 = Southeast
-/// 0x2 = East
-/// 0x3 = Northeast
-/// 0x4 = North
-/// 0x5 = Northwest
-/// 0x6 = West
-/// 0x7 = Southwest
-pub const fn active_omega_facing_direction() -> MemoryRef {
-    bits32!(0x1000258)
-}
-
 /// [8-bit] Active Omega Index
 /// The index of the active Omega in the active party array
 pub const fn active_omega_index() -> MemoryRef {
     bits8!(0x1000260)
 }
 
-/// [8-bit][Bool] Omega Leading Flag
-pub const fn omega_leading_flag() -> MemoryRef {
-    bits8!(0x1000267)
-}
-
 /// [8-bit][Bool] Omega Action Flag
 pub const fn omega_action_flag() -> MemoryRef {
     bits8!(0x1000268)
-}
-
-/// [32-bit] Camera X-Offset
-pub const fn camera_x_offset() -> MemoryRef {
-    bits32!(0x1000530)
-}
-
-/// [32-bit] Camera Y-Offset
-pub const fn camera_y_offset() -> MemoryRef {
-    bits32!(0x1000534)
-}
-
-/// [32-bit] Loading Zone X-Position
-/// The position that Kai will end up on when entering a new area
-pub const fn loading_zone_x_position() -> MemoryRef {
-    bits32!(0x1000544)
-}
-
-/// [32-bit] Loading Zone Y-Position
-/// The position that Kai will end up on when entering a new area
-pub const fn loading_zone_y_position() -> MemoryRef {
-    bits32!(0x1000548)
-}
-
-/// [32-bit] Sub-Scene ID
-/// 0x03 = Power Omega Boss Fight
-/// 0x12 = Earth Omega Boss Fight
-/// 0x37 = X Fire Omega Boss Fight
-/// 0x6b = X Ice Omega Boss Fight
-/// 0x6d = Leo Boss Fight
-/// 0x88 = X Earth Omega Boss Fight
-/// 0x97 = X Water Omega Boss FIght
-pub const fn sub_scene_id() -> MemoryRef {
-    bits32!(0x100055c)
-}
-
-/// [8-bit][Bool] Transitioning Flag
-pub const fn transitioning_flag() -> MemoryRef {
-    bits8!(0x100056c)
-}
-
-/// [8-bit][Bool] Interaction/Cutscene Flag
-pub const fn interaction_cutscene_flag() -> MemoryRef {
-    bits8!(0x100056d)
-}
-
-/// [8-bit][Bool] Saving Flag
-pub const fn saving_flag() -> MemoryRef {
-    bits8!(0x100056e)
-}
-
-/// [8-bit][Bool] In-Game Menu Flag
-pub const fn in_game_menu_flag() -> MemoryRef {
-    bits8!(0x100056f)
-}
-
-/// [32-bit] Primary Event State
-/// Controls the global event state, values 0x5 and above unlock "Select World"
-///
-/// 0x1 = Elebit Forest
-/// 0x2 = Elebit Mine
-/// 0x3 = Resort Island
-/// 0x4 = Ice World
-/// 0x5 = Ruined World
-/// 0x6 = Sea Temple
-/// 0x7 = Libra of Crystal
-pub const fn primary_event_state() -> MemoryRef {
-    bits32!(0x1000570)
-}
-
-/// [32-bit] Secondary Event State
-/// Controls the secondary event state, mainly within the current world
-///
-/// Elebit Forest:
-/// 0x0 = Intro
-/// 0x1 = Tutorial
-/// 0x2 = Fire Omega
-/// 0x3 = Ice Omega
-/// 0x4 = Unused
-/// 0x5 = Warp Omega
-/// 0x6 = Power Omega
-/// 0x7 = Elebit Mines Map
-///
-/// Elebit Mines:
-/// 0x0 = Intro
-/// 0x1 = Pickel Gang
-/// 0x2 = Melody Omega
-/// 0x3 = Magnet Omega
-/// 0x4 = Radar Omega
-/// 0x5 = Minecart Puzzles
-/// 0x6 = Earth Omega Boss
-/// 0x7 = Resort Island Map
-///
-/// Resort Island:
-/// 0x0 = Intro
-/// 0x1 = Boat
-/// 0x2 = Wind, X Power, Surf, Sponge, and Water Omegas
-/// 0x3 = Engine Room and X Fire Omega Boss
-/// 0x4 = Ice World Map
-///
-/// Ice World:
-/// 0x0 = Intro
-/// 0x1 = X Wind Omega
-/// 0x2 = Leo Boss
-/// 0x3 = Secret Hideout
-///
-/// Ruined World:
-/// 0x0 = Intro
-/// 0x1 = Speed Omega
-/// 0x2 = X Earth Boss
-/// 0x3 = Elebit Forest Revisited
-/// 0x4 = Resort Island Revisited
-/// 0x5 = Sea Temple Map
-///
-/// Sea Temple:
-/// 0x0 = Intro
-/// 0x1 = X Magnet Omega
-/// 0x2 = X Water Omega Boss
-/// 0x3 = Elebit Mines Revisited
-/// 0x4 = Ice World Revisited
-/// 0x5 = Libra of Crystal Map
-///
-/// Libra of Crystal:
-/// 0x0 = Intro
-/// 0x1 = Mirror Omega, X Melody Omega, Time Omega
-/// 0x2 = Mobius Boss
-/// 0x3 = End
-pub const fn secondary_event_state() -> MemoryRef {
-    bits32!(0x1000574)
-}
-
-/// [32-bit] Tertiary Event State
-/// Controls the cutscene/event state within world events
-pub const fn tertiary_event_state() -> MemoryRef {
-    bits32!(0x1000578)
 }
 
 /// [32-bit] Currently Selected File
@@ -678,10 +377,4 @@ pub const fn red_battery_flags() -> usize {
 /// Bits 14+ Unused
 pub const fn guard_booster_flags() -> usize {
     0x100076e
-}
-
-/// [32-bit] Playing Time of Active File
-/// Increments by 2 every other frame
-pub const fn playing_time_of_active_file() -> MemoryRef {
-    bits32!(0x1000780)
 }

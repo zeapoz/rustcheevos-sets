@@ -9,8 +9,7 @@ use crate::{
     mem,
     types::{game::Game, game_state::GameState, location::Location},
     utils::{
-        BATTERIES_PER_WORLD, PINK_ELEBITS_PER_WORLD, bit_at, world_battery_bits,
-        world_pink_elebit_bits,
+        BATTERIES_PER_WORLD, PINK_ELEBITS_PER_WORLD, world_battery_bits, world_pink_elebit_bits,
     },
 };
 
@@ -46,12 +45,12 @@ fn pink_elebits_achievement(
 ) -> Achievement {
     let bits = world_pink_elebit_bits(world);
     let requirements = ChainGroup::new(chain!(
-        add_source!(delta!(bit_at(bits[0].0, bits[0].1))),
-        add_source!(delta!(bit_at(bits[1].0, bits[1].1))),
-        delta!(bit_at(bits[2].0, bits[2].1)).eq(PINK_ELEBITS_PER_WORLD - 1),
-        add_source!(bit_at(bits[0].0, bits[0].1)),
-        add_source!(bit_at(bits[1].0, bits[1].1)),
-        measured!(bit_at(bits[2].0, bits[2].1).eq(PINK_ELEBITS_PER_WORLD)),
+        add_source!(delta!(bits[0])),
+        add_source!(delta!(bits[1])),
+        delta!(bits[2]).eq(PINK_ELEBITS_PER_WORLD - 1),
+        add_source!(bits[0]),
+        add_source!(bits[1]),
+        measured!(bits[2].eq(PINK_ELEBITS_PER_WORLD)),
         and_next!(mem::current_game_scene().eq(world.id())),
         or_next!(mem::game_state().eq(GameState::InBossFight.id())),
         measured_if!(mem::game_state().eq(GameState::Overworld.id())),
@@ -76,18 +75,18 @@ fn battery_achievement(
 ) -> Achievement {
     let bits = world_battery_bits(world);
     let requirements = ChainGroup::new(chain!(
-        add_source!(delta!(bit_at(bits[0].0, bits[0].1))),
-        add_source!(delta!(bit_at(bits[1].0, bits[1].1))),
-        add_source!(delta!(bit_at(bits[2].0, bits[2].1))),
-        add_source!(delta!(bit_at(bits[3].0, bits[3].1))),
-        add_source!(delta!(bit_at(bits[4].0, bits[4].1))),
-        delta!(bit_at(bits[5].0, bits[5].1)).eq(BATTERIES_PER_WORLD - 1),
-        add_source!(bit_at(bits[0].0, bits[0].1)),
-        add_source!(bit_at(bits[1].0, bits[1].1)),
-        add_source!(bit_at(bits[2].0, bits[2].1)),
-        add_source!(bit_at(bits[3].0, bits[3].1)),
-        add_source!(bit_at(bits[4].0, bits[4].1)),
-        measured!(bit_at(bits[5].0, bits[5].1).eq(BATTERIES_PER_WORLD)),
+        add_source!(delta!(bits[0])),
+        add_source!(delta!(bits[1])),
+        add_source!(delta!(bits[2])),
+        add_source!(delta!(bits[3])),
+        add_source!(delta!(bits[4])),
+        delta!(bits[5]).eq(BATTERIES_PER_WORLD - 1),
+        add_source!(bits[0]),
+        add_source!(bits[1]),
+        add_source!(bits[2]),
+        add_source!(bits[3]),
+        add_source!(bits[4]),
+        measured!(bits[5].eq(BATTERIES_PER_WORLD)),
         and_next!(mem::current_game_scene().eq(world.id())),
         or_next!(mem::game_state().eq(GameState::InBossFight.id())),
         measured_if!(mem::game_state().eq(GameState::Overworld.id())),
