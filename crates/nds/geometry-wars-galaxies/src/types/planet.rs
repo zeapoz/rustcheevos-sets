@@ -81,6 +81,7 @@ impl Planet {
             self.status().ge(status as u32),
             self.status().ne(MedalStatus::Locked as u32)
         )
+        .into()
     }
 
     /// Returns all planets.

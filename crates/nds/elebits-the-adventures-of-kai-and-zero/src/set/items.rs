@@ -1,5 +1,5 @@
 use rustcheevos::{
-    bits32, chain, delta,
+    chain, delta,
     prelude::*,
     types::{
         achievement::Achievement,
@@ -9,8 +9,8 @@ use rustcheevos::{
 
 use crate::{
     mem,
-    types::{game::Game, game_state::GameState, location::Location},
-    utils::{bit_at, combo_text_pointer, combo_text_pointer_not_null},
+    types::{game::Game, game_state::GameState, hud::Hud, location::Location},
+    utils::bit_at,
 };
 
 #[rustfmt::skip]
@@ -88,20 +88,16 @@ fn combo_challenge_achievement(
     world: &Location,
     extra_cond: Option<Chain>,
 ) -> Achievement {
-    const COMBO_NUMBER_OFFSET: usize = 0x494;
-
     Achievement::builder(title)
         .description(description)
         .requirements(chain!(
-            combo_text_pointer(),
-            delta!(bits32!(COMBO_NUMBER_OFFSET).ne(target)),
-            combo_text_pointer(),
-            bits32!(COMBO_NUMBER_OFFSET).ge(target),
+            delta!(Hud::combo_number()).ne(target),
+            Hud::combo_number().ge(target),
             extra_cond.unwrap_or_default(),
             mem::current_game_scene().eq(world.id()),
             mem::game_state().eq(GameState::Overworld.id()),
             Game::in_game(),
-            combo_text_pointer_not_null()
+            Hud::combo_text_pointer_not_null()
         ))
         .points(10)
         .id(id)

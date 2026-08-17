@@ -76,7 +76,7 @@ fn all_planets_medal_group(planets: &[Planet], status: MedalStatus) -> ChainGrou
 
     let alt_groups: Vec<Chain> = planets
         .iter()
-        .map(|p| delta!(p.status()).lt(status as u32))
+        .map(|p| delta!(p.status()).lt(status as u32).into())
         .collect();
 
     let mut group = ChainGroup::new(core);

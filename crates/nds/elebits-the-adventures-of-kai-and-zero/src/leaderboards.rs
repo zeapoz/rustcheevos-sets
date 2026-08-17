@@ -1,5 +1,5 @@
 use rustcheevos::{
-    bits32, chain, delta, measured,
+    chain, delta, measured,
     prelude::*,
     remember,
     types::{
@@ -11,11 +11,7 @@ use rustcheevos::{
 
 use crate::{
     mem,
-    types::{game::Game, game_state::GameState, location::Location},
-    utils::{
-        boss_data_null_pointer_check, boss_health_numerator, boss_timer_pointer,
-        combo_text_pointer, combo_text_pointer_not_null,
-    },
+    types::{boss::Boss, game::Game, game_state::GameState, hud::Hud, location::Location},
 };
 
 #[rustfmt::skip]
@@ -41,26 +37,19 @@ pub fn generate_leaderboards() -> LeaderboardSet {
 }
 
 fn combo_leaderboard(id: u32, world: Location) -> Leaderboard {
-    const COMBO_NUMBER_OFFSET: usize = 0x494;
-
     Leaderboard::builder(format!("Combo Chaser - {}", world.world_name()))
         .description(format!(
             "Acquire the highest combo counter in {}!",
             world.world_name()
         ))
-        .value(chain!(
-            combo_text_pointer(),
-            measured!(bits32!(COMBO_NUMBER_OFFSET))
-        ))
+        .value(chain!(measured!(Hud::combo_number())))
         .start(chain!(
-            combo_text_pointer(),
-            remember!(delta!(bits32!(COMBO_NUMBER_OFFSET))),
-            combo_text_pointer(),
-            bits32!(COMBO_NUMBER_OFFSET).gt(TypedValue::Recall),
+            remember!(delta!(Hud::combo_number())),
+            Hud::combo_number().gt(TypedValue::Recall),
             mem::current_game_scene().eq(world.id()),
             mem::game_state().eq(GameState::Overworld.id()),
             Game::in_game(),
-            combo_text_pointer_not_null()
+            Hud::combo_text_pointer_not_null()
         ))
         .id(id)
         .build()
@@ -76,13 +65,13 @@ fn boss_time_attack(
         .description(description)
         .format(LeaderboardFormat::Frames)
         .lower_is_better(true)
-        .value(chain!(boss_timer_pointer(), measured!(bits32!(0x84))))
+        .value(measured!(Boss::timer()))
         .start(chain!(
-            boss_health_numerator(true).ne(0),
-            boss_health_numerator(false).eq(0),
+            delta!(Boss::health_numerator()).ne(0),
+            Boss::health_numerator().eq(0),
             mem::current_game_scene().eq(boss_location.id()),
             Game::in_game(),
-            boss_data_null_pointer_check(),
+            Boss::null_pointer_check(),
         ))
         .id(id)
         .build()

@@ -5,5 +5,7 @@ members = [
 resolver = "3"
 
 [workspace.dependencies]
-rustcheevos = { git = "https://github.com/zeapoz/rustcheevos" }
-rustcheevos-cli = { git = "https://github.com/zeapoz/rustcheevos" }
+# rustcheevos = { git = "https://github.com/zeapoz/rustcheevos" }
+# rustcheevos-cli = { git = "https://github.com/zeapoz/rustcheevos" }
+rustcheevos = { path = "/home/jonathan/Programming/Personal/rustcheevos/crates/rustcheevos" }
+rustcheevos-cli = { path = "/home/jonathan/Programming/Personal/rustcheevos/crates/rustcheevos-cli" }

@@ -81,12 +81,12 @@ impl DroneBehaviour {
 
     /// Returns a chain that checks if this drone behaviour is unlocked.
     pub fn is_unlocked(self) -> Chain {
-        self.level().gt(0)
+        self.level().gt(0).into()
     }
 
     /// Returns a chain that checks if this drone behaviour was just unlocked.
     pub fn unlocked(self) -> Chain {
-        chain!(delta!(self.level()).eq(0), self.level().eq(1))
+        chain!(delta!(self.level()).eq(0), self.level().eq(1)).into()
     }
 }
 
