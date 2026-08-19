@@ -1,13 +1,6 @@
 use rustcheevos::{
-    add_source, chain, delta, pause_if,
     prelude::*,
-    reset_next_if, trigger,
-    types::{
-        achievement::Achievement,
-        chain::{Chain, ChainGroup},
-        game::AchievementSet,
-        requirement::Condition,
-    },
+    types::{achievement::Achievement, chain::Chain, requirement::Condition},
 };
 
 use crate::types::{
@@ -71,7 +64,7 @@ fn drone_condition(drone: DroneBehaviour) -> Condition {
 
 /// Adds the Retro Evolved achievements to the set.
 #[rustfmt::skip]
-pub fn add_retro_evolved_achievements(set: &mut AchievementSet) {
+pub fn add_retro_evolved_achievements(set: &mut Vec<Achievement>) {
     set.push(retro_evolved_score(600749, 681339, "Retro Rookie", 100_000, "100,000", 5));
     set.push(retro_evolved_score(600750, 681340, "Retro Rising", 250_000, "250,000", 10));
     set.push(retro_evolved_score(600751, 681341, "Retro Rival", 500_000, "500,000", 25));
@@ -91,7 +84,7 @@ fn retro_evolved_score(
         .description(format!(
             "In Retro Evolved, earn a score of {target_str} points or higher"
         ))
-        .requirements(chain!(
+        .core(chain!(
             Game::target_score_cond(target),
             Game::in_retro_evolved_cond(),
             Game::in_game_cond_with_delta()
@@ -103,13 +96,13 @@ fn retro_evolved_score(
 }
 
 /// Adds the challenge achievements to the set.
-pub fn add_galaxy_challenge_achievements(set: &mut AchievementSet) {
+pub fn add_galaxy_challenge_achievements(set: &mut Vec<Achievement>) {
     set.push(
         Achievement::builder("Going Round and Round")
             .description(
                 "Acquire a 150x multiplier on Claeis using the Sweep Drone and without firing",
             )
-            .requirements(chain!(
+            .core(chain!(
                 delta!(Game::in_game_score_multiplier()).lt(Game::MAX_MULTIPLIER),
                 trigger!(Game::in_game_score_multiplier().eq(Game::MAX_MULTIPLIER)),
                 no_bullets_fired(),
@@ -128,7 +121,7 @@ pub fn add_galaxy_challenge_achievements(set: &mut AchievementSet) {
             .description(
                 "Earn a Gold medal on Bateis using the Defend Drone and without using any bombs",
             )
-            .requirements(chain!(
+            .core(chain!(
                 score_threshold(&BATEIS, MedalStatus::Gold),
                 no_bombs_used(),
                 planet_condition(&BATEIS),
@@ -145,7 +138,7 @@ pub fn add_galaxy_challenge_achievements(set: &mut AchievementSet) {
             .description(
                 "Earn a Gold medal on Orbeis using the Bait Drone and without using any bombs",
             )
-            .requirements(chain!(
+            .core(chain!(
                 score_threshold(&ORBEIS, MedalStatus::Gold),
                 no_bombs_used(),
                 planet_condition(&ORBEIS),
@@ -160,7 +153,7 @@ pub fn add_galaxy_challenge_achievements(set: &mut AchievementSet) {
     set.push(
         Achievement::builder("Ram Spam")
             .description("Earn a Bronze medal or higher on Surpente using the Ram Drone without firing or using any bombs")
-            .requirements(chain!(
+            .core(chain!(
                 score_threshold(&SURPENTE, MedalStatus::Bronze),
                 no_bullets_fired(),
                 no_bombs_used(),
@@ -178,7 +171,7 @@ pub fn add_galaxy_challenge_achievements(set: &mut AchievementSet) {
             .description(
                 "Earn a Gold medal on Clahex using the Attack Drone and without losing any lives",
             )
-            .requirements(chain!(
+            .core(chain!(
                 score_threshold(&CLAHEX, MedalStatus::Gold),
                 no_lives_lost(),
                 planet_condition(&CLAHEX),
@@ -195,7 +188,7 @@ pub fn add_galaxy_challenge_achievements(set: &mut AchievementSet) {
             .description(
                 "Earn a Gold medal on Virduo using the Snipe Drone and without using any bombs",
             )
-            .requirements(chain!(
+            .core(chain!(
                 score_threshold(&VIRDUO, MedalStatus::Gold),
                 no_bombs_used(),
                 planet_condition(&VIRDUO),
@@ -212,7 +205,7 @@ pub fn add_galaxy_challenge_achievements(set: &mut AchievementSet) {
             .description(
                 "Earn a Gold medal on Surtetra using the Turret Drone and without losing any lives",
             )
-            .requirements(chain!(
+            .core(chain!(
                 score_threshold(&SURTETRA, MedalStatus::Gold),
                 no_lives_lost(),
                 planet_condition(&SURTETRA),
@@ -231,15 +224,12 @@ pub fn add_galaxy_challenge_achievements(set: &mut AchievementSet) {
         planet_condition(&VARPENTE),
         drone_condition(DroneBehaviour::Collect),
     );
-    let mut group = ChainGroup::new(core);
-    group.push_alt_group(chain!(delta!(
-        Game::in_game_score().lt(VARPENTE.required_score(MedalStatus::Gold))
-    ),));
-    group.push_alt_group(chain!(delta!(Game::in_game_geoms().lt(TARGET_GEOMS)),));
     set.push(
         Achievement::builder("Grabbing Gold and Geoms")
             .description("Earn a Gold medal on Varpente using the Collect Drone while collecting at least 10,000 Geoms")
-            .requirements(group)
+            .core(core)
+            .alt_group(chain!(delta!(Game::in_game_score().lt(VARPENTE.required_score(MedalStatus::Gold)))))
+            .alt_group(chain!(delta!(Game::in_game_geoms().lt(TARGET_GEOMS))))
             .points(10)
             .id(600760)
             .badge_id(681350)
@@ -251,7 +241,7 @@ pub fn add_galaxy_challenge_achievements(set: &mut AchievementSet) {
             .description(
                 "Earn a Gold medal on Flihex without losing any lives and without using any bombs",
             )
-            .requirements(chain!(
+            .core(chain!(
                 score_threshold(&FLIHEX, MedalStatus::Gold),
                 no_lives_lost(),
                 no_bombs_used(),

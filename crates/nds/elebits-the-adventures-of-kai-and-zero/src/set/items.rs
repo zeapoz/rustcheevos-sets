@@ -1,10 +1,6 @@
 use rustcheevos::{
-    chain, delta,
     prelude::*,
-    types::{
-        achievement::Achievement,
-        chain::{Chain, ChainGroup},
-    },
+    types::{achievement::Achievement, chain::Chain},
 };
 
 use crate::{
@@ -38,16 +34,14 @@ fn item_pickup_achievement(
     description: &str,
     bit: u32,
 ) -> Achievement {
-    let requirements = ChainGroup::new(chain!(
-        delta!(bit_at(mem::item_collected_flags(), bit).eq(0)),
-        bit_at(mem::item_collected_flags(), bit).eq(1),
-        mem::game_state().eq(GameState::Overworld.id()),
-        Game::in_game(),
-    ));
-
     Achievement::builder(title)
         .description(description)
-        .requirements(requirements)
+        .core(chain!(
+            delta!(bit_at(mem::item_collected_flags(), bit).eq(0)),
+            bit_at(mem::item_collected_flags(), bit).eq(1),
+            mem::game_state().eq(GameState::Overworld.id()),
+            Game::in_game(),
+        ))
         .points(2)
         .id(id)
         .badge_id(badge_id)
@@ -55,24 +49,20 @@ fn item_pickup_achievement(
 }
 
 fn all_power_ups_achievement() -> Achievement {
-    let mut requirements = ChainGroup::new(chain!(
-        mem::fever_laser_x2_timer().ne(0),
-        mem::fever_laser_x3_timer().ne(0),
-        mem::wide_lock_laser_timer().ne(0),
-        mem::trace_laser_timer().ne(0),
-        mem::game_state().eq(GameState::Overworld.id()),
-        Game::in_game(),
-    ));
-    requirements.set_alt_groups(vec![
-        chain!(delta!(mem::fever_laser_x2_timer().eq(0))),
-        chain!(delta!(mem::fever_laser_x3_timer().eq(0))),
-        chain!(delta!(mem::wide_lock_laser_timer().eq(0))),
-        chain!(delta!(mem::trace_laser_timer().eq(0))),
-    ]);
-
     Achievement::builder("Power-Up Package")
         .description("Have every power-up active at once")
-        .requirements(requirements)
+        .core(chain!(
+            mem::fever_laser_x2_timer().ne(0),
+            mem::fever_laser_x3_timer().ne(0),
+            mem::wide_lock_laser_timer().ne(0),
+            mem::trace_laser_timer().ne(0),
+            mem::game_state().eq(GameState::Overworld.id()),
+            Game::in_game(),
+        ))
+        .alt_group(chain!(delta!(mem::fever_laser_x2_timer().eq(0))))
+        .alt_group(chain!(delta!(mem::fever_laser_x3_timer().eq(0))))
+        .alt_group(chain!(delta!(mem::wide_lock_laser_timer().eq(0))))
+        .alt_group(chain!(delta!(mem::trace_laser_timer().eq(0))))
         .points(10)
         .id(626375)
         .badge_id(712209)
@@ -90,7 +80,7 @@ fn combo_challenge_achievement(
 ) -> Achievement {
     Achievement::builder(title)
         .description(description)
-        .requirements(chain!(
+        .core(chain!(
             delta!(Hud::combo_number()).ne(target),
             Hud::combo_number().ge(target),
             extra_cond.unwrap_or_default(),

@@ -1,13 +1,11 @@
 use std::fmt;
 
 use rustcheevos::{
-    add_address, bits32, chain,
     prelude::*,
     types::{
         chain::{Chain, PendingChain},
         memory::MemoryRef,
     },
-    upper4,
 };
 
 use crate::types::game::Game;

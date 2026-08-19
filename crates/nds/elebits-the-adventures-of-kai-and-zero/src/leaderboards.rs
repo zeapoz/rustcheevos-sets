@@ -1,9 +1,6 @@
 use rustcheevos::{
-    chain, delta, measured,
     prelude::*,
-    remember,
     types::{
-        game::LeaderboardSet,
         leaderboard::{Leaderboard, LeaderboardFormat},
         value::TypedValue,
     },
@@ -15,7 +12,7 @@ use crate::{
 };
 
 #[rustfmt::skip]
-pub fn generate_leaderboards() -> LeaderboardSet {
+pub fn generate_leaderboards() -> Vec<Leaderboard> {
     vec![
         combo_leaderboard(167921, Location::ElebitForest),
         combo_leaderboard(167922, Location::ElebitMine),

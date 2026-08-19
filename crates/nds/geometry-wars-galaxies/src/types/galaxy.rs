@@ -1,8 +1,6 @@
 use std::fmt;
 
-use rustcheevos::{
-    add_address, add_source, bit0, bitcount, chain, delta, prelude::*, types::chain::Chain,
-};
+use rustcheevos::{prelude::*, types::chain::Chain};
 
 use crate::types::game::{Game, MenuState, PROFILE_STRIDE};
 

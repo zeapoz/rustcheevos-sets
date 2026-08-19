@@ -1,7 +1,6 @@
 use std::fmt;
 
 use rustcheevos::{
-    add_address, bits16, chain, delta,
     prelude::*,
     types::{
         chain::{Chain, PendingChain},

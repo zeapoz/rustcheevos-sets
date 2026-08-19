@@ -1,4 +1,5 @@
-use rustcheevos::{prelude::TypedValueOps, types::chain::Chain};
+use rustcheevos::prelude::*;
+use rustcheevos::types::chain::Chain;
 
 use crate::mem;
 

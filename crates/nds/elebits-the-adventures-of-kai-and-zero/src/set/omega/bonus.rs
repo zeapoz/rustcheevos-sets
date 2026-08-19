@@ -1,13 +1,6 @@
 use rustcheevos::{
-    add_address, add_hits, add_source, and_next, bit0, bit1, bitcount, chain, delta, measured,
-    measured_if, or_next,
     prelude::*,
-    reset_if, sub_source, trigger,
-    types::{
-        achievement::Achievement,
-        chain::{Chain, ChainGroup},
-        requirement::Condition,
-    },
+    types::{achievement::Achievement, chain::Chain, requirement::Condition},
 };
 
 use crate::{
@@ -35,27 +28,25 @@ pub fn generate_loaded_watts_achievements() -> Vec<Achievement> {
 }
 
 fn obtain_night() -> Achievement {
-    let requirements = ChainGroup::new(chain!(
-        Omega::Night
-            .obtained_state()
-            .eq(OmegaState::Obtained as u32),
-        mem::current_game_scene().eq(Location::SeaTemple.id()),
-        sub_source!(bit0!(mem::diary_scrap_flags())),
-        measured!(bitcount!(mem::diary_scrap_flags()).eq(7)),
-        or_next!(mem::game_state().eq(GameState::TransitioningWorldCutscene.id())),
-        or_next!(mem::game_state().eq(GameState::InBossFight.id())),
-        and_next!(mem::game_state().eq(GameState::Overworld.id())),
-        measured_if!(delta!(
-            Omega::Night
-                .obtained_state()
-                .eq(OmegaState::NotObtained as u32)
-        )),
-        Game::in_game(),
-    ));
-
     Achievement::builder("Echoes of the Past")
         .description("Collect every diary scrap and obtain Night")
-        .requirements(requirements)
+        .core(chain!(
+            Omega::Night
+                .obtained_state()
+                .eq(OmegaState::Obtained as u32),
+            mem::current_game_scene().eq(Location::SeaTemple.id()),
+            sub_source!(bit0!(mem::diary_scrap_flags())),
+            measured!(bitcount!(mem::diary_scrap_flags()).eq(7)),
+            or_next!(mem::game_state().eq(GameState::TransitioningWorldCutscene.id())),
+            or_next!(mem::game_state().eq(GameState::InBossFight.id())),
+            and_next!(mem::game_state().eq(GameState::Overworld.id())),
+            measured_if!(delta!(
+                Omega::Night
+                    .obtained_state()
+                    .eq(OmegaState::NotObtained as u32)
+            )),
+            Game::in_game(),
+        ))
         .points(3)
         .id(626338)
         .badge_id(712172)
@@ -69,25 +60,23 @@ fn obtain_dewy() -> Achievement {
         .map(|o| add_hits!(o.obtained_state().ne(OmegaState::NotObtained as u32)).with_hits(1))
         .collect();
 
-    let requirements = ChainGroup::new(chain!(
-        trigger!(Omega::Dewy.obtained_state().eq(OmegaState::Obtained as u32)),
-        all_standard_omegas_obtained,
-        measured!(Condition::always_false().with_hits(standard_omegas_len as u32)),
-        or_next!(mem::game_state().eq(GameState::FileConfiguration.id())),
-        or_next!(mem::game_state().eq(GameState::TransitioningWorldCutscene.id())),
-        or_next!(mem::game_state().eq(GameState::InBossFight.id())),
-        and_next!(mem::game_state().eq(GameState::Overworld.id())),
-        measured_if!(delta!(
-            Omega::Dewy
-                .obtained_state()
-                .eq(OmegaState::NotObtained as u32)
-        )),
-        reset_if!(mem::currently_selected_file().ne(delta!(mem::currently_selected_file()))),
-    ));
-
     Achievement::builder("Complete Collection")
         .description("Collect every standard Omega and obtain Dewy")
-        .requirements(requirements)
+        .core(chain!(
+            trigger!(Omega::Dewy.obtained_state().eq(OmegaState::Obtained as u32)),
+            all_standard_omegas_obtained,
+            measured!(Condition::always_false().with_hits(standard_omegas_len as u32)),
+            or_next!(mem::game_state().eq(GameState::FileConfiguration.id())),
+            or_next!(mem::game_state().eq(GameState::TransitioningWorldCutscene.id())),
+            or_next!(mem::game_state().eq(GameState::InBossFight.id())),
+            and_next!(mem::game_state().eq(GameState::Overworld.id())),
+            measured_if!(delta!(
+                Omega::Dewy
+                    .obtained_state()
+                    .eq(OmegaState::NotObtained as u32)
+            )),
+            reset_if!(mem::currently_selected_file().ne(delta!(mem::currently_selected_file()))),
+        ))
         .points(10)
         .id(626343)
         .badge_id(712177)
@@ -100,31 +89,30 @@ fn obtain_big_green() -> Achievement {
         .into_iter()
         .map(|o| add_source!(bit1!(o.obtained_addr())))
         .collect();
-    let requirements = ChainGroup::new(chain!(
-        trigger!(
-            Omega::BigGreen
-                .obtained_state()
-                .eq(OmegaState::Obtained as u32)
-        ),
-        all_evolvable_omegas_evolved,
-        measured!(
-            bit1!(Omega::all_evolvable().last().unwrap().obtained_addr())
-                .eq(evolvable_omegas_len as u32)
-        ),
-        or_next!(mem::game_state().eq(GameState::FileConfiguration.id())),
-        or_next!(mem::game_state().eq(GameState::TransitioningWorldCutscene.id())),
-        or_next!(mem::game_state().eq(GameState::InBossFight.id())),
-        and_next!(mem::game_state().eq(GameState::Overworld.id())),
-        measured_if!(delta!(
-            Omega::BigGreen
-                .obtained_state()
-                .eq(OmegaState::NotObtained as u32)
-        )),
-    ));
 
     Achievement::builder("Omega Overdrive")
         .description("Evolve every evolvable Omega into their adult form and obtain Big Green")
-        .requirements(requirements)
+        .core(chain!(
+            trigger!(
+                Omega::BigGreen
+                    .obtained_state()
+                    .eq(OmegaState::Obtained as u32)
+            ),
+            all_evolvable_omegas_evolved,
+            measured!(
+                bit1!(Omega::all_evolvable().last().unwrap().obtained_addr())
+                    .eq(evolvable_omegas_len as u32)
+            ),
+            or_next!(mem::game_state().eq(GameState::FileConfiguration.id())),
+            or_next!(mem::game_state().eq(GameState::TransitioningWorldCutscene.id())),
+            or_next!(mem::game_state().eq(GameState::InBossFight.id())),
+            and_next!(mem::game_state().eq(GameState::Overworld.id())),
+            measured_if!(delta!(
+                Omega::BigGreen
+                    .obtained_state()
+                    .eq(OmegaState::NotObtained as u32)
+            )),
+        ))
         .points(25)
         .id(626344)
         .badge_id(712178)
@@ -137,7 +125,7 @@ fn obtain_big_red() -> Achievement {
         .points(1)
         .id(626345)
         .badge_id(712179)
-        .requirements(chain!(
+        .core(chain!(
             delta!(
                 Omega::BigRed
                     .obtained_state()
@@ -163,26 +151,25 @@ fn loaded_watts_achievement(
 ) -> Achievement {
     const SAVE_FILE_DATA_STRIDE_BYTES: u32 =
         (mem::omega_vector_save_data_file_2() - mem::omega_vector_save_data_file_1()) as u32;
-    let requirements = ChainGroup::new(chain!(
-        add_address!(mem::currently_selected_file().mul(SAVE_FILE_DATA_STRIDE_BYTES)),
-        delta!(
-            omega
-                .save_data_obtained_state()
-                .eq(OmegaState::NotObtained as u32)
-        ),
-        add_address!(mem::currently_selected_file().mul(SAVE_FILE_DATA_STRIDE_BYTES)),
-        trigger!(
-            omega
-                .save_data_obtained_state()
-                .eq(OmegaState::Obtained as u32)
-        ),
-        trigger!(mem::game_state().eq(GameState::FileConfiguration.id())),
-        mem::loaded_watts().ge(target),
-    ));
 
     Achievement::builder(title)
         .description(description)
-        .requirements(requirements)
+        .core(chain!(
+            add_address!(mem::currently_selected_file().mul(SAVE_FILE_DATA_STRIDE_BYTES)),
+            delta!(
+                omega
+                    .save_data_obtained_state()
+                    .eq(OmegaState::NotObtained as u32)
+            ),
+            add_address!(mem::currently_selected_file().mul(SAVE_FILE_DATA_STRIDE_BYTES)),
+            trigger!(
+                omega
+                    .save_data_obtained_state()
+                    .eq(OmegaState::Obtained as u32)
+            ),
+            trigger!(mem::game_state().eq(GameState::FileConfiguration.id())),
+            mem::loaded_watts().ge(target),
+        ))
         .points(points)
         .id(id)
         .badge_id(badge_id)

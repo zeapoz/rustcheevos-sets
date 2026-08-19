@@ -1,13 +1,6 @@
 use rustcheevos::{
-    add_source, chain, delta, measured,
     prelude::*,
-    reset_if,
-    types::{
-        achievement::Achievement,
-        chain::{Chain, ChainGroup},
-        game::AchievementSet,
-        requirement::Condition,
-    },
+    types::{achievement::Achievement, chain::Chain, requirement::Condition},
 };
 
 use crate::types::{
@@ -22,7 +15,7 @@ fn reset_if_not_in_game() -> Condition {
 
 /// Adds the drone achievements to the set.
 #[rustfmt::skip]
-pub fn add_drone_achievements(set: &mut AchievementSet) {
+pub fn add_drone_achievements(set: &mut Vec<Achievement>) {
     set.push(drone_reach_level_achievement(600736, 681326, "The Best Defence...", DroneBehaviour::Attack));
     set.push(drone_reach_level_achievement(600737, 681327, "The Best Offence...", DroneBehaviour::Defend));
     set.push(drone_reach_level_achievement(600738, 681328, "Heart of a Hoarder", DroneBehaviour::Collect));
@@ -32,35 +25,38 @@ pub fn add_drone_achievements(set: &mut AchievementSet) {
     set.push(drone_reach_level_achievement(600742, 681332, "Pocket Protector", DroneBehaviour::Turret));
     set.push(drone_reach_level_achievement(600743, 681333, "Magnetic Machine", DroneBehaviour::Bait));
 
-    let mut drone_max_level =  ChainGroup::new(Game::in_game_cond_with_delta());
-    for drone in DroneBehaviour::all() {
-        let chain = chain!(
-            delta!(drone.level()).eq(DroneBehaviour::MAX_LEVEL - 1),
-            drone.level().eq(DroneBehaviour::MAX_LEVEL),
-        );
-        drone_max_level.push_alt_group(chain);
-    }
+    let alt_groups = DroneBehaviour::all()
+        .iter()
+        .map(|drone| {
+            chain!(
+                delta!(drone.level()).eq(DroneBehaviour::MAX_LEVEL - 1),
+                drone.level().eq(DroneBehaviour::MAX_LEVEL),
+            )
+        });
     set.push(
         Achievement::builder("I Choose You")
             .description("Get any Drone Behaviour to level 10")
-            .requirements(drone_max_level)
+            .core(Game::in_game_cond_with_delta())
+            .alt_groups(alt_groups)
             .points(25)
             .id(600744)
             .badge_id(681334)
             .build(),
     );
 
-    let core = chain!(
-        DroneBehaviour::all().iter().copied().map(DroneBehaviour::is_unlocked).collect::<Chain>(),
-        Game::menu_state().eq(MenuState::DroneSelectOrResults as u32)
-    );
-    let mut all_drones_unlocked = ChainGroup::new(core);
-    all_drones_unlocked.set_alt_groups(DroneBehaviour::all().iter().copied().map(DroneBehaviour::unlocked));
+    let alt_groups = DroneBehaviour::all()
+        .iter()
+        .copied()
+        .map(DroneBehaviour::unlocked);
 
     set.push(
         Achievement::builder("Drone Hoarder")
             .description("Unlock all 8 Drone Behaviours")
-            .requirements(all_drones_unlocked)
+            .core(chain!(
+                DroneBehaviour::all().iter().copied().map(DroneBehaviour::is_unlocked).collect::<Chain>(),
+                Game::menu_state().eq(MenuState::DroneSelectOrResults as u32)
+            ))
+            .alt_groups(alt_groups)
             .points(5)
             .id(600745)
             .badge_id(681335)
@@ -80,7 +76,7 @@ fn drone_reach_level_achievement(
         .description(format!(
             "Upgrade the {drone} Drone Behaviour to level {LEVEL_TARGET}"
         ))
-        .requirements(chain!(
+        .core(chain!(
             delta!(drone.level()).eq(LEVEL_TARGET - 1),
             drone.level().eq(LEVEL_TARGET),
             Game::in_game_cond_with_delta(),
@@ -92,11 +88,11 @@ fn drone_reach_level_achievement(
 }
 
 /// Adds the miscellaneous achievements to the set.
-pub fn add_misc_achievements(set: &mut AchievementSet) {
+pub fn add_misc_achievements(set: &mut Vec<Achievement>) {
     set.push(
         Achievement::builder("Maximum Overdrive")
             .description("Acquire a 150x multiplier")
-            .requirements(chain!(
+            .core(chain!(
                 delta!(Game::in_game_score_multiplier()).lt(Game::MAX_MULTIPLIER),
                 Game::in_game_score_multiplier().eq(Game::MAX_MULTIPLIER),
                 Game::in_game_cond_with_delta(),
@@ -110,7 +106,7 @@ pub fn add_misc_achievements(set: &mut AchievementSet) {
     set.push(
         Achievement::builder("Second Chance")
             .description("Earn an extra life on one planet")
-            .requirements(chain!(
+            .core(chain!(
                 add_source!(1),
                 delta!(Game::in_game_lives()).eq(Game::in_game_lives()),
                 Game::in_game_cond_with_delta(),
@@ -124,7 +120,7 @@ pub fn add_misc_achievements(set: &mut AchievementSet) {
     set.push(
         Achievement::builder("Triple Life")
             .description("Earn 3 extra lives on one planet")
-            .requirements(chain!(
+            .core(chain!(
                 add_source!(1),
                 measured!(delta!(Game::in_game_lives()).eq(Game::in_game_lives())).with_hits(3),
                 Game::in_game_cond_with_delta_and_measured_if(),

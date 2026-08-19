@@ -1,10 +1,6 @@
 use rustcheevos::{
-    chain, delta,
     prelude::*,
-    types::{
-        achievement::{Achievement, Tag},
-        chain::ChainGroup,
-    },
+    types::achievement::{Achievement, Tag},
 };
 
 use crate::{
@@ -70,16 +66,14 @@ pub fn obtain_standard_omega_achievement(
     progression: bool,
     points: u32,
 ) -> Achievement {
-    let requirements = ChainGroup::new(chain!(
-        delta!(omega.obtained_state().eq(OmegaState::NotObtained as u32)),
-        omega.obtained_state().eq(OmegaState::Obtained as u32),
-        mem::current_game_scene().eq(world as u32),
-        Game::in_game(),
-    ));
-
     let mut builder = Achievement::builder(title)
         .description(description)
-        .requirements(requirements)
+        .core(chain!(
+            delta!(omega.obtained_state().eq(OmegaState::NotObtained as u32)),
+            omega.obtained_state().eq(OmegaState::Obtained as u32),
+            mem::current_game_scene().eq(world as u32),
+            Game::in_game(),
+        ))
         .points(points)
         .id(id)
         .badge_id(badge_id);

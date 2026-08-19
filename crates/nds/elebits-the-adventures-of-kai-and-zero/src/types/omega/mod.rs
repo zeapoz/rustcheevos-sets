@@ -2,7 +2,8 @@ pub mod active;
 
 use std::fmt;
 
-use rustcheevos::{bits8, types::memory::MemoryRef};
+use rustcheevos::prelude::*;
+use rustcheevos::types::memory::MemoryRef;
 
 use crate::mem;
 

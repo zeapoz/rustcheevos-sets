@@ -1,9 +1,4 @@
-use rustcheevos::{
-    add_source, and_next, bit0, bit1, bit2, bit3, bit4, bitcount, chain, delta, measured,
-    measured_if, or_next,
-    prelude::*,
-    types::{achievement::Achievement, chain::ChainGroup},
-};
+use rustcheevos::{prelude::*, types::achievement::Achievement};
 
 use crate::{
     mem,
@@ -44,22 +39,21 @@ fn pink_elebits_achievement(
     world: Location,
 ) -> Achievement {
     let bits = world_pink_elebit_bits(world);
-    let requirements = ChainGroup::new(chain!(
-        add_source!(delta!(bits[0])),
-        add_source!(delta!(bits[1])),
-        delta!(bits[2]).eq(PINK_ELEBITS_PER_WORLD - 1),
-        add_source!(bits[0]),
-        add_source!(bits[1]),
-        measured!(bits[2].eq(PINK_ELEBITS_PER_WORLD)),
-        and_next!(mem::current_game_scene().eq(world.id())),
-        or_next!(mem::game_state().eq(GameState::InBossFight.id())),
-        measured_if!(mem::game_state().eq(GameState::Overworld.id())),
-        Game::in_game(),
-    ));
 
     Achievement::builder(title)
         .description(description)
-        .requirements(requirements)
+        .core(chain!(
+            add_source!(delta!(bits[0])),
+            add_source!(delta!(bits[1])),
+            delta!(bits[2]).eq(PINK_ELEBITS_PER_WORLD - 1),
+            add_source!(bits[0]),
+            add_source!(bits[1]),
+            measured!(bits[2].eq(PINK_ELEBITS_PER_WORLD)),
+            and_next!(mem::current_game_scene().eq(world.id())),
+            or_next!(mem::game_state().eq(GameState::InBossFight.id())),
+            measured_if!(mem::game_state().eq(GameState::Overworld.id())),
+            Game::in_game(),
+        ))
         .points(10)
         .id(id)
         .badge_id(badge_id)
@@ -74,28 +68,27 @@ fn battery_achievement(
     world: Location,
 ) -> Achievement {
     let bits = world_battery_bits(world);
-    let requirements = ChainGroup::new(chain!(
-        add_source!(delta!(bits[0])),
-        add_source!(delta!(bits[1])),
-        add_source!(delta!(bits[2])),
-        add_source!(delta!(bits[3])),
-        add_source!(delta!(bits[4])),
-        delta!(bits[5]).eq(BATTERIES_PER_WORLD - 1),
-        add_source!(bits[0]),
-        add_source!(bits[1]),
-        add_source!(bits[2]),
-        add_source!(bits[3]),
-        add_source!(bits[4]),
-        measured!(bits[5].eq(BATTERIES_PER_WORLD)),
-        and_next!(mem::current_game_scene().eq(world.id())),
-        or_next!(mem::game_state().eq(GameState::InBossFight.id())),
-        measured_if!(mem::game_state().eq(GameState::Overworld.id())),
-        Game::in_game(),
-    ));
 
     Achievement::builder(title)
         .description(description)
-        .requirements(requirements)
+        .core(chain!(
+            add_source!(delta!(bits[0])),
+            add_source!(delta!(bits[1])),
+            add_source!(delta!(bits[2])),
+            add_source!(delta!(bits[3])),
+            add_source!(delta!(bits[4])),
+            delta!(bits[5]).eq(BATTERIES_PER_WORLD - 1),
+            add_source!(bits[0]),
+            add_source!(bits[1]),
+            add_source!(bits[2]),
+            add_source!(bits[3]),
+            add_source!(bits[4]),
+            measured!(bits[5].eq(BATTERIES_PER_WORLD)),
+            and_next!(mem::current_game_scene().eq(world.id())),
+            or_next!(mem::game_state().eq(GameState::InBossFight.id())),
+            measured_if!(mem::game_state().eq(GameState::Overworld.id())),
+            Game::in_game(),
+        ))
         .points(10)
         .id(id)
         .badge_id(badge_id)
@@ -104,28 +97,27 @@ fn battery_achievement(
 
 fn guard_boosts_achievement(title: &str, description: &str) -> Achievement {
     const NUM_GUARD_BOOSTS: u32 = 13;
-    let requirements = ChainGroup::new(chain!(
-        add_source!(delta!(bitcount!(mem::guard_booster_flags()))),
-        add_source!(delta!(bit0!(mem::guard_booster_flags() + 1))),
-        add_source!(delta!(bit1!(mem::guard_booster_flags() + 1))),
-        add_source!(delta!(bit2!(mem::guard_booster_flags() + 1))),
-        add_source!(delta!(bit3!(mem::guard_booster_flags() + 1))),
-        delta!(bit4!(mem::guard_booster_flags() + 1).eq(NUM_GUARD_BOOSTS - 1)),
-        add_source!(bitcount!(mem::guard_booster_flags())),
-        add_source!(bit0!(mem::guard_booster_flags() + 1)),
-        add_source!(bit1!(mem::guard_booster_flags() + 1)),
-        add_source!(bit2!(mem::guard_booster_flags() + 1)),
-        add_source!(bit3!(mem::guard_booster_flags() + 1)),
-        measured!(bit4!(mem::guard_booster_flags() + 1).eq(NUM_GUARD_BOOSTS)),
-        or_next!(mem::game_state().eq(GameState::TransitioningWorldCutscene.id())),
-        or_next!(mem::game_state().eq(GameState::InBossFight.id())),
-        measured_if!(mem::game_state().eq(GameState::Overworld.id())),
-        Game::in_game(),
-    ));
 
     Achievement::builder(title)
         .description(description)
-        .requirements(requirements)
+        .core(chain!(
+            add_source!(delta!(bitcount!(mem::guard_booster_flags()))),
+            add_source!(delta!(bit0!(mem::guard_booster_flags() + 1))),
+            add_source!(delta!(bit1!(mem::guard_booster_flags() + 1))),
+            add_source!(delta!(bit2!(mem::guard_booster_flags() + 1))),
+            add_source!(delta!(bit3!(mem::guard_booster_flags() + 1))),
+            delta!(bit4!(mem::guard_booster_flags() + 1).eq(NUM_GUARD_BOOSTS - 1)),
+            add_source!(bitcount!(mem::guard_booster_flags())),
+            add_source!(bit0!(mem::guard_booster_flags() + 1)),
+            add_source!(bit1!(mem::guard_booster_flags() + 1)),
+            add_source!(bit2!(mem::guard_booster_flags() + 1)),
+            add_source!(bit3!(mem::guard_booster_flags() + 1)),
+            measured!(bit4!(mem::guard_booster_flags() + 1).eq(NUM_GUARD_BOOSTS)),
+            or_next!(mem::game_state().eq(GameState::TransitioningWorldCutscene.id())),
+            or_next!(mem::game_state().eq(GameState::InBossFight.id())),
+            measured_if!(mem::game_state().eq(GameState::Overworld.id())),
+            Game::in_game(),
+        ))
         .points(25)
         .id(626370)
         .badge_id(712204)

@@ -1,5 +1,5 @@
+use rustcheevos::prelude::*;
 use rustcheevos::types::memory::MemoryRef;
-use rustcheevos::{bits8, bits16, bits32};
 
 /// [24-bit][Pointer] Game Data Struct
 /// +0x6c: [24-bit][Pointer] Read-Only Player Data

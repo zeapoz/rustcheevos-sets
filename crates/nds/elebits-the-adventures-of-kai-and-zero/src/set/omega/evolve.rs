@@ -1,10 +1,6 @@
 use rustcheevos::{
-    add_source, bit1, chain, delta, measured, measured_if, or_next,
     prelude::*,
-    types::{
-        achievement::Achievement,
-        chain::{Chain, ChainGroup},
-    },
+    types::{achievement::Achievement, chain::Chain},
 };
 
 use crate::{
@@ -25,26 +21,20 @@ pub fn generate_evolve_achievements() -> Vec<Achievement> {
 }
 
 fn evolve_omega_achivement() -> Achievement {
-    let all_evolvable_omegas_evolved: Vec<_> = Omega::all_evolvable()
-        .into_iter()
-        .map(|o| {
-            chain!(
-                delta!(o.obtained_state().eq(OmegaState::Obtained as u32)),
-                o.obtained_state().eq(OmegaState::Evolved as u32),
-            )
-        })
-        .collect();
-    let mut requirements = ChainGroup::new(chain!(
-        mem::game_state().eq(GameState::Overworld.id()),
-        Game::in_game()
-    ));
-    for cond in all_evolvable_omegas_evolved {
-        requirements.push_alt_group(cond);
-    }
+    let all_evolvable_omegas_evolved = Omega::all_evolvable().into_iter().map(|o| {
+        chain!(
+            delta!(o.obtained_state().eq(OmegaState::Obtained as u32)),
+            o.obtained_state().eq(OmegaState::Evolved as u32),
+        )
+    });
 
     Achievement::builder("Omega Charger")
         .description("Evolve an Omega into its adult form")
-        .requirements(requirements)
+        .core(chain!(
+            mem::game_state().eq(GameState::Overworld.id()),
+            Game::in_game()
+        ))
+        .alt_groups(all_evolvable_omegas_evolved)
         .points(5)
         .id(626336)
         .badge_id(712170)
@@ -61,8 +51,7 @@ fn evolve_half_achivement() -> Achievement {
         .into_iter()
         .map(|o| delta!(o.obtained_state().eq(OmegaState::Obtained as u32)))
         .collect();
-
-    let mut requirements = ChainGroup::new(chain!(
+    let core = chain!(
         all_evolvable,
         measured!(
             bit1!(Omega::all_evolvable().last().unwrap().obtained_addr())
@@ -72,14 +61,12 @@ fn evolve_half_achivement() -> Achievement {
         or_next!(mem::game_state().eq(GameState::InBossFight.id())),
         measured_if!(mem::game_state().eq(GameState::Overworld.id())),
         Game::in_game(),
-    ));
-    for cond in alt_groups {
-        requirements.push_alt_group(cond);
-    }
+    );
 
     Achievement::builder("Omega Conduit")
         .description("Evolve 12 Omegas into their adult forms")
-        .requirements(requirements)
+        .core(core)
+        .alt_groups(alt_groups)
         .points(10)
         .id(626337)
         .badge_id(712171)

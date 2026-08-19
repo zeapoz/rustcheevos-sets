@@ -1,10 +1,7 @@
 use rustcheevos::{
-    and_next, chain, delta, measured, measured_if, or_next,
     prelude::*,
-    remember, reset_if, reset_next_if, trigger,
     types::{
         achievement::{Achievement, Tag},
-        chain::ChainGroup,
         requirement::Condition,
         value::TypedValue,
     },
@@ -46,7 +43,7 @@ fn beat_boss_achievement(
 ) -> Achievement {
     Achievement::builder(title)
         .description(description)
-        .requirements(chain!(
+        .core(chain!(
             delta!(Boss::health_numerator()).ne(0),
             Boss::health_numerator().eq(0),
             mem::current_game_scene().eq(location.id()),
@@ -63,7 +60,7 @@ fn beat_boss_achievement(
 fn disarm_achievement(title: &str, description: &str) -> Achievement {
     Achievement::builder(title)
         .description(description)
-        .requirements(chain!(
+        .core(chain!(
             and_next!(ActiveOmega::id().eq(Omega::Ice.id())),
             and_next!(delta!(PowerOmegaBoss::attack_state()).eq(0x4)),
             trigger!(PowerOmegaBoss::attack_state().eq(0x0)),
@@ -89,7 +86,7 @@ fn beat_boss_damageless(
 ) -> Achievement {
     Achievement::builder(title)
         .description(description)
-        .requirements(chain!(
+        .core(chain!(
             delta!(Boss::health_numerator()).ne(0),
             trigger!(Boss::health_numerator().eq(0)),
             or_next!(Player::current_health().lt(delta!(Player::current_health()))),
@@ -108,13 +105,13 @@ fn beat_boss_damageless(
 fn tag_team_achievement(id: u32, title: &str, description: &str) -> Achievement {
     Achievement::builder(title)
         .description(description)
-        .requirements(chain!(
+        .core(chain!(
             and_next!(ActiveOmega::id().eq(Omega::Power.id())),
-            and_next!(delta!(XFireOmegaBoss::attack_state().eq(6))), // Attack State
-            trigger!(XFireOmegaBoss::attack_state().eq(3).with_hits(1)), // Attack State
+            and_next!(delta!(XFireOmegaBoss::attack_state().eq(6))),
+            trigger!(XFireOmegaBoss::attack_state().eq(3).with_hits(1)),
             and_next!(ActiveOmega::id().eq(Omega::XPower.id())),
-            and_next!(delta!(XFireOmegaBoss::attack_state().eq(6))), // Attack State
-            trigger!(XFireOmegaBoss::attack_state().eq(3).with_hits(1)), // Attack State
+            and_next!(delta!(XFireOmegaBoss::attack_state().eq(6))),
+            trigger!(XFireOmegaBoss::attack_state().eq(3).with_hits(1)),
             reset_if!(mem::current_game_scene().ne(Location::XFireOmegaBossArena.id())),
             mem::current_game_scene()
                 .eq(Location::XFireOmegaBossArena.id())
@@ -135,7 +132,7 @@ fn many_projectiles_achievement(title: &str) -> Achievement {
         .description(format!(
             "Hit the X Ice Omega with {NUM_HITS} or more projectiles in a single turn"
         ))
-        .requirements(chain!(
+        .core(chain!(
             remember!(delta!(XIceOmegaBoss::snake_attack_counter())),
             or_next!(XIceOmegaBoss::snake_attack_counter().gt(TypedValue::Recall)),
             reset_next_if!(mem::current_game_scene().ne(Location::XIceOmegaBossArena.id())),
@@ -157,7 +154,7 @@ fn back_to_back_achievement(title: &str, description: &str) -> Achievement {
     const NUM_HITS: u32 = 2;
     Achievement::builder(title)
         .description(description)
-        .requirements(chain!(
+        .core(chain!(
             remember!(delta!(LeoBoss::next_attack_pattern())),
             or_next!(LeoBoss::next_attack_pattern().gt(TypedValue::Recall)),
             reset_next_if!(mem::current_game_scene().ne(Location::LeoBossArena.id())),
@@ -178,7 +175,7 @@ fn beat_boss_fast_achievement(id: u32, title: &str, description: &str) -> Achiev
     const TIME_LIMIT: u32 = 120 * 60; // 2 minutes at 60 fps.
     Achievement::builder(title)
         .description(description)
-        .requirements(chain!(
+        .core(chain!(
             delta!(Boss::health_numerator()).ne(0),
             trigger!(Boss::health_numerator().eq(0)),
             or_next!(Boss::timer().gt(TIME_LIMIT)),
@@ -199,35 +196,30 @@ fn beat_boss_fast_achievement(id: u32, title: &str, description: &str) -> Achiev
 fn no_dig_holes_achievement(title: &str, description: &str) -> Achievement {
     const NUM_ALLOWED: u32 = 15;
 
-    let mut requirements = ChainGroup::new(chain!(Condition::always_true(),));
-
-    requirements.push_alt_group(chain!(
-        delta!(Boss::health_numerator()).ne(0),
-        trigger!(Boss::health_numerator().eq(0)),
-        or_next!(ActiveOmega::id().eq(Omega::Earth.id())),
-        and_next!(ActiveOmega::id().eq(Omega::XEarth.id())),
-        and_next!(delta!(mem::omega_action_flag()).eq(0)),
-        reset_next_if!(mem::omega_action_flag().eq(1)).with_hits(NUM_ALLOWED + 1),
-        mem::current_game_scene()
-            .eq(Location::XWaterOmegaBossArena.id())
-            .with_hits(1),
-        reset_if!(mem::current_game_scene().ne(Location::XWaterOmegaBossArena.id())),
-        Game::in_game(),
-        Boss::null_pointer_check(),
-    ));
-
-    requirements.push_alt_group(chain!(
-        or_next!(ActiveOmega::id().eq(Omega::Earth.id())),
-        and_next!(ActiveOmega::id().eq(Omega::XEarth.id())),
-        and_next!(delta!(mem::omega_action_flag()).eq(0)),
-        measured!(mem::omega_action_flag().eq(1)).with_hits(NUM_ALLOWED),
-        measured_if!(mem::current_game_scene().eq(Location::XWaterOmegaBossArena.id())),
-        Condition::always_false()
-    ));
-
     Achievement::builder(title)
         .description(description)
-        .requirements(requirements)
+        .alt_group(chain!(
+            delta!(Boss::health_numerator()).ne(0),
+            trigger!(Boss::health_numerator().eq(0)),
+            or_next!(ActiveOmega::id().eq(Omega::Earth.id())),
+            and_next!(ActiveOmega::id().eq(Omega::XEarth.id())),
+            and_next!(delta!(mem::omega_action_flag()).eq(0)),
+            reset_next_if!(mem::omega_action_flag().eq(1)).with_hits(NUM_ALLOWED + 1),
+            mem::current_game_scene()
+                .eq(Location::XWaterOmegaBossArena.id())
+                .with_hits(1),
+            reset_if!(mem::current_game_scene().ne(Location::XWaterOmegaBossArena.id())),
+            Game::in_game(),
+            Boss::null_pointer_check(),
+        ))
+        .alt_group(chain!(
+            or_next!(ActiveOmega::id().eq(Omega::Earth.id())),
+            and_next!(ActiveOmega::id().eq(Omega::XEarth.id())),
+            and_next!(delta!(mem::omega_action_flag()).eq(0)),
+            measured!(mem::omega_action_flag().eq(1)).with_hits(NUM_ALLOWED),
+            measured_if!(mem::current_game_scene().eq(Location::XWaterOmegaBossArena.id())),
+            Condition::always_false()
+        ))
         .points(10)
         .tag(Tag::Missable)
         .id(626353)

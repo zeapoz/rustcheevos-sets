@@ -1,9 +1,7 @@
 use rustcheevos::{
-    chain, delta, measured,
     prelude::*,
     types::{
         chain::Chain,
-        game::LeaderboardSet,
         leaderboard::{Leaderboard, LeaderboardFormat},
     },
 };
@@ -39,8 +37,8 @@ fn planet_leaderboard(planet: &Planet, id: u32) -> Leaderboard {
 }
 
 /// Returns all leaderboards.
-pub fn generate_leaderboards() -> LeaderboardSet {
-    let mut leaderboards: LeaderboardSet = (PLANET_LB_START_ID..)
+pub fn generate_leaderboards() -> Vec<Leaderboard> {
+    let mut leaderboards: Vec<Leaderboard> = (PLANET_LB_START_ID..)
         .zip(Planet::all())
         .map(|(id, p)| planet_leaderboard(p, id))
         .collect();

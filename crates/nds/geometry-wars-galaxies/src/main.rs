@@ -19,10 +19,10 @@ fn main() -> Result<(), CliError> {
     let mut game_data = GameData::new(GAME_ID, GAME_NAME);
 
     game_data
-        .set_achievements(generate_set())
-        .set_leaderboards(generate_leaderboards())
+        .add_achievements(generate_set())
+        .add_leaderboards(generate_leaderboards())
         .set_rich_presence(generate_rich_presence())
-        .set_code_notes(generate_code_notes());
+        .add_code_notes(generate_code_notes());
 
     RustcheevosCli::parse().run(&game_data)
 }

@@ -1,10 +1,6 @@
 use rustcheevos::{
-    chain, delta,
     prelude::*,
-    types::{
-        achievement::{Achievement, Tag},
-        game::AchievementSet,
-    },
+    types::achievement::{Achievement, Tag},
 };
 
 use crate::{
@@ -21,8 +17,8 @@ mod collection;
 mod items;
 mod omega;
 
-pub fn generate_set() -> AchievementSet {
-    let mut set = AchievementSet::new();
+pub fn generate_set() -> Vec<Achievement> {
+    let mut set = Vec::new();
     set.extend(generate_omega_achievements());
     set.extend(generate_boss_achievements());
     set.push(win_condition());
@@ -35,7 +31,7 @@ pub fn generate_set() -> AchievementSet {
 fn win_condition() -> Achievement {
     Achievement::builder("Journey's End")
         .description("Defeat Mobius and reunite with your best friend")
-        .requirements(chain!(
+        .core(chain!(
             delta!(mem::current_game_scene().eq(Location::IceWorld.id())),
             // TODO: Consider constraining further with the Sub-Scene.
             delta!(mem::game_state().eq(GameState::Overworld.id())),
@@ -53,7 +49,7 @@ fn warning_achievement() -> Achievement {
         .description(
             "This set currently only works on BizHawk due to unexposed memory in other emulators",
         )
-        .requirements(chain!(
+        .core(chain!(
             delta!(mem::game_state().eq(GameState::Startup.id())),
             mem::game_state().eq(GameState::MenuCutscene.id()),
         ))

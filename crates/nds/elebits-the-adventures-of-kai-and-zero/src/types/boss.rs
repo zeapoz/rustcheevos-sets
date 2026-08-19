@@ -1,5 +1,4 @@
 use rustcheevos::{
-    add_address, bits16, bits24, bits32, chain,
     prelude::*,
     types::{
         chain::{Chain, PendingChain},

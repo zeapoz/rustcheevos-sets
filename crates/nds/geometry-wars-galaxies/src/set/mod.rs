@@ -1,12 +1,12 @@
-use rustcheevos::types::game::AchievementSet;
+use rustcheevos::types::achievement::Achievement;
 
 pub mod challenge;
 pub mod medal;
 pub mod misc;
 
 /// Generates and returns the core achievement set.
-pub fn generate_set() -> AchievementSet {
-    let mut set = AchievementSet::new();
+pub fn generate_set() -> Vec<Achievement> {
+    let mut set = Vec::new();
 
     medal::add_galaxy_medal_achievements(&mut set);
     misc::add_drone_achievements(&mut set);

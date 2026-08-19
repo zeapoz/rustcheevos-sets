@@ -1,9 +1,9 @@
 use rustcheevos::{
-    add_source, chain, measured,
     prelude::*,
     types::{
-        chain::{Chain, ChainGroup},
+        chain::Chain,
         requirement::Condition,
+        requirements::Requirements,
         rich::{BuiltInMacro, LookupTable, RichPresence},
     },
 };
@@ -34,18 +34,18 @@ fn preparing_cond() -> Chain {
 }
 
 /// Returns a chain group for when to show the exploring the universe display.
-fn exploring_cond() -> ChainGroup {
-    let mut group = ChainGroup::new(Condition::always_true());
-    group.push_alt_group(Game::menu_state().eq(MenuState::GalaxySelect as u32));
-    group.push_alt_group(Game::menu_state().eq(MenuState::PlanetSelect as u32));
+fn exploring_cond() -> Requirements {
+    let mut group = Requirements::new(Condition::always_true());
+    group.add_alt_group(Game::menu_state().eq(MenuState::GalaxySelect as u32));
+    group.add_alt_group(Game::menu_state().eq(MenuState::PlanetSelect as u32));
     group
 }
 
-/// Returns a chain group for when to show the in menu display.
-fn menu_cond() -> ChainGroup {
-    let mut group = ChainGroup::new(Condition::always_true());
+/// Returns a requirements set for when to show the in menu display.
+fn menu_cond() -> Requirements {
+    let mut group = Requirements::new(Condition::always_true());
     for menu in MenuState::all_named() {
-        group.push_alt_group(Game::menu_state().eq(*menu as u32));
+        group.add_alt_group(Game::menu_state().eq(*menu as u32));
     }
     group
 }

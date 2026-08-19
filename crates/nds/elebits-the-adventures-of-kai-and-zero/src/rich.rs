@@ -1,6 +1,6 @@
+use rustcheevos::prelude::*;
 use rustcheevos::types::chain::Chain;
 use rustcheevos::types::rich::{BuiltInMacro, LookupTable, MacroRef, RichPresence};
-use rustcheevos::{add_address, add_source, bits8, bits24, chain, measured, prelude::*};
 
 use crate::types::game_state::GameState;
 use crate::types::omega::{Omega, OmegaState, active::ActiveOmega};
