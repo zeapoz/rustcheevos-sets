@@ -141,7 +141,6 @@ fn many_projectiles_achievement(title: &str) -> Achievement {
             mem::current_game_scene().eq(Location::XIceOmegaBossArena.id()),
             Game::in_game(),
             Boss::null_pointer_check(),
-            // TODO: Add hits indicator?
         ))
         .points(5)
         .tag(Tag::Missable)

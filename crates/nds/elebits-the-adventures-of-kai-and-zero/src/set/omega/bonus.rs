@@ -63,7 +63,7 @@ fn obtain_dewy() -> Achievement {
     Achievement::builder("Complete Collection")
         .description("Collect every standard Omega and obtain Dewy")
         .core(chain!(
-            trigger!(Omega::Dewy.obtained_state().eq(OmegaState::Obtained as u32)),
+            Omega::Dewy.obtained_state().eq(OmegaState::Obtained as u32),
             all_standard_omegas_obtained,
             measured!(Condition::always_false().with_hits(standard_omegas_len as u32)),
             or_next!(mem::game_state().eq(GameState::FileConfiguration.id())),
@@ -93,11 +93,9 @@ fn obtain_big_green() -> Achievement {
     Achievement::builder("Omega Overdrive")
         .description("Evolve every evolvable Omega into their adult form and obtain Big Green")
         .core(chain!(
-            trigger!(
-                Omega::BigGreen
-                    .obtained_state()
-                    .eq(OmegaState::Obtained as u32)
-            ),
+            Omega::BigGreen
+                .obtained_state()
+                .eq(OmegaState::Obtained as u32),
             all_evolvable_omegas_evolved,
             measured!(
                 bit1!(Omega::all_evolvable().last().unwrap().obtained_addr())
@@ -162,12 +160,10 @@ fn loaded_watts_achievement(
                     .eq(OmegaState::NotObtained as u32)
             ),
             add_address!(mem::currently_selected_file().mul(SAVE_FILE_DATA_STRIDE_BYTES)),
-            trigger!(
-                omega
-                    .save_data_obtained_state()
-                    .eq(OmegaState::Obtained as u32)
-            ),
-            trigger!(mem::game_state().eq(GameState::FileConfiguration.id())),
+            omega
+                .save_data_obtained_state()
+                .eq(OmegaState::Obtained as u32),
+            mem::game_state().eq(GameState::FileConfiguration.id()),
             mem::loaded_watts().ge(target),
         ))
         .points(points)
