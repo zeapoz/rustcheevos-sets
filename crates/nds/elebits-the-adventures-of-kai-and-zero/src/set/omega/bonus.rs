@@ -31,6 +31,11 @@ fn obtain_night() -> Achievement {
     Achievement::builder("Echoes of the Past")
         .description("Collect every diary scrap and obtain Night")
         .core(chain!(
+            measured_if!(delta!(
+                Omega::Night
+                    .obtained_state()
+                    .eq(OmegaState::NotObtained as u32)
+            )),
             Omega::Night
                 .obtained_state()
                 .eq(OmegaState::Obtained as u32),
@@ -39,12 +44,7 @@ fn obtain_night() -> Achievement {
             measured!(bitcount!(mem::diary_scrap_flags()).eq(7)),
             or_next!(mem::game_state().eq(GameState::TransitioningWorldCutscene.id())),
             or_next!(mem::game_state().eq(GameState::InBossFight.id())),
-            and_next!(mem::game_state().eq(GameState::Overworld.id())),
-            measured_if!(delta!(
-                Omega::Night
-                    .obtained_state()
-                    .eq(OmegaState::NotObtained as u32)
-            )),
+            measured_if!(mem::game_state().eq(GameState::Overworld.id())),
             Game::in_game(),
         ))
         .points(3)
@@ -63,18 +63,18 @@ fn obtain_dewy() -> Achievement {
     Achievement::builder("Complete Collection")
         .description("Collect every standard Omega and obtain Dewy")
         .core(chain!(
+            measured_if!(delta!(
+                Omega::Dewy
+                    .obtained_state()
+                    .eq(OmegaState::NotObtained as u32)
+            )),
             Omega::Dewy.obtained_state().eq(OmegaState::Obtained as u32),
             all_standard_omegas_obtained,
             measured!(Condition::always_false().with_hits(standard_omegas_len as u32)),
             or_next!(mem::game_state().eq(GameState::FileConfiguration.id())),
             or_next!(mem::game_state().eq(GameState::TransitioningWorldCutscene.id())),
             or_next!(mem::game_state().eq(GameState::InBossFight.id())),
-            and_next!(mem::game_state().eq(GameState::Overworld.id())),
-            measured_if!(delta!(
-                Omega::Dewy
-                    .obtained_state()
-                    .eq(OmegaState::NotObtained as u32)
-            )),
+            measured_if!(mem::game_state().eq(GameState::Overworld.id())),
             reset_if!(mem::currently_selected_file().ne(delta!(mem::currently_selected_file()))),
         ))
         .points(10)
@@ -93,6 +93,11 @@ fn obtain_big_green() -> Achievement {
     Achievement::builder("Omega Overdrive")
         .description("Evolve every evolvable Omega into their adult form and obtain Big Green")
         .core(chain!(
+            measured_if!(delta!(
+                Omega::BigGreen
+                    .obtained_state()
+                    .eq(OmegaState::NotObtained as u32)
+            )),
             Omega::BigGreen
                 .obtained_state()
                 .eq(OmegaState::Obtained as u32),
@@ -104,12 +109,7 @@ fn obtain_big_green() -> Achievement {
             or_next!(mem::game_state().eq(GameState::FileConfiguration.id())),
             or_next!(mem::game_state().eq(GameState::TransitioningWorldCutscene.id())),
             or_next!(mem::game_state().eq(GameState::InBossFight.id())),
-            and_next!(mem::game_state().eq(GameState::Overworld.id())),
-            measured_if!(delta!(
-                Omega::BigGreen
-                    .obtained_state()
-                    .eq(OmegaState::NotObtained as u32)
-            )),
+            measured_if!(mem::game_state().eq(GameState::Overworld.id())),
         ))
         .points(25)
         .id(626344)
