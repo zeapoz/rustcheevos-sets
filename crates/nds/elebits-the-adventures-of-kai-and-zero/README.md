@@ -17,7 +17,7 @@
 
 ## Achievements
 
-**78 achievements worth 605 points**
+**79 achievements worth 595 points**
 
 | Badge | Name | Description | Points | Tag |
 |-------|------|-------------|--------|-----|
@@ -52,24 +52,25 @@
 | ![Too Hot to Handle](https://media.retroachievements.org/Badge/712168.png) | Too Hot to Handle | Find and obtain the Flame Omega where lava roars | 5 |  |
 | ![Making Waves](https://media.retroachievements.org/Badge/712169.png) | Making Waves | Find and obtain the Aqua Omega in a forgotten temple | 5 |  |
 | ![Omega Charger](https://media.retroachievements.org/Badge/712170.png) | Omega Charger | Evolve an Omega into its adult form | 5 |  |
-| ![Omega Conduit](https://media.retroachievements.org/Badge/712171.png) | Omega Conduit | Evolve 12 Omegas into their adult forms | 5 |  |
-| ![Echoes of the Past](https://media.retroachievements.org/Badge/712172.png) | Echoes of the Past | Gather all diary scraps and obtain Night | 3 |  |
+| ![Omega Conduit](https://media.retroachievements.org/Badge/712171.png) | Omega Conduit | Evolve 12 Omegas into their adult forms | 10 |  |
+| ![Echoes of the Past](https://media.retroachievements.org/Badge/712172.png) | Echoes of the Past | Collect every diary scrap and obtain Night | 3 |  |
 | ![First Charge](https://media.retroachievements.org/Badge/712173.png) | First Charge | Load 2,500 Watts into the Capture Gun and obtain Takosuke | 3 |  |
 | ![Powering Up](https://media.retroachievements.org/Badge/712174.png) | Powering Up | Load 5,000 Watts into the Capture Gun and obtain Penta | 5 |  |
 | ![High Voltage](https://media.retroachievements.org/Badge/712175.png) | High Voltage | Load 7,500 Watts into the Capture Gun and obtain Twinbee | 10 |  |
 | ![Full Power! Maximum Capacity!](https://media.retroachievements.org/Badge/712176.png) | Full Power! Maximum Capacity! | Load 10,000 Watts into the Capture Gun and obtain Moai | 10 |  |
-| ![Complete Collection](https://media.retroachievements.org/Badge/712177.png) | Complete Collection | Obtain all standard Omegas and obtain Dewy | 25 |  |
-| ![Omega Overdrive](https://media.retroachievements.org/Badge/712178.png) | Omega Overdrive | Evolve all evolvable Omegas into their adult forms and obtain Big Green | 25 |  |
+| ![Complete Collection](https://media.retroachievements.org/Badge/712177.png) | Complete Collection | Collect every standard Omega and obtain Dewy | 10 |  |
+| ![Omega Overdrive](https://media.retroachievements.org/Badge/712178.png) | Omega Overdrive | Evolve every evolvable Omega into their adult form and obtain Big Green | 25 |  |
 | ![Code Red](https://media.retroachievements.org/Badge/712179.png) | Code Red | Enter a secret code and obtain Big Red | 1 |  |
 | ![A Chilly Surprise](https://media.retroachievements.org/Badge/712180.png) | A Chilly Surprise | Disarm the Power Omega using the Ice Omega | 2 | Missable |
-| ![Unshaken](https://media.retroachievements.org/Badge/712181.png) | Unshaken | Defeat the Earth Omega without taking a single hit | 10 | Missable |
+| ![Unshaken](https://media.retroachievements.org/Badge/713055.png) | Unshaken | Defeat the Earth Omega without taking a single hit | 10 | Missable |
 | ![Power-Duo Tag Team](https://media.retroachievements.org/Badge/712182.png) | Power-Duo Tag Team | In the fight against the X Fire Omega, break at least 1 pillar each with the Power Omega and the X Power Omega | 2 | Missable |
-| ![Sharpshooter](https://media.retroachievements.org/Badge/712183.png) | Sharpshooter | Hit the X Ice Omega with 3 or more projectiles in a single turn | 10 | Missable |
+| ![Sharpshooter](https://media.retroachievements.org/Badge/712183.png) | Sharpshooter | Hit the X Ice Omega with 3 or more projectiles in a single turn | 5 | Missable |
 | ![Return to Sender](https://media.retroachievements.org/Badge/712562.png) | Return to Sender | Defeat Leo with Zero's newfound power | 10 | Progression |
-| ![Back-to-Back](https://media.retroachievements.org/Badge/712185.png) | Back-to-Back | In the fight against Leo, reflect back the same energy ball twice in a single turn | 10 | Missable |
+| ![Back-to-Back](https://media.retroachievements.org/Badge/712185.png) | Back-to-Back | In the fight against Leo, reflect back the same energy ball twice in a single turn | 5 | Missable |
 | ![Speed Demon](https://media.retroachievements.org/Badge/712186.png) | Speed Demon | Defeat the X Earth Omega in less than 2 minutes | 10 | Missable |
 | ![Earth Environmentalist](https://media.retroachievements.org/Badge/712187.png) | Earth Environmentalist | Defeat the X Water Omega while digging at most 15 holes in the ground | 10 | Missable |
-| ![Multi-Ender](https://media.retroachievements.org/Badge/712188.png) | Multi-Ender | Defeat the second phase of Mobius without taking a single hit | 25 | Missable |
+| ![Sunchaser](https://media.retroachievements.org/Badge/713057.png) | Sunchaser | Defeat the first phase of Mobius without taking a single hit | 10 | Missable |
+| ![Multi-Ender](https://media.retroachievements.org/Badge/713056.png) | Multi-Ender | Defeat the second phase of Mobius without taking a single hit | 25 | Missable |
 | ![Journey's End](https://media.retroachievements.org/Badge/712189.png) | Journey's End | Defeat Mobius and reunite with your best friend | 25 | Win Condition |
 | ![Leafy Pink Locator](https://media.retroachievements.org/Badge/712190.png) | Leafy Pink Locator | Find all 3 Pink Elebits in the Elebit Forest | 10 |  |
 | ![Deep Pink Discovery](https://media.retroachievements.org/Badge/712191.png) | Deep Pink Discovery | Find all 3 Pink Elebits in the Elebit Mine | 10 |  |
