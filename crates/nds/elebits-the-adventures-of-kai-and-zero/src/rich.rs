@@ -1,5 +1,6 @@
 use rustcheevos::prelude::*;
 use rustcheevos::types::chain::Chain;
+use rustcheevos::types::requirement::Arithmetic;
 use rustcheevos::types::rich::{BuiltInMacro, LookupTable, MacroRef, RichPresence};
 
 use crate::types::game_state::GameState;
@@ -102,7 +103,7 @@ fn num_batteries_macro(world: Location, rich: &mut RichPresence) -> MacroRef {
     rich.builtin_macro(BuiltInMacro::Number, chain)
 }
 
-fn capturing_state() -> Chain {
+fn capturing_state() -> Chain<Arithmetic> {
     chain!(
         add_address!(bits24!(mem::game_data_struct())),
         add_address!(bits24!(0x6c)),

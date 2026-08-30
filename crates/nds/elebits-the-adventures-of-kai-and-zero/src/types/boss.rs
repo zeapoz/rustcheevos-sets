@@ -1,39 +1,54 @@
 use rustcheevos::{
     prelude::*,
     types::{
-        chain::{Chain, PendingChain},
+        chain::Chain,
         memory::MemoryRef,
+        requirement::{Arithmetic, Condition},
     },
 };
 
-use crate::mem;
+use crate::{
+    mem,
+    types::{game::Game, location::Location},
+};
 
 pub struct Boss;
 
 impl Boss {
-    pub fn data_base_pointer() -> PendingChain<MemoryRef> {
+    pub fn data_base_pointer() -> Chain<MemoryRef> {
         chain!(
             add_address!(bits24!(mem::game_data_struct())),
             bits24!(0x7c),
         )
     }
 
-    pub fn null_pointer_check() -> Chain {
-        Boss::data_base_pointer().ne(0).into()
+    pub fn null_pointer_check() -> Chain<Condition> {
+        Boss::data_base_pointer().ne(0)
     }
 
-    pub fn data_pointer() -> Chain {
+    pub fn data_pointer() -> Chain<Arithmetic> {
         chain!(
             add_address!(Boss::data_base_pointer()),
             add_address!(bits24!(0xa0)),
         )
     }
 
-    pub fn health_numerator() -> PendingChain<MemoryRef> {
+    pub fn health_numerator() -> Chain<MemoryRef> {
         chain!(Boss::data_pointer(), bits16!(0x10))
     }
 
-    pub fn timer() -> PendingChain<MemoryRef> {
+    pub fn boss_defeated() -> Chain<Condition> {
+        chain!(
+            delta!(Boss::health_numerator()).ne(0),
+            Boss::health_numerator().eq(0),
+        )
+    }
+
+    pub fn in_boss_arena(location: Location) -> Chain<Condition> {
+        chain!(mem::current_game_scene().eq(location.id()), Game::in_game())
+    }
+
+    pub fn timer() -> Chain<MemoryRef> {
         chain!(
             add_address!(bits24!(mem::game_data_struct())),
             add_address!(bits24!(0x6c)),
@@ -45,11 +60,11 @@ impl Boss {
 pub struct PowerOmegaBoss;
 
 impl PowerOmegaBoss {
-    pub fn attack_state() -> PendingChain<MemoryRef> {
+    pub fn attack_state() -> Chain<MemoryRef> {
         chain!(Boss::data_pointer(), bits32!(0x2ac))
     }
 
-    pub fn bounces_left() -> PendingChain<MemoryRef> {
+    pub fn bounces_left() -> Chain<MemoryRef> {
         chain!(Boss::data_pointer(), bits16!(0x2b6))
     }
 }
@@ -57,7 +72,7 @@ impl PowerOmegaBoss {
 pub struct XFireOmegaBoss;
 
 impl XFireOmegaBoss {
-    pub fn attack_state() -> PendingChain<MemoryRef> {
+    pub fn attack_state() -> Chain<MemoryRef> {
         chain!(Boss::data_pointer(), bits16!(0x2f2))
     }
 }
@@ -65,7 +80,7 @@ impl XFireOmegaBoss {
 pub struct XIceOmegaBoss;
 
 impl XIceOmegaBoss {
-    pub fn snake_attack_counter() -> PendingChain<MemoryRef> {
+    pub fn snake_attack_counter() -> Chain<MemoryRef> {
         chain!(add_address!(Boss::data_base_pointer()), bits16!(0x112))
     }
 }
@@ -73,7 +88,7 @@ impl XIceOmegaBoss {
 pub struct LeoBoss;
 
 impl LeoBoss {
-    pub fn next_attack_pattern() -> PendingChain<MemoryRef> {
+    pub fn next_attack_pattern() -> Chain<MemoryRef> {
         chain!(add_address!(Boss::data_base_pointer()), bits16!(0xf4))
     }
 }

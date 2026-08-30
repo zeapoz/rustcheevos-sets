@@ -1,6 +1,6 @@
 use rustcheevos::{
     prelude::*,
-    types::{achievement::Achievement, chain::Chain, requirement::Condition},
+    types::{achievement::Achievement, chain::ResolvedChain, requirement::Condition},
 };
 
 use crate::types::{
@@ -53,7 +53,7 @@ pub fn add_drone_achievements(set: &mut Vec<Achievement>) {
         Achievement::builder("Drone Hoarder")
             .description("Unlock all 8 Drone Behaviours")
             .core(chain!(
-                DroneBehaviour::all().iter().copied().map(DroneBehaviour::is_unlocked).collect::<Chain>(),
+                DroneBehaviour::all().iter().copied().map(DroneBehaviour::is_unlocked).collect::<ResolvedChain>(),
                 Game::menu_state().eq(MenuState::DroneSelectOrResults as u32)
             ))
             .alt_groups(alt_groups)

@@ -1,8 +1,9 @@
 use rustcheevos::{
     prelude::*,
     types::{
-        chain::Chain,
+        chain::{Chain, ResolvedChain},
         leaderboard::{Leaderboard, LeaderboardFormat},
+        requirement::Condition,
     },
 };
 
@@ -14,7 +15,7 @@ use crate::types::{
 const PLANET_LB_START_ID: u32 = 161_021;
 
 /// Returns a chain that checks if the player just died in a certain level.
-fn leaderboard_condition(level_clause: impl Into<Chain>) -> Chain {
+fn leaderboard_condition(level_clause: impl Into<ResolvedChain>) -> Chain<Condition> {
     chain!(
         delta!(Game::in_game_lives()).eq(1),
         Game::in_game_lives().eq(0),

@@ -2,7 +2,7 @@ use rustcheevos::{
     prelude::*,
     types::{
         chain::Chain,
-        requirement::Condition,
+        requirement::{Arithmetic, Condition},
         requirements::Requirements,
         rich::{BuiltInMacro, LookupTable, RichPresence},
     },
@@ -14,7 +14,7 @@ use crate::types::game::{Game, MenuState};
 use crate::types::planet::Planet;
 
 /// Returns a chain that returns the current level lookup key.
-fn level_lookup_key() -> Chain {
+fn level_lookup_key() -> Chain<Arithmetic> {
     chain!(
         add_source!(Game::current_galaxy_index().mul(10)),
         measured!(Game::current_level_index())
@@ -22,15 +22,13 @@ fn level_lookup_key() -> Chain {
 }
 
 /// Returns a chain for when to show the watching credits display.
-fn credits_cond() -> Chain {
-    Game::menu_state().eq(MenuState::Credits as u32).into()
+fn credits_cond() -> Condition {
+    Game::menu_state().eq(MenuState::Credits as u32)
 }
 
 /// Returns a chain for when to show the preparing for battle display.
-fn preparing_cond() -> Chain {
-    Game::menu_state()
-        .eq(MenuState::DroneSelectOrResults as u32)
-        .into()
+fn preparing_cond() -> Condition {
+    Game::menu_state().eq(MenuState::DroneSelectOrResults as u32)
 }
 
 /// Returns a chain group for when to show the exploring the universe display.

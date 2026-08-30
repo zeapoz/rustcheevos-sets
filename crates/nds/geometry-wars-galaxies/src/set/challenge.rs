@@ -17,7 +17,7 @@ fn reset_next_if_not_in_game() -> Condition {
 }
 
 /// Returns a chain that pauses when the active player has fired bullets.
-fn no_bombs_used() -> Chain {
+fn no_bombs_used() -> Chain<Condition> {
     chain!(
         reset_next_if_not_in_game(),
         add_source!(1),
@@ -26,7 +26,7 @@ fn no_bombs_used() -> Chain {
 }
 
 /// Returns a chain that pauses when the active player has lost lives.
-fn no_lives_lost() -> Chain {
+fn no_lives_lost() -> Chain<Condition> {
     chain!(
         reset_next_if_not_in_game(),
         add_source!(1),
@@ -35,7 +35,7 @@ fn no_lives_lost() -> Chain {
 }
 
 /// Returns a chain that pauses when the active player has fired bullets.
-fn no_bullets_fired() -> Chain {
+fn no_bullets_fired() -> Chain<Condition> {
     chain!(
         reset_next_if_not_in_game(),
         pause_if!(delta!(Game::active_player_bullets()).lt(Game::active_player_bullets()))
@@ -44,7 +44,7 @@ fn no_bullets_fired() -> Chain {
 }
 
 /// Returns a chain that triggers when the game score is at least the given target.
-fn score_threshold(planet: &Planet, status: MedalStatus) -> Chain {
+fn score_threshold(planet: &Planet, status: MedalStatus) -> Chain<Condition> {
     let target = planet.required_score(status);
     chain!(
         delta!(Game::in_game_score()).lt(target),
@@ -53,8 +53,8 @@ fn score_threshold(planet: &Planet, status: MedalStatus) -> Chain {
 }
 
 /// Returns a chain that requires the player to be on the given planet.
-fn planet_condition(planet: &Planet) -> Chain {
-    chain!(planet.player_in_planet(), Game::in_game_cond_with_delta(),)
+fn planet_condition(planet: &Planet) -> Chain<Condition> {
+    chain!(planet.player_in_planet(), Game::in_game_cond_with_delta())
 }
 
 /// Returns a chain that requires the given drone behaviour to be active.

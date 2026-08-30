@@ -1,6 +1,6 @@
 use rustcheevos::{
     prelude::*,
-    types::{achievement::Achievement, chain::Chain, requirement::Condition},
+    types::{achievement::Achievement, chain::ResolvedChain, requirement::Condition},
 };
 
 use crate::{
@@ -55,7 +55,7 @@ fn obtain_night() -> Achievement {
 
 fn obtain_dewy() -> Achievement {
     let standard_omegas_len = Omega::all_standard().len();
-    let all_standard_omegas_obtained: Chain = Omega::all_standard()
+    let all_standard_omegas_obtained: ResolvedChain = Omega::all_standard()
         .into_iter()
         .map(|o| add_hits!(o.obtained_state().ne(OmegaState::NotObtained as u32)).with_hits(1))
         .collect();
@@ -85,7 +85,8 @@ fn obtain_dewy() -> Achievement {
 
 fn obtain_big_green() -> Achievement {
     let evolvable_omegas_len = Omega::all_evolvable().len();
-    let all_evolvable_omegas_evolved: Chain = Omega::all_evolvable()[..evolvable_omegas_len - 1]
+    let all_evolvable_omegas_evolved: ResolvedChain = Omega::all_evolvable()
+        [..evolvable_omegas_len - 1]
         .into_iter()
         .map(|o| add_source!(bit1!(o.obtained_addr())))
         .collect();

@@ -64,10 +64,8 @@ fn boss_time_attack(
         .lower_is_better(true)
         .value(measured!(Boss::timer()))
         .start(chain!(
-            delta!(Boss::health_numerator()).ne(0),
-            Boss::health_numerator().eq(0),
-            mem::current_game_scene().eq(boss_location.id()),
-            Game::in_game(),
+            Boss::boss_defeated(),
+            Boss::in_boss_arena(boss_location),
             Boss::null_pointer_check(),
         ))
         .id(id)

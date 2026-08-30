@@ -1,9 +1,6 @@
 use rustcheevos::{
     prelude::*,
-    types::{
-        chain::{Chain, PendingChain},
-        memory::MemoryRef,
-    },
+    types::{chain::Chain, memory::MemoryRef, requirement::Condition},
 };
 
 use crate::mem;
@@ -11,7 +8,7 @@ use crate::mem;
 pub struct Hud;
 
 impl Hud {
-    pub fn combo_text_pointer() -> PendingChain<MemoryRef> {
+    pub fn combo_text_pointer() -> Chain<MemoryRef> {
         const HUD_POINTER_OFFSET: usize = 0x90;
         const COMBO_TEXT_OFFSET: usize = 0x18;
         chain!(
@@ -21,11 +18,11 @@ impl Hud {
         )
     }
 
-    pub fn combo_text_pointer_not_null() -> Chain {
-        Hud::combo_text_pointer().ne(0).into()
+    pub fn combo_text_pointer_not_null() -> Chain<Condition> {
+        Hud::combo_text_pointer().ne(0)
     }
 
-    pub fn combo_number() -> PendingChain<MemoryRef> {
+    pub fn combo_number() -> Chain<MemoryRef> {
         chain!(add_address!(Hud::combo_text_pointer()), bits32!(0x494),)
     }
 }

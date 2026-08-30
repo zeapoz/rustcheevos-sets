@@ -1,6 +1,6 @@
 use rustcheevos::{
     prelude::*,
-    types::{achievement::Achievement, chain::Chain},
+    types::{achievement::Achievement, chain::ResolvedChain, requirement::Condition},
 };
 
 use crate::{
@@ -17,13 +17,13 @@ pub fn generate_items_achievements() -> Vec<Achievement> {
         item_pickup_achievement(626373, 712207, "On Fire", "Pick up a Fever Laser x2", 0),
         item_pickup_achievement(626374, 712208, "Hot Streak", "Pick up a Fever Laser x3", 1),
         all_power_ups_achievement(),
-        combo_challenge_achievement(626376, 712210, "Trailblazer", "With the Trace Laser active, net a combo of 17 or more in the Elebit Forest", 17, &Location::ElebitForest, Some(chain!(mem::trace_laser_timer().ne(0)))),
-        combo_challenge_achievement(626377, 712211, "Elebit Excavation", "With the Fever Laser x3 active, net a combo of 20 or more in the Elebit Mine", 20, &Location::ElebitMine, Some(chain!(mem::fever_laser_x3_timer().ne(0)))),
-        combo_challenge_achievement(626378, 712212, "Vista Voyager", "With the Fever Laser x2 active, net a combo of 19 or more in the Resort Island", 19, &Location::ResortIsland, Some(chain!(mem::fever_laser_x2_timer().ne(0)))),
-        combo_challenge_achievement(626379, 712213, "Cold Rush", "With the Fever Laser x3 active, net a combo of 25 or more in the Ice World", 25, &Location::IceWorld, Some(chain!(mem::fever_laser_x3_timer().ne(0)))),
+        combo_challenge_achievement(626376, 712210, "Trailblazer", "With the Trace Laser active, net a combo of 17 or more in the Elebit Forest", 17, &Location::ElebitForest, Some(mem::trace_laser_timer().ne(0))),
+        combo_challenge_achievement(626377, 712211, "Elebit Excavation", "With the Fever Laser x3 active, net a combo of 20 or more in the Elebit Mine", 20, &Location::ElebitMine, Some(mem::fever_laser_x3_timer().ne(0))),
+        combo_challenge_achievement(626378, 712212, "Vista Voyager", "With the Fever Laser x2 active, net a combo of 19 or more in the Resort Island", 19, &Location::ResortIsland, Some(mem::fever_laser_x2_timer().ne(0))),
+        combo_challenge_achievement(626379, 712213, "Cold Rush", "With the Fever Laser x3 active, net a combo of 25 or more in the Ice World", 25, &Location::IceWorld, Some(mem::fever_laser_x3_timer().ne(0))),
         combo_challenge_achievement(626380, 712214, "Hot Spot", "Net a combo of 16 or more in the Ruined World", 16, &Location::RuinedWorld, None),
-        combo_challenge_achievement(626381, 712215, "Reef Raider", "With the Fever Laser x2 active, net a combo of 28 or more in the Sea Temple", 28, &Location::SeaTemple, Some(chain!(mem::fever_laser_x2_timer().ne(0)))),
-        combo_challenge_achievement(626382, 712216, "Crystal Catcher", "With the Fever Laser x3 active, net a combo of 22 or more in the Libra of Crystal", 22, &Location::LibraOfCrystal, Some(chain!(mem::fever_laser_x3_timer().ne(0)))),
+        combo_challenge_achievement(626381, 712215, "Reef Raider", "With the Fever Laser x2 active, net a combo of 28 or more in the Sea Temple", 28, &Location::SeaTemple, Some(mem::fever_laser_x2_timer().ne(0))),
+        combo_challenge_achievement(626382, 712216, "Crystal Catcher", "With the Fever Laser x3 active, net a combo of 22 or more in the Libra of Crystal", 22, &Location::LibraOfCrystal, Some(mem::fever_laser_x3_timer().ne(0))),
     ]
 }
 
@@ -76,14 +76,20 @@ fn combo_challenge_achievement(
     description: &str,
     target: u32,
     world: &Location,
-    extra_cond: Option<Chain>,
+    extra_cond: Option<Condition>,
 ) -> Achievement {
     Achievement::builder(title)
         .description(description)
         .core(chain!(
             delta!(Hud::combo_number()).ne(target),
             Hud::combo_number().ge(target),
-            extra_cond.unwrap_or_default(),
+            {
+                if let Some(cond) = extra_cond {
+                    ResolvedChain::from(cond)
+                } else {
+                    ResolvedChain::default()
+                }
+            },
             mem::current_game_scene().eq(world.id()),
             mem::game_state().eq(GameState::Overworld.id()),
             Game::in_game(),

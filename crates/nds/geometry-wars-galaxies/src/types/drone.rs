@@ -2,10 +2,7 @@ use std::fmt;
 
 use rustcheevos::{
     prelude::*,
-    types::{
-        chain::{Chain, PendingChain},
-        memory::MemoryRef,
-    },
+    types::{chain::Chain, memory::MemoryRef, requirement::Condition},
 };
 
 use crate::types::game::{Game, PROFILE_STRIDE};
@@ -70,7 +67,7 @@ impl DroneBehaviour {
     }
 
     /// Returns the level of this drone behaviour.
-    pub fn level(self) -> PendingChain<MemoryRef> {
+    pub fn level(self) -> Chain<MemoryRef> {
         let offset = BASE_ADDR + self as usize * 2;
         chain!(
             add_address!(Game::current_profile().mul(PROFILE_STRIDE)),
@@ -79,13 +76,13 @@ impl DroneBehaviour {
     }
 
     /// Returns a chain that checks if this drone behaviour is unlocked.
-    pub fn is_unlocked(self) -> Chain {
-        self.level().gt(0).into()
+    pub fn is_unlocked(self) -> Chain<Condition> {
+        self.level().gt(0)
     }
 
     /// Returns a chain that checks if this drone behaviour was just unlocked.
-    pub fn unlocked(self) -> Chain {
-        chain!(delta!(self.level()).eq(0), self.level().eq(1)).into()
+    pub fn unlocked(self) -> Chain<Condition> {
+        chain!(delta!(self.level()).eq(0), self.level().eq(1))
     }
 }
 

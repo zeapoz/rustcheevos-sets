@@ -1,6 +1,6 @@
 use std::fmt;
 
-use rustcheevos::{prelude::*, types::chain::Chain};
+use rustcheevos::{prelude::*, types::chain::Chain, types::requirement::Condition};
 
 use crate::types::game::{Game, MenuState, PROFILE_STRIDE};
 
@@ -116,7 +116,7 @@ impl Galaxy {
     }
 
     /// Returns a chain that checks if all galaxies are unlocked.
-    pub fn unlocked_all_cond() -> Chain {
+    pub fn unlocked_all_cond() -> Chain<Condition> {
         const GALAXY_UNLOCK_FLAGS_ADDR: usize = 0x1aaf88;
         chain!(
             add_address!(Game::current_profile().mul(PROFILE_STRIDE)),

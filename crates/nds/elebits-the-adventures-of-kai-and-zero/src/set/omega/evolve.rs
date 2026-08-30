@@ -1,6 +1,6 @@
 use rustcheevos::{
     prelude::*,
-    types::{achievement::Achievement, chain::Chain},
+    types::{achievement::Achievement, chain::ResolvedChain},
 };
 
 use crate::{
@@ -43,7 +43,7 @@ fn evolve_omega_achivement() -> Achievement {
 
 fn evolve_half_achivement() -> Achievement {
     let num_evolvable = Omega::all_evolvable().len();
-    let all_evolvable: Chain = Omega::all_evolvable()[..num_evolvable - 1]
+    let all_evolvable: ResolvedChain = Omega::all_evolvable()[..num_evolvable - 1]
         .into_iter()
         .map(|o| add_source!(bit1!(o.obtained_addr())))
         .collect();

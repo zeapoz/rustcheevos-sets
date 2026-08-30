@@ -157,22 +157,22 @@ impl Game {
     }
 
     /// Returns a chain that checks the in-game state.
-    pub fn in_game_cond() -> Chain {
+    pub fn in_game_cond() -> Chain<Condition> {
         chain!(Self::in_game_state().eq(1))
     }
 
     /// Returns a chain that checks the in-game state with delta.
-    pub fn in_game_cond_with_delta() -> Chain {
+    pub fn in_game_cond_with_delta() -> Chain<Condition> {
         chain!(delta!(Self::in_game_cond()), Self::in_game_cond())
     }
 
     /// Returns a chain that checks the in-game state with delta and measures if.
-    pub fn in_game_cond_with_delta_and_measured_if() -> Chain {
+    pub fn in_game_cond_with_delta_and_measured_if() -> Chain<Condition> {
         measured_if!(Self::in_game_cond_with_delta())
     }
 
     /// Returns a delta-mem chain that checks if the in-game score reached the given target.
-    pub fn target_score_cond(target: u32) -> Chain {
+    pub fn target_score_cond(target: u32) -> Chain<Condition> {
         chain!(
             delta!(Game::in_game_score()).lt(target),
             Game::in_game_score().ge(target),

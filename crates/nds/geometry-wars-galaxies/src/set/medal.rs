@@ -2,7 +2,8 @@ use rustcheevos::{
     prelude::*,
     types::{
         achievement::{Achievement, Tag},
-        chain::Chain,
+        chain::{Chain, ResolvedChain},
+        requirement::Condition,
     },
 };
 
@@ -67,16 +68,19 @@ pub fn add_galaxy_medal_achievements(set: &mut Vec<Achievement>) {
 }
 
 /// Creates the core chain and alt groups requiring all planets to have the given status.
-fn all_planets_medal_group(planets: &[Planet], status: MedalStatus) -> (Chain, Vec<Chain>) {
-    let planets_are_at_least: Chain = planets
+fn all_planets_medal_group(
+    planets: &[Planet],
+    status: MedalStatus,
+) -> (Chain<Condition>, Vec<Chain<Condition>>) {
+    let planets_are_at_least: ResolvedChain = planets
         .iter()
         .map(|p| p.status_is_at_least(status))
         .collect();
     let core = chain!(planets_are_at_least, Game::in_game_cond_with_delta());
 
-    let alt_groups: Vec<Chain> = planets
+    let alt_groups: Vec<Chain<Condition>> = planets
         .iter()
-        .map(|p| delta!(p.status()).lt(status as u32).into())
+        .map(|p| delta!(p.status()).lt(status as u32))
         .collect();
 
     (core, alt_groups)
