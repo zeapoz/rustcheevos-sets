@@ -44,7 +44,7 @@ pub(crate) fn generate_rich_presence() -> RichPresence {
 
     rich.add_conditional_display(
         mem::dtcm_memory_start_marker().eq(0),
-        "Playing Elebits: The Adventures of Kai and Zero in an unsupported emulator | Play in BizHawk to earn achievements",
+        "Playing Elebits: The Adventures of Kai and Zero in an unsupported emulator • Play in BizHawk to earn achievements",
     );
     rich.add_conditional_display(
         mem::game_state().eq(GameState::InMultiplayerGame.id()),
