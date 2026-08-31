@@ -62,7 +62,7 @@ pub(crate) fn generate_rich_presence() -> RichPresence {
         let num_batteries = num_batteries_macro(world, &mut rich);
         rich.add_conditional_display(
             chain!(mem::current_game_scene().eq(world.id())),
-            format!("Kai and {active_omega}{omega_form} are {action_lt} in {} | {current_health}/{max_health} 🔴 • {watts}w | {num_pink_elebits}/3 🟣 • {num_batteries}/6 🔋", world.world_name()),
+            format!("Kai and {active_omega}{omega_form} are {action_lt} in the {} | {current_health}/{max_health} 🔴 • {watts}w | {num_pink_elebits}/3 🟣 • {num_batteries}/6 🔋", world.world_name()),
         );
     }
     rich.add_conditional_display(Game::in_menu(), format!("{menu}"));

@@ -42,8 +42,6 @@ fn obtain_night() -> Achievement {
             mem::current_game_scene().eq(Location::SeaTemple.id()),
             sub_source!(bit0!(mem::diary_scrap_flags())),
             measured!(bitcount!(mem::diary_scrap_flags()).eq(7)),
-            or_next!(mem::game_state().eq(GameState::TransitioningWorldCutscene.id())),
-            or_next!(mem::game_state().eq(GameState::InBossFight.id())),
             measured_if!(mem::game_state().eq(GameState::Overworld.id())),
             Game::in_game(),
         ))
@@ -72,8 +70,6 @@ fn obtain_dewy() -> Achievement {
             all_standard_omegas_obtained,
             measured!(Condition::always_false().with_hits(standard_omegas_len as u32)),
             or_next!(mem::game_state().eq(GameState::FileConfiguration.id())),
-            or_next!(mem::game_state().eq(GameState::TransitioningWorldCutscene.id())),
-            or_next!(mem::game_state().eq(GameState::InBossFight.id())),
             measured_if!(mem::game_state().eq(GameState::Overworld.id())),
             reset_if!(mem::currently_selected_file().ne(delta!(mem::currently_selected_file()))),
         ))
@@ -108,8 +104,6 @@ fn obtain_big_green() -> Achievement {
                     .eq(evolvable_omegas_len as u32)
             ),
             or_next!(mem::game_state().eq(GameState::FileConfiguration.id())),
-            or_next!(mem::game_state().eq(GameState::TransitioningWorldCutscene.id())),
-            or_next!(mem::game_state().eq(GameState::InBossFight.id())),
             measured_if!(mem::game_state().eq(GameState::Overworld.id())),
         ))
         .points(25)

@@ -57,8 +57,6 @@ fn evolve_half_achivement() -> Achievement {
             bit1!(Omega::all_evolvable().last().unwrap().obtained_addr())
                 .eq((num_evolvable / 2) as u32)
         ),
-        or_next!(mem::game_state().eq(GameState::TransitioningWorldCutscene.id())),
-        or_next!(mem::game_state().eq(GameState::InBossFight.id())),
         measured_if!(mem::game_state().eq(GameState::Overworld.id())),
         Game::in_game(),
     );

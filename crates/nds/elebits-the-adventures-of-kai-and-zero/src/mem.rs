@@ -231,6 +231,82 @@ pub const fn omega_action_flag() -> MemoryRef {
     bits8!(0x1000268)
 }
 
+/// [32-bit] Primary Event State
+/// Controls the global event state, values 0x5 and above unlock "Select World"
+///
+/// 0x1 = Elebit Forest
+/// 0x2 = Elebit Mine
+/// 0x3 = Resort Island
+/// 0x4 = Ice World
+/// 0x5 = Ruined World
+/// 0x6 = Sea Temple
+/// 0x7 = Libra of Crystal
+pub const fn primary_event_state() -> MemoryRef {
+    bits32!(0x1000570)
+}
+
+/// [32-bit] Secondary Event State
+///
+/// Controls the secondary event state, mainly within the current world
+///
+/// Elebit Forest:
+/// 0x0 = Intro
+/// 0x1 = Tutorial
+/// 0x2 = Fire Omega
+/// 0x3 = Ice Omega
+/// 0x4 = Unused
+/// 0x5 = Warp Omega
+/// 0x6 = Power Omega
+/// 0x7 = Elebit Mine Map
+///
+/// Elebit Mine:
+/// 0x0 = Intro
+/// 0x1 = Pickle Gang
+/// 0x2 = Melody Omega
+/// 0x3 = Magnet Omega
+/// 0x4 = Radar Omega
+/// 0x5 = Minecart Puzzles
+/// 0x6 = Earth Omega Boss
+/// 0x7 = Resort Island Map
+///
+/// Resort Island:
+/// 0x0 = Intro
+/// 0x1 = Boat
+/// 0x2 = Wind, X Power, Surf, Sponge, and Water Omegas
+/// 0x3 = Engine Room and X Fire Omega Boss
+/// 0x4 = Ice World Map
+///
+/// Ice World:
+/// 0x0 = Intro
+/// 0x1 = X Wind Omega
+/// 0x2 = Leo Boss
+/// 0x3 = Secret Hideout
+///
+/// Ruined World:
+/// 0x0 = Intro
+/// 0x1 = Speed Omega
+/// 0x2 = X Earth Boss
+/// 0x3 = Elebit Forest Revisited
+/// 0x4 = Resort Island Revisited
+/// 0x5 = Sea Temple Map
+///
+/// Sea Temple:
+/// 0x0 = Intro
+/// 0x1 = X Magnet Omega
+/// 0x2 = X Water Omega Boss
+/// 0x3 = Elebit Mine Revisited
+/// 0x4 = Ice World Revisited
+/// 0x5 = Libra of Crystal Map
+///
+/// Libra of Crystal:
+/// 0x0 = Intro
+/// 0x1 = Mirror Omega, X Melody Omega, Time Omega
+/// 0x2 = Mobius Boss
+/// 0x3 = End
+pub const fn secondary_event_state() -> MemoryRef {
+    bits32!(0x1000574)
+}
+
 /// [32-bit] Currently Selected File
 /// 0x0 = File 1
 /// 0x1 = File 2

@@ -9,7 +9,7 @@ use crate::{
         boss::generate_boss_achievements, collection::generate_collection_achievements,
         items::generate_items_achievements, omega::generate_omega_achievements,
     },
-    types::{game_state::GameState, location::Location},
+    types::game_state::GameState,
 };
 
 mod boss;
@@ -32,10 +32,10 @@ fn win_condition() -> Achievement {
     Achievement::builder("Journey's End")
         .description("Defeat Mobius and reunite with your best friend")
         .core(chain!(
-            delta!(mem::current_game_scene().eq(Location::IceWorld.id())),
-            // TODO: Consider constraining further with the Sub-Scene.
             delta!(mem::game_state().eq(GameState::Overworld.id())),
-            mem::game_state().eq(GameState::Credits.id())
+            mem::game_state().eq(GameState::Credits.id()),
+            mem::primary_event_state().eq(0x7),
+            mem::secondary_event_state().eq(0x3),
         ))
         .points(25)
         .tag(Tag::WinCondition)

@@ -9,7 +9,7 @@ use rustcheevos::{
 
 use crate::{
     mem,
-    types::{game::Game, location::Location},
+    types::{game::Game, game_state::GameState, location::Location},
 };
 
 pub struct Boss;
@@ -45,7 +45,11 @@ impl Boss {
     }
 
     pub fn in_boss_arena(location: Location) -> Chain<Condition> {
-        chain!(mem::current_game_scene().eq(location.id()), Game::in_game())
+        chain!(
+            mem::current_game_scene().eq(location.id()),
+            mem::game_state().eq(GameState::InBossFight.id()),
+            Game::in_game()
+        )
     }
 
     pub fn timer() -> Chain<MemoryRef> {

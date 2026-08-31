@@ -8,6 +8,7 @@ use crate::{
     set::omega::{bonus::generate_loaded_watts_achievements, evolve::generate_evolve_achievements},
     types::{
         game::Game,
+        game_state::GameState,
         location::Location,
         omega::{Omega, OmegaState},
     },
@@ -72,6 +73,7 @@ pub fn obtain_standard_omega_achievement(
             delta!(omega.obtained_state().eq(OmegaState::NotObtained as u32)),
             omega.obtained_state().eq(OmegaState::Obtained as u32),
             mem::current_game_scene().eq(world as u32),
+            mem::game_state().eq(GameState::Overworld.id()),
             Game::in_game(),
         ))
         .points(points)
