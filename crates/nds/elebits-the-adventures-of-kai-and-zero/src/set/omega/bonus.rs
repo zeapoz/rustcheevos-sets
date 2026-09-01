@@ -39,9 +39,9 @@ fn obtain_night() -> Achievement {
             Omega::Night
                 .obtained_state()
                 .eq(OmegaState::Obtained as u32),
-            mem::current_game_scene().eq(Location::SeaTemple.id()),
             sub_source!(bit0!(mem::diary_scrap_flags())),
             measured!(bitcount!(mem::diary_scrap_flags()).eq(7)),
+            mem::current_game_scene().eq(Location::SeaTemple.id()),
             measured_if!(mem::game_state().eq(GameState::Overworld.id())),
             Game::in_game(),
         ))
