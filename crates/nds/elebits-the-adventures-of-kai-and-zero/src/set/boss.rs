@@ -24,7 +24,7 @@ pub fn generate_boss_achievements() -> Vec<Achievement> {
     vec![
         disarm_achievement("A Chilly Surprise", "Disarm the Power Omega using the Ice Omega"),
         beat_boss_damageless("Unshaken", "Defeat the Earth Omega without taking a single hit", Location::EarthOmegaBossArena, 10, 626347, 713055),
-        tag_team_achievement(626348, "Power-Duo Tag Team", "In the fight against the X Fire Omega, break at least 1 pillar each with the Power Omega and the X Power Omega"),
+        tag_team_achievement(626348, "Power-Duo Tag Team", "In the fight against the X Fire Omega, break one pillar each with the Power Omega and the X Power Omega"),
         counter_turn_achievement(
             "Sharpshooter",
             "Hit the X Ice Omega with 3 or more projectiles in a single turn",
@@ -45,7 +45,7 @@ pub fn generate_boss_achievements() -> Vec<Achievement> {
             712185,
         ),
         beat_boss_fast_achievement(626352, "Speed Demon", "Defeat the X Earth Omega in less than 2 minutes"),
-        no_dig_holes_achievement("Earth Environmentalist", "Defeat the X Water Omega while digging at most 15 holes in the ground"),
+        no_dig_holes_achievement("Earth Environmentalist", "Defeat the X Water Omega while digging no more than 15 holes in the ground"),
         beat_boss_damageless("Sunchaser", "Defeat the first phase of Mobius without taking a single hit", Location::MobiusBossArena, 10, 627149, 713057),
         beat_boss_damageless("Multi-Ender", "Defeat the second phase of Mobius without taking a single hit", Location::MobiusSecondPhaseBossArena, 25, 626354, 713056),
     ]

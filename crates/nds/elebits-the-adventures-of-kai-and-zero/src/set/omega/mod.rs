@@ -25,7 +25,7 @@ pub fn generate_omega_achievements() -> Vec<Achievement> {
         obtain_standard_omega_achievement(626308, 712142, "Warp Speed Ahead", "Smash open an ancient stone and obtain the Warp Omega", Omega::Warp, Location::ElebitForest, true, 3),
         obtain_standard_omega_achievement(626309, 712143, "Heavy Hitter", "Defeat and obtain the Power Omega", Omega::Power, Location::ElebitForest, true, 10),
         obtain_standard_omega_achievement(626310, 712144, "In Tune", "Play a major scale and obtain the Melody Omega", Omega::Melody, Location::ElebitMine, true, 3),
-        obtain_standard_omega_achievement(626311, 712145, "Opposites Attract", "Help out the pickle gang and obtain the Magnet Omega", Omega::Magnet, Location::ElebitMine, true, 3),
+        obtain_standard_omega_achievement(626311, 712145, "Opposites Attract", "Help out the Pickle Gang and obtain the Magnet Omega", Omega::Magnet, Location::ElebitMine, true, 3),
         obtain_standard_omega_achievement(626312, 712146, "On Your Radar", "Jump the precarious blocks and obtain the Radar Omega", Omega::Radar, Location::ElebitMine, true, 3),
         obtain_standard_omega_achievement(626313, 712147, "Battle Beneath the Surface", "Defeat and obtain the Earth Omega", Omega::Earth, Location::ElebitMine, true, 10),
         obtain_standard_omega_achievement(626314, 712148, "Bulking Up", "Traverse the ancient labyrinth and obtain the X Power Omega", Omega::XPower, Location::ResortIsland, true, 3),
