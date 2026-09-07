@@ -36,7 +36,7 @@ pub fn generate_leaderboards() -> Vec<Leaderboard> {
 fn combo_leaderboard(id: u32, world: Location) -> Leaderboard {
     Leaderboard::builder(format!("Combo Chaser - {}", world.world_name()))
         .description(format!(
-            "Acquire the highest combo counter in {}!",
+            "Acquire the highest combo counter in the {}!",
             world.world_name()
         ))
         .value(chain!(measured!(Hud::combo_number())))
