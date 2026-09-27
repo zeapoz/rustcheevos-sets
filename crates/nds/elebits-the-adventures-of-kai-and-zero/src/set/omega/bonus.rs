@@ -31,11 +31,11 @@ fn obtain_night() -> Achievement {
     Achievement::builder("Echoes of the Past")
         .description("Collect every diary scrap and obtain Night")
         .core(chain!(
-            measured_if!(delta!(
+            delta!(
                 Omega::Night
                     .obtained_state()
                     .eq(OmegaState::NotObtained as u32)
-            )),
+            ),
             Omega::Night
                 .obtained_state()
                 .eq(OmegaState::Obtained as u32),
@@ -61,11 +61,11 @@ fn obtain_dewy() -> Achievement {
     Achievement::builder("Complete Collection")
         .description("Collect every standard Omega and obtain Dewy")
         .core(chain!(
-            measured_if!(delta!(
+            delta!(
                 Omega::Dewy
                     .obtained_state()
                     .eq(OmegaState::NotObtained as u32)
-            )),
+            ),
             Omega::Dewy.obtained_state().eq(OmegaState::Obtained as u32),
             all_standard_omegas_obtained,
             measured!(Condition::always_false().with_hits(standard_omegas_len as u32)),
@@ -82,27 +82,23 @@ fn obtain_dewy() -> Achievement {
 fn obtain_big_green() -> Achievement {
     let evolvable_omegas_len = Omega::all_evolvable().len();
     let all_evolvable_omegas_evolved: ResolvedChain = Omega::all_evolvable()
-        [..evolvable_omegas_len - 1]
         .into_iter()
-        .map(|o| add_source!(bit1!(o.obtained_addr())))
+        .map(|o| add_source!(o.obtained_state()).div(OmegaState::Evolved as u32))
         .collect();
 
     Achievement::builder("Omega Overdrive")
         .description("Evolve every evolvable Omega into their adult form and obtain Big Green")
         .core(chain!(
-            measured_if!(delta!(
+            delta!(
                 Omega::BigGreen
                     .obtained_state()
                     .eq(OmegaState::NotObtained as u32)
-            )),
+            ),
             Omega::BigGreen
                 .obtained_state()
                 .eq(OmegaState::Obtained as u32),
             all_evolvable_omegas_evolved,
-            measured!(
-                bit1!(Omega::all_evolvable().last().unwrap().obtained_addr())
-                    .eq(evolvable_omegas_len as u32)
-            ),
+            measured!(0.eq(evolvable_omegas_len as u32)),
             or_next!(mem::game_state().eq(GameState::FileConfiguration.id())),
             measured_if!(mem::game_state().eq(GameState::Overworld.id())),
         ))

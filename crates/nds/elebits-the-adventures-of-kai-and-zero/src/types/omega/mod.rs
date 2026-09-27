@@ -9,9 +9,9 @@ use crate::mem;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum OmegaState {
-    NotObtained = 0x00,
-    Obtained = 0x11,
-    Evolved = 0x22,
+    NotObtained = 0x0,
+    Obtained = 0x1,
+    Evolved = 0x2,
 }
 
 pub struct OmegaData {
@@ -69,14 +69,14 @@ macro_rules! gen_omega_defs {
 
             /// Returns the address holding the obtained state for this Omega.
             pub fn obtained_state(self) -> MemoryRef {
-                bits8!(self.obtained_addr())
+                lower4!(self.obtained_addr())
             }
 
             /// Returns a chain calculating the obtained state given the current file.
             pub fn save_data_obtained_state(self) -> MemoryRef {
                 let offset = mem::omega_vector_save_data_file_1()
                     + (self.id() * Self::STRUCT_SIZE_BYTES) as usize;
-                bits8!(offset + Self::OBTAINED_OFFSET)
+                lower4!(offset + Self::OBTAINED_OFFSET)
             }
 
             pub fn all_standard() -> Vec<Omega> {

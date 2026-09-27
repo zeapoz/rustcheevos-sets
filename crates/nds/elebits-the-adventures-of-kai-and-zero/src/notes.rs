@@ -4,10 +4,10 @@ use crate::types::omega::Omega;
 
 const CHARGED_WATTS_TEMPLATE: &str = "[32-bit] {omega} - Charged Watts";
 
-const FORM_ENUM_TEMPLATE: &str = r#"[8-bit] {omega} - Form
-0x00 = Not Obtained
-0x11 = Child
-0x22 = Adult"#;
+const FORM_ENUM_TEMPLATE: &str = r#"[Lower4] {omega} - Form
+0x0 = Not Obtained
+0x1 = Child
+0x2 = Adult"#;
 
 const ID_TEMPLATE: &str = r#"[32-bit] {omega} - Unique Omega ID ({id})
 0xff if this Omega has not been obtained yet"#;

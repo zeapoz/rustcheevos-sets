@@ -52,6 +52,10 @@ fn all_power_ups_achievement() -> Achievement {
     Achievement::builder("Power-Up Package")
         .description("Have every power-up active at once")
         .core(chain!(
+            or_next!(delta!(mem::fever_laser_x2_timer().eq(0))),
+            or_next!(delta!(mem::fever_laser_x3_timer().eq(0))),
+            or_next!(delta!(mem::wide_lock_laser_timer().eq(0))),
+            delta!(mem::trace_laser_timer().eq(0)),
             mem::fever_laser_x2_timer().ne(0),
             mem::fever_laser_x3_timer().ne(0),
             mem::wide_lock_laser_timer().ne(0),
@@ -59,10 +63,6 @@ fn all_power_ups_achievement() -> Achievement {
             mem::game_state().eq(GameState::Overworld.id()),
             Game::in_game(),
         ))
-        .alt_group(chain!(delta!(mem::fever_laser_x2_timer().eq(0))))
-        .alt_group(chain!(delta!(mem::fever_laser_x3_timer().eq(0))))
-        .alt_group(chain!(delta!(mem::wide_lock_laser_timer().eq(0))))
-        .alt_group(chain!(delta!(mem::trace_laser_timer().eq(0))))
         .points(10)
         .id(626375)
         .badge_id(712209)

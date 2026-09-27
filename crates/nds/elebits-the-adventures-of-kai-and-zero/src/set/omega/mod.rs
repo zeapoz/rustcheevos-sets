@@ -20,7 +20,7 @@ mod evolve;
 #[rustfmt::skip]
 pub fn generate_omega_achievements() -> Vec<Achievement> {
     let mut result = vec![
-        obtain_standard_omega_achievement(626306, 712140, "Playing with Fire", "Help a troubled villager and obtain the Fire Omega", Omega::Fire, Location::ElebitForest, true, 3),
+        obtain_standard_omega_achievement(626306, 712140, "Playing with Fire", "Help a troubled villager and obtain the Fire Omega. Note: This set currently only works on BizHawk due to unexposed memory in other emulators", Omega::Fire, Location::ElebitForest, true, 3),
         obtain_standard_omega_achievement(626307, 712141, "Ice to Meet You", "Defrost a creature encased in ice and obtain the Ice Omega", Omega::Ice, Location::ElebitForest, true, 3),
         obtain_standard_omega_achievement(626308, 712142, "Warp Speed Ahead", "Smash open an ancient stone and obtain the Warp Omega", Omega::Warp, Location::ElebitForest, true, 3),
         obtain_standard_omega_achievement(626309, 712143, "Heavy Hitter", "Defeat and obtain the Power Omega", Omega::Power, Location::ElebitForest, true, 10),
