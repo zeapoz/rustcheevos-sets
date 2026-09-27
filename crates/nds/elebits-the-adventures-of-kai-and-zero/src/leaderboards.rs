@@ -1,9 +1,6 @@
 use rustcheevos::{
     prelude::*,
-    types::{
-        leaderboard::{Leaderboard, LeaderboardFormat},
-        value::TypedValue,
-    },
+    types::leaderboard::{Leaderboard, LeaderboardFormat},
 };
 
 use crate::{
@@ -41,8 +38,7 @@ fn combo_leaderboard(id: u32, world: Location) -> Leaderboard {
         ))
         .value(chain!(measured!(Hud::combo_number())))
         .start(chain!(
-            remember!(delta!(Hud::combo_number())),
-            Hud::combo_number().gt(TypedValue::Recall),
+            Hud::combo_number().gt(delta!(Hud::COMBO_NUMBER_OFFSET)),
             mem::current_game_scene().eq(world.id()),
             mem::game_state().eq(GameState::Overworld.id()),
             Game::in_game(),

@@ -8,6 +8,8 @@ use crate::mem;
 pub struct Hud;
 
 impl Hud {
+    pub const COMBO_NUMBER_OFFSET: MemoryRef = bits32!(0x494);
+
     pub fn combo_text_pointer() -> Chain<MemoryRef> {
         const HUD_POINTER_OFFSET: usize = 0x90;
         const COMBO_TEXT_OFFSET: usize = 0x18;
@@ -23,6 +25,9 @@ impl Hud {
     }
 
     pub fn combo_number() -> Chain<MemoryRef> {
-        chain!(add_address!(Hud::combo_text_pointer()), bits32!(0x494),)
+        chain!(
+            add_address!(Hud::combo_text_pointer()),
+            Self::COMBO_NUMBER_OFFSET
+        )
     }
 }

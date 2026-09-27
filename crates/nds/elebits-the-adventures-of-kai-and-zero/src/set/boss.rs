@@ -3,9 +3,7 @@ use rustcheevos::{
     types::{
         achievement::{Achievement, Tag},
         chain::Chain,
-        memory::MemoryRef,
         requirement::Condition,
-        value::TypedValue,
     },
 };
 
@@ -28,7 +26,7 @@ pub fn generate_boss_achievements() -> Vec<Achievement> {
         counter_turn_achievement(
             "Sharpshooter",
             "Hit the X Ice Omega with 3 or more projectiles in a single turn",
-            XIceOmegaBoss::snake_attack_counter,
+            XIceOmegaBoss::snake_attack_counter().gt(delta!(XIceOmegaBoss::SNAKE_ATTACK_COUNTER_OFFSET)),
             Location::XIceOmegaBossArena,
             3,
             626349,
@@ -38,7 +36,7 @@ pub fn generate_boss_achievements() -> Vec<Achievement> {
         counter_turn_achievement(
             "Back-to-Back",
             "In the fight against Leo, reflect back the same energy ball twice in a single turn",
-            LeoBoss::next_attack_pattern,
+            LeoBoss::next_attack_pattern().gt(delta!(LeoBoss::NEXT_ATTACK_PATTERN_OFFSET)),
             Location::LeoBossArena,
             2,
             626351,
@@ -134,7 +132,7 @@ fn tag_team_achievement(id: u32, title: &str, description: &str) -> Achievement 
 fn counter_turn_achievement(
     title: &str,
     description: &str,
-    counter: impl Fn() -> Chain<MemoryRef>,
+    counter: Chain<Condition>,
     location: Location,
     num_hits: u32,
     id: u32,
@@ -143,11 +141,10 @@ fn counter_turn_achievement(
     Achievement::builder(title)
         .description(description)
         .core(chain!(
-            remember!(delta!(counter())),
-            or_next!(counter().gt(TypedValue::Recall)),
+            or_next!(counter),
             reset_next_if!(mem::current_game_scene().ne(location.id())),
-            remember!(delta!(Boss::health_numerator())),
-            trigger!(Boss::health_numerator().lt(TypedValue::Recall)).with_hits(num_hits),
+            trigger!(Boss::health_numerator().lt(delta!(Boss::HEALTH_NUMERATOR_OFFSET)))
+                .with_hits(num_hits),
             Boss::in_boss_arena(location),
             Boss::null_pointer_check(),
         ))

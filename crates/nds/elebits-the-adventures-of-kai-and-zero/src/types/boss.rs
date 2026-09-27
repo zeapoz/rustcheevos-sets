@@ -15,6 +15,8 @@ use crate::{
 pub struct Boss;
 
 impl Boss {
+    pub const HEALTH_NUMERATOR_OFFSET: MemoryRef = bits16!(0x10);
+
     pub fn data_base_pointer() -> Chain<MemoryRef> {
         chain!(
             add_address!(bits24!(mem::game_data_struct())),
@@ -34,7 +36,7 @@ impl Boss {
     }
 
     pub fn health_numerator() -> Chain<MemoryRef> {
-        chain!(Boss::data_pointer(), bits16!(0x10))
+        chain!(Boss::data_pointer(), Self::HEALTH_NUMERATOR_OFFSET)
     }
 
     pub fn boss_defeated() -> Chain<Condition> {
@@ -84,15 +86,25 @@ impl XFireOmegaBoss {
 pub struct XIceOmegaBoss;
 
 impl XIceOmegaBoss {
+    pub const SNAKE_ATTACK_COUNTER_OFFSET: MemoryRef = bits16!(0x112);
+
     pub fn snake_attack_counter() -> Chain<MemoryRef> {
-        chain!(add_address!(Boss::data_base_pointer()), bits16!(0x112))
+        chain!(
+            add_address!(Boss::data_base_pointer()),
+            Self::SNAKE_ATTACK_COUNTER_OFFSET
+        )
     }
 }
 
 pub struct LeoBoss;
 
 impl LeoBoss {
+    pub const NEXT_ATTACK_PATTERN_OFFSET: MemoryRef = bits16!(0xf4);
+
     pub fn next_attack_pattern() -> Chain<MemoryRef> {
-        chain!(add_address!(Boss::data_base_pointer()), bits16!(0xf4))
+        chain!(
+            add_address!(Boss::data_base_pointer()),
+            Self::NEXT_ATTACK_PATTERN_OFFSET
+        )
     }
 }
