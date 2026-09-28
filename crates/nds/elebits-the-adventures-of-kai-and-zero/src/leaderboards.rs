@@ -62,6 +62,7 @@ fn boss_time_attack(
         .start(chain!(
             Boss::boss_defeated(),
             Boss::in_boss_arena(boss_location),
+            Boss::timer().ne(0),
             Boss::null_pointer_check(),
         ))
         .id(id)

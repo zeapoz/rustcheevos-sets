@@ -25,7 +25,7 @@ impl Boss {
     }
 
     pub fn null_pointer_check() -> Chain<Condition> {
-        Boss::data_base_pointer().ne(0)
+        delta!(Boss::data_base_pointer()).ne(0)
     }
 
     pub fn data_pointer() -> Chain<Arithmetic> {
