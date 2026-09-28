@@ -17,16 +17,16 @@
 
 ## Achievements
 
-**79 achievements worth 595 points**
+**78 achievements worth 595 points**
 
 | Badge | Name | Description | Points | Tag |
 |-------|------|-------------|--------|-----|
-| ![Playing with Fire](https://media.retroachievements.org/Badge/712140.png) | Playing with Fire | Help a troubled villager and obtain the Fire Omega | 3 | Progression |
+| ![Playing with Fire](https://media.retroachievements.org/Badge/712140.png) | Playing with Fire | Help a troubled villager and obtain the Fire Omega. Note: This set currently only works on BizHawk due to unexposed memory in other emulators | 3 | Progression |
 | ![Ice to Meet You](https://media.retroachievements.org/Badge/712141.png) | Ice to Meet You | Defrost a creature encased in ice and obtain the Ice Omega | 3 | Progression |
 | ![Warp Speed Ahead](https://media.retroachievements.org/Badge/712142.png) | Warp Speed Ahead | Smash open an ancient stone and obtain the Warp Omega | 3 | Progression |
 | ![Heavy Hitter](https://media.retroachievements.org/Badge/712143.png) | Heavy Hitter | Defeat and obtain the Power Omega | 10 | Progression |
 | ![In Tune](https://media.retroachievements.org/Badge/712144.png) | In Tune | Play a major scale and obtain the Melody Omega | 3 | Progression |
-| ![Opposites Attract](https://media.retroachievements.org/Badge/712145.png) | Opposites Attract | Help out the pickle gang and obtain the Magnet Omega | 3 | Progression |
+| ![Opposites Attract](https://media.retroachievements.org/Badge/712145.png) | Opposites Attract | Help out the Pickle Gang and obtain the Magnet Omega | 3 | Progression |
 | ![On Your Radar](https://media.retroachievements.org/Badge/712146.png) | On Your Radar | Jump the precarious blocks and obtain the Radar Omega | 3 | Progression |
 | ![Battle Beneath the Surface](https://media.retroachievements.org/Badge/712147.png) | Battle Beneath the Surface | Defeat and obtain the Earth Omega | 10 | Progression |
 | ![Bulking Up](https://media.retroachievements.org/Badge/712148.png) | Bulking Up | Traverse the ancient labyrinth and obtain the X Power Omega | 3 | Progression |
@@ -63,12 +63,12 @@
 | ![Code Red](https://media.retroachievements.org/Badge/712179.png) | Code Red | Enter a secret code and obtain Big Red | 1 |  |
 | ![A Chilly Surprise](https://media.retroachievements.org/Badge/712180.png) | A Chilly Surprise | Disarm the Power Omega using the Ice Omega | 2 | Missable |
 | ![Unshaken](https://media.retroachievements.org/Badge/713055.png) | Unshaken | Defeat the Earth Omega without taking a single hit | 10 | Missable |
-| ![Power-Duo Tag Team](https://media.retroachievements.org/Badge/712182.png) | Power-Duo Tag Team | In the fight against the X Fire Omega, break at least 1 pillar each with the Power Omega and the X Power Omega | 2 | Missable |
+| ![Power-Duo Tag Team](https://media.retroachievements.org/Badge/712182.png) | Power-Duo Tag Team | In the fight against the X Fire Omega, break one pillar each with the Power Omega and the X Power Omega | 2 | Missable |
 | ![Sharpshooter](https://media.retroachievements.org/Badge/712183.png) | Sharpshooter | Hit the X Ice Omega with 3 or more projectiles in a single turn | 5 | Missable |
 | ![Return to Sender](https://media.retroachievements.org/Badge/712562.png) | Return to Sender | Defeat Leo with Zero's newfound power | 10 | Progression |
 | ![Back-to-Back](https://media.retroachievements.org/Badge/712185.png) | Back-to-Back | In the fight against Leo, reflect back the same energy ball twice in a single turn | 5 | Missable |
 | ![Speed Demon](https://media.retroachievements.org/Badge/712186.png) | Speed Demon | Defeat the X Earth Omega in less than 2 minutes | 10 | Missable |
-| ![Earth Environmentalist](https://media.retroachievements.org/Badge/712187.png) | Earth Environmentalist | Defeat the X Water Omega while digging at most 15 holes in the ground | 10 | Missable |
+| ![Earth Environmentalist](https://media.retroachievements.org/Badge/712187.png) | Earth Environmentalist | Defeat the X Water Omega while digging no more than 15 holes in the ground | 10 | Missable |
 | ![Sunchaser](https://media.retroachievements.org/Badge/713057.png) | Sunchaser | Defeat the first phase of Mobius without taking a single hit | 10 | Missable |
 | ![Multi-Ender](https://media.retroachievements.org/Badge/713056.png) | Multi-Ender | Defeat the second phase of Mobius without taking a single hit | 25 | Missable |
 | ![Journey's End](https://media.retroachievements.org/Badge/712189.png) | Journey's End | Defeat Mobius and reunite with your best friend | 25 | Win Condition |
@@ -99,7 +99,6 @@
 | ![Hot Spot](https://media.retroachievements.org/Badge/712214.png) | Hot Spot | Net a combo of 16 or more in the Ruined World | 10 |  |
 | ![Reef Raider](https://media.retroachievements.org/Badge/712215.png) | Reef Raider | With the Fever Laser x2 active, net a combo of 28 or more in the Sea Temple | 10 |  |
 | ![Crystal Catcher](https://media.retroachievements.org/Badge/712216.png) | Crystal Catcher | With the Fever Laser x3 active, net a combo of 22 or more in the Libra of Crystal | 10 |  |
-| ![WARNING: BizHawk Only!](https://media.retroachievements.org/Badge/712446.png) | WARNING: BizHawk Only! | This set currently only works on BizHawk due to unexposed memory in other emulators | 0 |  |
 
 ## Leaderboards
 
@@ -107,13 +106,13 @@
 
 | Name | Description | Format |
 |------|-------------|--------|
-| Combo Chaser - Elebit Forest | Acquire the highest combo counter in Elebit Forest! | Value |
-| Combo Chaser - Elebit Mine | Acquire the highest combo counter in Elebit Mine! | Value |
-| Combo Chaser - Resort Island | Acquire the highest combo counter in Resort Island! | Value |
-| Combo Chaser - Ice World | Acquire the highest combo counter in Ice World! | Value |
-| Combo Chaser - Ruined World | Acquire the highest combo counter in Ruined World! | Value |
-| Combo Chaser - Sea Temple | Acquire the highest combo counter in Sea Temple! | Value |
-| Combo Chaser - Libra of Crystal | Acquire the highest combo counter in Libra of Crystal! | Value |
+| Combo Chaser - Elebit Forest | Acquire the highest combo counter in the Elebit Forest! | Value |
+| Combo Chaser - Elebit Mine | Acquire the highest combo counter in the Elebit Mine! | Value |
+| Combo Chaser - Resort Island | Acquire the highest combo counter in the Resort Island! | Value |
+| Combo Chaser - Ice World | Acquire the highest combo counter in the Ice World! | Value |
+| Combo Chaser - Ruined World | Acquire the highest combo counter in the Ruined World! | Value |
+| Combo Chaser - Sea Temple | Acquire the highest combo counter in the Sea Temple! | Value |
+| Combo Chaser - Libra of Crystal | Acquire the highest combo counter in the Libra of Crystal! | Value |
 | Time Attack - Power Omega | Defeat the Power Omega as fast as possible! | Frames |
 | Time Attack - Earth Omega | Defeat the Earth Omega as fast as possible! | Frames |
 | Time Attack - X Fire Omega | Defeat the X Fire Omega as fast as possible! | Frames |
@@ -128,16 +127,16 @@
 
 | Display |
 |---------|
-| `Playing Elebits: The Adventures of Kai and Zero in an unsupported emulator \| Play in BizHawk to earn achievements` |
+| `Playing Elebits: The Adventures of Kai and Zero in an unsupported emulator • Play in BizHawk to earn achievements` |
 | `Kai and {Omega}{OmegaForm} are {GameAction} in a multiplayer game • {Number}w` |
 | `Kai and {Omega}{OmegaForm} are fighting against {BossArena} • {Number}/{Number} 🔴` |
-| `Kai and {Omega}{OmegaForm} are {GameAction} in Elebit Forest \| {Number}/{Number} 🔴 • {Number}w \| {Number}/3 🟣 • {Number}/6 🔋` |
-| `Kai and {Omega}{OmegaForm} are {GameAction} in Elebit Mine \| {Number}/{Number} 🔴 • {Number}w \| {Number}/3 🟣 • {Number}/6 🔋` |
-| `Kai and {Omega}{OmegaForm} are {GameAction} in Resort Island \| {Number}/{Number} 🔴 • {Number}w \| {Number}/3 🟣 • {Number}/6 🔋` |
-| `Kai and {Omega}{OmegaForm} are {GameAction} in Ice World \| {Number}/{Number} 🔴 • {Number}w \| {Number}/3 🟣 • {Number}/6 🔋` |
-| `Kai and {Omega}{OmegaForm} are {GameAction} in Ruined World \| {Number}/{Number} 🔴 • {Number}w \| {Number}/3 🟣 • {Number}/6 🔋` |
-| `Kai and {Omega}{OmegaForm} are {GameAction} in Sea Temple \| {Number}/{Number} 🔴 • {Number}w \| {Number}/3 🟣 • {Number}/6 🔋` |
-| `Kai and {Omega}{OmegaForm} are {GameAction} in Libra of Crystal \| {Number}/{Number} 🔴 • {Number}w \| {Number}/3 🟣 • {Number}/6 🔋` |
+| `Kai and {Omega}{OmegaForm} are {GameAction} in the Elebit Forest \| {Number}/{Number} 🔴 • {Number}w \| {Number}/3 🟣 • {Number}/6 🔋` |
+| `Kai and {Omega}{OmegaForm} are {GameAction} in the Elebit Mine \| {Number}/{Number} 🔴 • {Number}w \| {Number}/3 🟣 • {Number}/6 🔋` |
+| `Kai and {Omega}{OmegaForm} are {GameAction} in the Resort Island \| {Number}/{Number} 🔴 • {Number}w \| {Number}/3 🟣 • {Number}/6 🔋` |
+| `Kai and {Omega}{OmegaForm} are {GameAction} in the Ice World \| {Number}/{Number} 🔴 • {Number}w \| {Number}/3 🟣 • {Number}/6 🔋` |
+| `Kai and {Omega}{OmegaForm} are {GameAction} in the Ruined World \| {Number}/{Number} 🔴 • {Number}w \| {Number}/3 🟣 • {Number}/6 🔋` |
+| `Kai and {Omega}{OmegaForm} are {GameAction} in the Sea Temple \| {Number}/{Number} 🔴 • {Number}w \| {Number}/3 🟣 • {Number}/6 🔋` |
+| `Kai and {Omega}{OmegaForm} are {GameAction} in the Libra of Crystal \| {Number}/{Number} 🔴 • {Number}w \| {Number}/3 🟣 • {Number}/6 🔋` |
 | `{Menu}` |
 | `Playing Elebits: The Adventures of Kai and Zero` |
 
