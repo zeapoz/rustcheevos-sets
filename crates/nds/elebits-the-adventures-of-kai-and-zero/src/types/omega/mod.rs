@@ -106,7 +106,7 @@ macro_rules! gen_omega_defs {
 
 gen_omega_defs! {
     Zero     => OmegaData { id: 0x00, name: "Zero",          lookup: "Zero",              standard: true,  evolvable: false },
-    Mobius   => OmegaData { id: 0x01, name: "Mobius",        lookup: "Mobius",            standard: true,  evolvable: false },
+    Mobius   => OmegaData { id: 0x01, name: "Mobius",        lookup: "Mobius",            standard: false,  evolvable: false },
     Ice      => OmegaData { id: 0x02, name: "Ice Omega",     lookup: "the Ice Omega",     standard: true,  evolvable: true  },
     XIce     => OmegaData { id: 0x03, name: "X Ice Omega",   lookup: "the X Ice Omega",   standard: true,  evolvable: true  },
     Mirror   => OmegaData { id: 0x04, name: "Mirror Omega",  lookup: "the Mirror Omega",  standard: true,  evolvable: true  },
