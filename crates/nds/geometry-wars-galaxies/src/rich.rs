@@ -1,9 +1,9 @@
 use rustcheevos::{
-    add_source, chain, measured,
     prelude::*,
     types::{
-        chain::{Chain, ChainGroup},
-        requirement::Condition,
+        chain::Chain,
+        requirement::{Arithmetic, Condition},
+        requirements::Requirements,
         rich::{BuiltInMacro, LookupTable, RichPresence},
     },
 };
@@ -14,7 +14,7 @@ use crate::types::game::{Game, MenuState};
 use crate::types::planet::Planet;
 
 /// Returns a chain that returns the current level lookup key.
-fn level_lookup_key() -> Chain {
+fn level_lookup_key() -> Chain<Arithmetic> {
     chain!(
         add_source!(Game::current_galaxy_index().mul(10)),
         measured!(Game::current_level_index())
@@ -22,30 +22,28 @@ fn level_lookup_key() -> Chain {
 }
 
 /// Returns a chain for when to show the watching credits display.
-fn credits_cond() -> Chain {
-    Game::menu_state().eq(MenuState::Credits as u32).into()
+fn credits_cond() -> Condition {
+    Game::menu_state().eq(MenuState::Credits as u32)
 }
 
 /// Returns a chain for when to show the preparing for battle display.
-fn preparing_cond() -> Chain {
-    Game::menu_state()
-        .eq(MenuState::DroneSelectOrResults as u32)
-        .into()
+fn preparing_cond() -> Condition {
+    Game::menu_state().eq(MenuState::DroneSelectOrResults as u32)
 }
 
 /// Returns a chain group for when to show the exploring the universe display.
-fn exploring_cond() -> ChainGroup {
-    let mut group = ChainGroup::new(Condition::always_true());
-    group.push_alt_group(Game::menu_state().eq(MenuState::GalaxySelect as u32));
-    group.push_alt_group(Game::menu_state().eq(MenuState::PlanetSelect as u32));
+fn exploring_cond() -> Requirements {
+    let mut group = Requirements::new(Condition::always_true());
+    group.add_alt_group(Game::menu_state().eq(MenuState::GalaxySelect as u32));
+    group.add_alt_group(Game::menu_state().eq(MenuState::PlanetSelect as u32));
     group
 }
 
-/// Returns a chain group for when to show the in menu display.
-fn menu_cond() -> ChainGroup {
-    let mut group = ChainGroup::new(Condition::always_true());
+/// Returns a requirements set for when to show the in menu display.
+fn menu_cond() -> Requirements {
+    let mut group = Requirements::new(Condition::always_true());
     for menu in MenuState::all_named() {
-        group.push_alt_group(Game::menu_state().eq(*menu as u32));
+        group.add_alt_group(Game::menu_state().eq(*menu as u32));
     }
     group
 }

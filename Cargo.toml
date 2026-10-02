@@ -1,8 +1,8 @@
 [workspace]
 members = [
-    "crates/nds/geometry-wars-galaxies",
+    "crates/nds/*"
 ]
-resolver = "2"
+resolver = "3"
 
 [workspace.dependencies]
 rustcheevos = { git = "https://github.com/zeapoz/rustcheevos" }

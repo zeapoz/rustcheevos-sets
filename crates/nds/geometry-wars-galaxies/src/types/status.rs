@@ -12,6 +12,7 @@ pub enum MedalStatus {
 
 impl MedalStatus {
     /// Returns the name of this medal status, if any.
+    #[allow(dead_code)]
     pub fn name(self) -> &'static str {
         match self {
             MedalStatus::Unlocked => "Unlocked",

@@ -1,13 +1,8 @@
 use std::fmt;
 
 use rustcheevos::{
-    add_address, bits32, chain,
     prelude::*,
-    types::{
-        chain::{Chain, PendingChain},
-        memory::MemoryRef,
-    },
-    upper4,
+    types::{chain::Chain, memory::MemoryRef, requirement::Condition},
 };
 
 use crate::types::game::Game;
@@ -55,7 +50,7 @@ impl Planet {
     }
 
     /// Returns a chain that checks if the player is in this planet.
-    pub fn player_in_planet(&self) -> Chain {
+    pub fn player_in_planet(&self) -> Chain<Condition> {
         chain!(
             Game::current_galaxy_index().eq(self.galaxy as u32),
             Game::current_level_index().eq(self.index),
@@ -68,7 +63,7 @@ impl Planet {
     }
 
     /// Returns the status of this planet as a pending chain.
-    pub fn status(&self) -> PendingChain<MemoryRef> {
+    pub fn status(&self) -> Chain<MemoryRef> {
         chain!(
             add_address!(Game::current_profile().mul(2)),
             upper4!(self.status_addr())
@@ -76,7 +71,7 @@ impl Planet {
     }
 
     /// Returns a chain that checks if the status of this planet is at least the given status.
-    pub fn status_is_at_least(&self, status: MedalStatus) -> Chain {
+    pub fn status_is_at_least(&self, status: MedalStatus) -> Chain<Condition> {
         chain!(
             self.status().ge(status as u32),
             self.status().ne(MedalStatus::Locked as u32)

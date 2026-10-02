@@ -1,10 +1,9 @@
 use rustcheevos::{
-    chain, delta,
     prelude::*,
     types::{
         achievement::{Achievement, Tag},
-        chain::{Chain, ChainGroup},
-        game::AchievementSet,
+        chain::{Chain, ResolvedChain},
+        requirement::Condition,
     },
 };
 
@@ -12,7 +11,7 @@ use crate::types::{galaxy::Galaxy, game::Game, planet::Planet, status::MedalStat
 
 /// Adds achievements for progression to the given set.
 #[rustfmt::skip]
-pub fn add_galaxy_medal_achievements(set: &mut AchievementSet) {
+pub fn add_galaxy_medal_achievements(set: &mut Vec<Achievement>) {
     set.push(new_galaxy_medal_achievement(600707, 681297, "Alpha Amateur", Galaxy::Alpha, MedalStatus::Bronze, 3, Some(Tag::Progression)));
     set.push(new_galaxy_medal_achievement(600708, 681298, "Beta Beginner", Galaxy::Beta, MedalStatus::Bronze, 4, Some(Tag::Progression)));
     set.push(new_galaxy_medal_achievement(600709, 681299, "Gamma Greenhorn", Galaxy::Gamma, MedalStatus::Bronze, 5, Some(Tag::Progression)));
@@ -46,7 +45,7 @@ pub fn add_galaxy_medal_achievements(set: &mut AchievementSet) {
     set.push(
         Achievement::builder("Galactic Explorer")
             .description("Unlock every galaxy excluding the Lambda galaxy")
-            .requirements(Galaxy::unlocked_all_cond())
+            .core(Galaxy::unlocked_all_cond())
             .points(5)
             .id(600734)
             .badge_id(681324)
@@ -54,10 +53,12 @@ pub fn add_galaxy_medal_achievements(set: &mut AchievementSet) {
             .build(),
     );
 
+    let (core, alt_groups) = all_planets_medal_group(Planet::all(), MedalStatus::Bronze);
     set.push(
         Achievement::builder("Solar System Sentinel")
             .description("Earn a Bronze medal or higher on every planet in every galaxy excluding the Lambda galaxy")
-            .requirements(all_planets_medal_group(Planet::all(), MedalStatus::Bronze))
+            .core(core)
+            .alt_groups(alt_groups)
             .points(25)
             .id(600735)
             .badge_id(681325)
@@ -66,22 +67,23 @@ pub fn add_galaxy_medal_achievements(set: &mut AchievementSet) {
     );
 }
 
-/// Creates a chain group that requires all planets to have the given status.
-fn all_planets_medal_group(planets: &[Planet], status: MedalStatus) -> ChainGroup {
-    let planets_are_at_least: Chain = planets
+/// Creates the core chain and alt groups requiring all planets to have the given status.
+fn all_planets_medal_group(
+    planets: &[Planet],
+    status: MedalStatus,
+) -> (Chain<Condition>, Vec<Chain<Condition>>) {
+    let planets_are_at_least: ResolvedChain = planets
         .iter()
         .map(|p| p.status_is_at_least(status))
         .collect();
     let core = chain!(planets_are_at_least, Game::in_game_cond_with_delta());
 
-    let alt_groups: Vec<Chain> = planets
+    let alt_groups: Vec<Chain<Condition>> = planets
         .iter()
         .map(|p| delta!(p.status()).lt(status as u32))
         .collect();
 
-    let mut group = ChainGroup::new(core);
-    group.set_alt_groups(alt_groups);
-    group
+    (core, alt_groups)
 }
 
 /// Creates a new galaxy medal achievement.
@@ -100,11 +102,13 @@ fn new_galaxy_medal_achievement(
         "or higher "
     };
 
+    let (core, alt_groups) = all_planets_medal_group(galaxy.planets(), status);
     let mut builder = Achievement::builder(title)
         .description(format!(
             "Earn a {status} medal {insert}on every planet of the {galaxy} galaxy"
         ))
-        .requirements(all_planets_medal_group(galaxy.planets(), status))
+        .core(core)
+        .alt_groups(alt_groups)
         .points(points)
         .badge_id(badge_id)
         .id(id);
