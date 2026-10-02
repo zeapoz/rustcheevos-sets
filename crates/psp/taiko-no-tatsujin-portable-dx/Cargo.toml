@@ -1,0 +1,8 @@
+[package]
+name = "taiko-no-tatsujin-portable-dx"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+rustcheevos.workspace = true
+rustcheevos-cli.workspace = true
