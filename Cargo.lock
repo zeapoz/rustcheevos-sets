@@ -430,6 +430,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "taiko-no-tatsujin-portable-dx"
+version = "0.1.0"
+dependencies = [
+ "rustcheevos",
+ "rustcheevos-cli",
+]
+
+[[package]]
 name = "thiserror"
 version = "2.0.19"
 source = "registry+https://github.com/rust-lang/crates.io-index"
