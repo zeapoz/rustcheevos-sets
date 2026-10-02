@@ -7,9 +7,7 @@ use rustcheevos::{
     },
 };
 
-use crate::mem;
-
-const PSP_POINTER_MASK: u32 = 0x1ffffff;
+use crate::{mem, util::PSP_POINTER_MASK};
 
 pub struct InGameStats;
 
@@ -24,31 +22,35 @@ impl InGameStats {
     }
 
     pub fn current_combo() -> Chain<MemoryRef> {
-        chain!(Self::stats_pointer(), bits32!(0x4),)
+        chain!(Self::stats_pointer(), bits32!(0x4))
     }
 
     pub fn highest_combo() -> Chain<MemoryRef> {
-        chain!(Self::stats_pointer(), bits32!(0x8),)
+        chain!(Self::stats_pointer(), bits32!(0x8))
     }
 
     pub fn great_hits() -> Chain<MemoryRef> {
-        chain!(Self::stats_pointer(), bits32!(0xc),)
+        chain!(Self::stats_pointer(), bits32!(0xc))
     }
 
     pub fn good_hits() -> Chain<MemoryRef> {
-        chain!(Self::stats_pointer(), bits32!(0x10),)
+        chain!(Self::stats_pointer(), bits32!(0x10))
     }
 
     pub fn misses() -> Chain<MemoryRef> {
-        chain!(Self::stats_pointer(), bits32!(0x14),)
+        chain!(Self::stats_pointer(), bits32!(0x14))
     }
 
     pub fn total_hits() -> Chain<MemoryRef> {
-        chain!(Self::stats_pointer(), bits32!(0x18),)
+        chain!(Self::stats_pointer(), bits32!(0x18))
     }
 
     pub fn current_score() -> Chain<MemoryRef> {
-        chain!(Self::stats_pointer(), bits32!(0x1c),)
+        chain!(Self::stats_pointer(), bits32!(0x1c))
+    }
+
+    pub fn quoata_guage() -> Chain<MemoryRef> {
+        chain!(Self::stats_pointer(), float!(0x20))
     }
 
     pub fn pointer_not_null() -> Condition {

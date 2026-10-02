@@ -10,8 +10,8 @@ pub enum Result {
 impl Result {
     pub const LOOKUP_TABLE: [(u32, &'static str); 3] = [
         (Self::Fail as u32, ""),
-        (Self::SilverCrown as u32, "🏅"),
-        (Self::GoldenCrown as u32, "🥈"),
+        (Self::SilverCrown as u32, "🏅 "),
+        (Self::GoldenCrown as u32, "🥈 "),
     ];
 }
 

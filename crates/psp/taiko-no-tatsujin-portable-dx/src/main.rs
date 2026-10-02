@@ -7,6 +7,7 @@ mod mem;
 mod rich;
 mod set;
 mod types;
+mod util;
 
 const GAME_ID: u32 = 19377;
 const GAME_NAME: &str = "Taiko no Tatsujin: Portable DX";

@@ -1,5 +1,5 @@
 use rustcheevos::types::memory::MemoryRef;
-use rustcheevos::{bits8, bits16, bits32};
+use rustcheevos::{bits8, bits16, bits32, float};
 
 /// [32-bit] Currently Selected Profile
 pub const fn currently_selected_profile() -> MemoryRef {
@@ -23,7 +23,22 @@ pub const fn in_game_structs_0x1ffffff() -> MemoryRef {
     bits32!(0xb4b2b0)
 }
 
-/// [32-bit] In Game Flag
+// [32-bit][Pointer] Game Mode-Specific Data Pointer (& 0x1fffffff)
+// +0x54 = [32-bit][Pointer] Medley Mode
+// ++0x5c = [32-bit][Pointer]
+// +++0x0 = [32-bit] Current Song Number in Medley
+// +++0x4 = [32-bit] Last Song Number in Medley
+// +0x100 = [32-bit] Omikoshi - Current Disciples In Battle
+// Only works in Omikoshi Story mode
+pub const fn game_mode_specific_data_pointer() -> MemoryRef {
+    bits32!(0xba04b8)
+}
+
+pub const fn omikoshi_opponent() -> MemoryRef {
+    bits8!(0x1068ede)
+}
+
+/// [8-bit] In Game Flag
 /// 0x0 = In Menu
 /// 0x1 = In Game
 pub const fn in_game_flag() -> MemoryRef {
@@ -34,7 +49,16 @@ pub const fn in_game_flag() -> MemoryRef {
 /// 0x0 = Not Loaded
 /// 0x1 = Loaded
 pub const fn save_data_loaded_flag() -> MemoryRef {
-    bits8!(0xcb266c)
+    bits32!(0xcb266c)
+}
+
+pub const fn results_quota_gauge() -> MemoryRef {
+    float!(0xfca008)
+}
+
+/// [32-bit] Results - Highest Combo
+pub const fn results_highest_combo() -> MemoryRef {
+    bits16!(0xfc9ff8)
 }
 
 /// [32-bit] Results - Score
@@ -293,7 +317,7 @@ pub const fn end_result() -> MemoryRef {
 /// == Wadaiko Enbu ==
 /// 0x58 = Taiko Guide: Chapter 116 (太鼓指南　百十六の巻)
 pub const fn current_song_id() -> MemoryRef {
-    bits32!(0xfca080)
+    bits32!(0xc317f8)
 }
 
 /// [32-bit] Current Song Difficulty
@@ -1019,7 +1043,7 @@ pub const fn game_mode() -> MemoryRef {
 // 0x6b = Omikoshi - Map
 // 0x6d = Omikoshi - Battle
 // 0x6e = Omikoshi - Battle Results
-// 0x70 = Doji Training - Results
+// 0x70 = Dojo Training - Results
 pub const fn current_menu_id() -> MemoryRef {
     bits32!(0x1068d5c)
 }
