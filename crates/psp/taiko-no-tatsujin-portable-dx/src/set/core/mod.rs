@@ -1,11 +1,13 @@
 use rustcheevos::types::achievement::Achievement;
 
 use crate::{
-    set::core::in_game_achievement::in_game_achievement, types::achievement::InGameAchievement,
+    set::core::{in_game_achievement::in_game_achievement, mail::recieved_mail},
+    types::{achievement::InGameAchievement, mail::Mail},
 };
 
 pub mod general;
 pub mod in_game_achievement;
+pub mod mail;
 pub mod omikoshi;
 pub mod songs;
 
@@ -83,6 +85,20 @@ pub fn generate_set() -> Vec<Achievement> {
         in_game_achievement("Reach a combo of 2000 or more in Medley mode", InGameAchievement::ReachAComboOf2000OrMoreInMedleyMode),
         in_game_achievement("Drumroll a total of 500 times or more in Medley mode", InGameAchievement::DrumrollATotalOf500TimesOrMoreInMedleyMode),
         in_game_achievement("Score 3,000,000 points or more in Medley mode", InGameAchievement::Score3000000PointsOrMoreInMedleyMode),
+
+        // Mail.
+        recieved_mail("Achieve the rank of Apprentice", Mail::ApprenticePromotion),
+        recieved_mail("Achieve the rank of Novice", Mail::NovicePromotion),
+        recieved_mail("Achieve the rank of Disciple", Mail::DisciplePromotion),
+        recieved_mail("Achieve the rank of Half a Man", Mail::HalfAManPromotion),
+        recieved_mail("Achieve the rank of Qualified", Mail::QualifiedPromotion),
+        recieved_mail("Achieve the rank of Capable", Mail::CapablePromotion),
+        recieved_mail("Achieve the rank of Go-getter", Mail::GoGetterPromotion),
+        recieved_mail("Achieve the rank of Professional", Mail::ProfessionalPromotion),
+        recieved_mail("Achieve the rank of Expert", Mail::ExpertPromotion),
+        recieved_mail("Achieve the rank of Iron Man", Mail::IronManPromotion),
+        recieved_mail("Achieve the rank of Master", Mail::MasterPromotion),
+        recieved_mail("Achieve the rank of Grand Master", Mail::GrandMasterPromotion),
     ]
 }
 

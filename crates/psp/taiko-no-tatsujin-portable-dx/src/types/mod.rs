@@ -1,5 +1,6 @@
 pub mod achievement;
 pub mod difficulty;
+pub mod mail;
 pub mod menu;
 pub mod mode;
 pub mod modifier;

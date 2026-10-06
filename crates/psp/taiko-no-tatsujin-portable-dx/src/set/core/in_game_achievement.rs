@@ -1,6 +1,10 @@
 use rustcheevos::{prelude::*, types::achievement::Achievement};
 
-use crate::types::{achievement::InGameAchievement, profile::Profile};
+use crate::types::{
+    achievement::InGameAchievement,
+    menu::{GeneralMenuState, MenuState},
+    profile::Profile,
+};
 
 pub fn in_game_achievement(
     description: &'static str,
@@ -11,6 +15,7 @@ pub fn in_game_achievement(
         .core(chain!(
             delta!(in_game_achievement.is_locked()),
             in_game_achievement.is_unlocked(),
+            MenuState::is(MenuState::General(GeneralMenuState::Mail)),
             Profile::is_loaded(),
         ))
         .build()

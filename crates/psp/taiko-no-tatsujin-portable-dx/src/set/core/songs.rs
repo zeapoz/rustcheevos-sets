@@ -27,7 +27,7 @@ pub fn clear_song_with_result(
 
     Achievement::builder(title)
         .description(format!(
-            "Earn a {result} {insert}on \\\"{song}\\\" on {difficulty} difficulty"
+            "Earn a {result} {insert}on \"{song}\" on {difficulty} difficulty"
         ))
         .points(0)
         .core(core)

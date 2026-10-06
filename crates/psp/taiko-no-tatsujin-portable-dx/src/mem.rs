@@ -1,5 +1,5 @@
 use rustcheevos::types::memory::MemoryRef;
-use rustcheevos::{bits8, bits16, bits32};
+use rustcheevos::{bits8, bits16, bits32, float};
 
 /// [32-bit] Currently Selected Profile
 pub const fn currently_selected_profile() -> MemoryRef {
@@ -289,7 +289,7 @@ pub const fn results_highest_combo() -> MemoryRef {
 
 /// [32-bit][Float] Results - Quota Gauge
 pub const fn results_quota_gauge() -> MemoryRef {
-    bits32!(0xfca008)
+    float!(0xfca008)
 }
 
 /// [32-bit] Results - Score
