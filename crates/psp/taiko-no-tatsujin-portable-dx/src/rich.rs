@@ -308,7 +308,7 @@ fn register_omikoshi_displays(
     }: &RpHandles,
 ) {
     let prefecture_or_boss =
-        rp.register_lookup(BattleOpponents::lookup_table(), mem::omikoshi_opponent());
+        rp.register_lookup(BattleOpponents::lookup_table(), mem::omikoshi_opponent_id());
 
     let conquered_dojos = rp.builtin_macro(
         BuiltInMacro::Number,

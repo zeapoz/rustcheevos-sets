@@ -12,7 +12,7 @@ pub struct MedleyMode;
 impl MedleyMode {
     pub fn hud_pointer() -> Chain<Arithmetic> {
         chain!(
-            add_address!(mem::game_mode_specific_data_pointer().bitwise_and(PSP_POINTER_MASK)),
+            add_address!(mem::game_mode_specific_data_0x1ffffff().bitwise_and(PSP_POINTER_MASK)),
             add_address!(bits32!(0x54).bitwise_and(PSP_POINTER_MASK)),
             add_address!(bits32!(0x5c).bitwise_and(PSP_POINTER_MASK)),
         )

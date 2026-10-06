@@ -13,7 +13,7 @@ pub fn control_dojo(num_dojos: u32) -> Achievement {
         &num_dojos.to_string()
     };
 
-    Achievement::builder("TBD")
+    Achievement::builder("TBD - Control Dojo")
         .description(format!(
             "Control {fmt_string} dojo in the Omikoshi story mode"
         ))
@@ -27,7 +27,7 @@ pub fn control_dojo(num_dojos: u32) -> Achievement {
 }
 
 pub fn gather_drum_disciples(num_disciples: u32, sound: Sound) -> Achievement {
-    Achievement::builder("TBD")
+    Achievement::builder("TBD - Gather Drum Disciples")
         .description(format!(
             "Gather {num_disciples} Drum disciples in the Omikoshi story mode and unlock the {sound} sound"
         ))
@@ -42,7 +42,7 @@ pub fn gather_drum_disciples(num_disciples: u32, sound: Sound) -> Achievement {
 }
 
 pub fn unlock_all_headgear() -> Achievement {
-    Achievement::builder("TBD")
+    Achievement::builder("TBD - Unlock All Headgear")
         .description("Find all headgear in the Omikoshi story mode")
         .core(chain!(
             delta!(Profile::num_headgear().eq(TOTAL_NUM_HEADGEAR - 1)),
@@ -53,7 +53,7 @@ pub fn unlock_all_headgear() -> Achievement {
 }
 
 pub fn unlock_all_clothes() -> Achievement {
-    Achievement::builder("TBD")
+    Achievement::builder("TBD - Unlock All Clothes")
         .description("Find all clothes in the Omikoshi story mode")
         .core(chain!(
             delta!(Profile::num_clothes().eq(TOTAL_NUM_CLOTHES - 1)),

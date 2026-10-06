@@ -1,5 +1,5 @@
 use rustcheevos::types::memory::MemoryRef;
-use rustcheevos::{bits8, bits16, bits32, float};
+use rustcheevos::{bits8, bits16, bits32};
 
 /// [32-bit] Currently Selected Profile
 pub const fn currently_selected_profile() -> MemoryRef {
@@ -18,80 +18,35 @@ pub const fn currently_selected_profile() -> MemoryRef {
 /// ++++0x14 = [32-bit] Misses
 /// ++++0x18 = [32-bit] Total Hits
 /// ++++0x1c = [32-bit] Current Score
-/// ++++0x20 = [32-bit] Quota Gauge
+/// ++++0x20 = [32-bit][Float] Quota Gauge
+/// ....0.0 = Min
+/// ....10000.0 = Max
 pub const fn in_game_structs_0x1ffffff() -> MemoryRef {
     bits32!(0xb4b2b0)
 }
 
-// [32-bit][Pointer] Game Mode-Specific Data Pointer (& 0x1fffffff)
-// +0x54 = [32-bit][Pointer] Medley Mode
-// ++0x5c = [32-bit][Pointer]
-// +++0x0 = [32-bit] Current Song Number in Medley
-// +++0x4 = [32-bit] Last Song Number in Medley
-// +0x100 = [32-bit] Omikoshi - Current Disciples In Battle
-// Only works in Omikoshi Story mode
-pub const fn game_mode_specific_data_pointer() -> MemoryRef {
+/// [32-bit][Pointer] Game Mode-Specific Data (& 0x1ffffff)
+/// Medley Mode:
+/// +0x54 = [32-bit][Pointer]
+/// ++0x5c = [32-bit][Pointer] Read-only Data
+/// Only non-null when playing a medley
+/// +++0x0 = [32-bit] Current Song Number in Medley
+/// +++0x4 = [32-bit] Last Song Number in Medley
+/// +0x68 = [32-bit] Current Song Number in Medley
+/// +0x6c = [32-bit] Last Song Number in Medley
+///
+/// Omikoshi Battle:
+/// +0x100 = [32-bit] Omikoshi - Current Disciples In Battle
+/// Only works in Omikoshi Story mode
+pub const fn game_mode_specific_data_0x1ffffff() -> MemoryRef {
     bits32!(0xba04b8)
 }
 
-pub const fn omikoshi_opponent() -> MemoryRef {
-    bits8!(0x1068ede)
-}
-
-/// [8-bit] In Game Flag
-/// 0x0 = In Menu
+/// [32-bit] In-Game Flag
+/// 0x0 = Not In Game
 /// 0x1 = In Game
 pub const fn in_game_flag() -> MemoryRef {
     bits32!(0xc13ac4)
-}
-
-/// [8-bit] Save Data Loaded Flag
-/// 0x0 = Not Loaded
-/// 0x1 = Loaded
-pub const fn save_data_loaded_flag() -> MemoryRef {
-    bits32!(0xcb266c)
-}
-
-pub const fn results_quota_gauge() -> MemoryRef {
-    float!(0xfca008)
-}
-
-/// [32-bit] Results - Highest Combo
-pub const fn results_highest_combo() -> MemoryRef {
-    bits16!(0xfc9ff8)
-}
-
-/// [32-bit] Results - Score
-pub const fn results_score() -> MemoryRef {
-    bits32!(0xfca010)
-}
-
-/// [16-bit] Results - % Hit
-pub const fn results_hit() -> MemoryRef {
-    bits16!(0xfca014)
-}
-
-/// [16-bit] Results - Great Hits
-pub const fn results_great_hits() -> MemoryRef {
-    bits16!(0xfca016)
-}
-
-/// [16-bit] Results - Good Hits
-pub const fn results_good_hits() -> MemoryRef {
-    bits16!(0xfca018)
-}
-
-/// [16-bit] Results - Missed Hits
-pub const fn results_missed_hits() -> MemoryRef {
-    bits16!(0xfca01a)
-}
-
-/// [32-bit] End Result
-/// 0x0 = Fail
-/// 0x1 = Silver Crown
-/// 0x2 = Gold Crown
-pub const fn end_result() -> MemoryRef {
-    bits32!(0xfca024)
 }
 
 /// [32-bit] Current Song ID
@@ -320,6 +275,56 @@ pub const fn current_song_id() -> MemoryRef {
     bits32!(0xc317f8)
 }
 
+/// [32-bit] Save Data Loaded Flag
+/// 0x0 = Not Loaded
+/// 0x1 = Loaded
+pub const fn save_data_loaded_flag() -> MemoryRef {
+    bits32!(0xcb266c)
+}
+
+/// [16-bit] Results - Highest Combo
+pub const fn results_highest_combo() -> MemoryRef {
+    bits16!(0xfc9ff8)
+}
+
+/// [32-bit][Float] Results - Quota Gauge
+pub const fn results_quota_gauge() -> MemoryRef {
+    bits32!(0xfca008)
+}
+
+/// [32-bit] Results - Score
+pub const fn results_score() -> MemoryRef {
+    bits32!(0xfca010)
+}
+
+/// [16-bit] Results - % Hit
+pub const fn results_hit() -> MemoryRef {
+    bits16!(0xfca014)
+}
+
+/// [16-bit] Results - Great Hits
+pub const fn results_great_hits() -> MemoryRef {
+    bits16!(0xfca016)
+}
+
+/// [16-bit] Results - Good Hits
+pub const fn results_good_hits() -> MemoryRef {
+    bits16!(0xfca018)
+}
+
+/// [16-bit] Results - Missed Hits
+pub const fn results_missed_hits() -> MemoryRef {
+    bits16!(0xfca01a)
+}
+
+/// [32-bit] End Result
+/// 0x0 = Fail
+/// 0x1 = Silver Crown
+/// 0x2 = Gold Crown
+pub const fn end_result() -> MemoryRef {
+    bits32!(0xfca024)
+}
+
 /// [32-bit] Current Song Difficulty
 /// 0x0 = Kantan (Easy)
 /// 0x1 = Futsuu (Normal)
@@ -485,21 +490,21 @@ pub const fn omikoshi_number_of_missing_disciples() -> MemoryRef {
 /// - See 0x100e2b0 for the full prefecture list
 ///
 /// |0x0 = [16-bit] Number of Disciples
-/// |0x6 = [8-bit][Lower4] State Flags
-/// 0x0 = Starting Prefecture
-/// 0x1 = Conquered
-/// 0x4 = Unlocked
-/// 0x6 = Locked
+/// |0x6 = [8-bit] State Flags
+/// .0x0 = Starting Prefecture
+/// .0x1 = Conquered
+/// .0x4 = Unlocked
+/// .0x6 = Locked
 pub const fn omikoshi_prefecture_structs() -> usize {
     0x100e2ec
 }
 
 /// [8x32 bytes] Omikoshi - Boss Structs
 /// |0x0 = [16-bit] Power
-/// |0x6 = [8-bit][Lower4] State Flags
-/// 0x2 = Defeated
-/// 0x4 = Unlocked
-/// 0x6 = Locked
+/// |0x6 = [8-bit] State Flags
+/// .0x2 = Defeated
+/// .0x4 = Unlocked
+/// .0x6 = Locked
 pub const fn omikoshi_boss_structs() -> usize {
     0x100e8cc
 }
@@ -539,7 +544,8 @@ pub const fn omikoshi_last_cursor_position() -> MemoryRef {
 
 /// [50x4 bytes] Omikoshi - Wadaiko Enbu Data (Amakuchi)
 /// |0x00 = [8-bit] Status
-/// .0x1 = New
+/// .0x0 = Locked
+/// .0x1 = Unlocked
 /// .0x2 = Attempted
 /// .0x3 = Cleared
 /// |0x04 = [16-bit] Times Cleared
@@ -613,12 +619,12 @@ pub const fn file_1_game_modifiers_special() -> MemoryRef {
     bits8!(0x100eef6)
 }
 
-/// [8-bit] File 1 - Game Modifiers - Note Symbol
-/// 0x0 = Normal
-/// 0x1 = Whimsical
-/// 0x2 = Random
-/// 0x3 = Reversed
-pub const fn file_1_game_modifiers_note_symbol() -> MemoryRef {
+/// [8-bit] File 1 - Game Modifiers - Note
+/// 0x0 = Normal (普通)
+/// 0x1 = Whimsical (きまぐれ)
+/// 0x2 = Random (でたらめ)
+/// 0x3 = Reversed (あべこべ)-
+pub const fn file_1_game_modifiers_note() -> MemoryRef {
     bits8!(0x100eef7)
 }
 
@@ -890,6 +896,11 @@ pub const fn in_game_achievements_unlock_flags() -> usize {
     0x101bd00
 }
 
+/// [8-bit] File 1 - Current Rank
+pub const fn file_1_current_rank() -> MemoryRef {
+    bits8!(0x101bd50)
+}
+
 /// [97x1 bytes] Recieved Mail Flags
 /// Likely non-exhaustive
 ///
@@ -1015,35 +1026,44 @@ pub const fn game_mode() -> MemoryRef {
     bits32!(0x1068d50)
 }
 
-// [32-bit] Current Menu ID
-// 0x45 = Title Screen
-// 0x47 = Profile Select
-// 0x49 = Data Install
-// 0x4b = Main Menu
-// 0x4c = Medley Mode
-// 0x4d = Playing Medley
-// 0x4e = Medley - Results
-// 0x4f = Don-chan's Room
-// 0x50 = Change Clothes
-// 0x51 = Mailbox
-// 0x52 = Scoreboard
-// 0x53 = In-game Achievement List
-// 0x54 = Everybody's Data
-// 0x55 = Tutorial
-// 0x56 = Multiplayer Menu
-// 0x5b = Settings
-// 0x61 = Freeplay - Song Select
-// 0x62 = Playing Song
-// 0x63 = Results
-// 0x65 = Mail Recieved
-// 0x66 = Saving
-// 0x67 = Omikoshi - Select Starting Prefecture
-// 0x68 = Omikoshi - Cutscene
-// 0x6a = Omikoshi - Dojo
-// 0x6b = Omikoshi - Map
-// 0x6d = Omikoshi - Battle
-// 0x6e = Omikoshi - Battle Results
-// 0x70 = Dojo Training - Results
+/// [32-bit] Current Menu ID
+/// 0x44 = Splash Screen
+/// 0x45 = Title Screen
+/// 0x47 = Profile Select
+/// 0x48 = Name Entry
+/// 0x49 = Data Install
+/// 0x4b = Main Menu
+/// 0x4c = Medley Mode
+/// 0x4d = Playing Medley
+/// 0x4e = Medley - Results
+/// 0x4f = Don-chan's Room
+/// 0x50 = Change Clothes
+/// 0x51 = Mailbox
+/// 0x52 = Scoreboard
+/// 0x53 = In-game Achievement List
+/// 0x54 = Everybody's Data
+/// 0x55 = Tutorial
+/// 0x56 = Multiplayer Menu
+/// 0x5b = Settings
+/// 0x61 = Freeplay - Song Select
+/// 0x62 = Playing Song
+/// 0x63 = Results
+/// 0x65 = Mail Recieved
+/// 0x66 = Saving
+/// 0x67 = Omikoshi - Select Starting Prefecture
+/// 0x68 = Omikoshi - Cutscene
+/// 0x6a = Omikoshi - Dojo
+/// 0x6b = Omikoshi - Map
+/// 0x6c = Omikoshi - Preparing For Battle
+/// 0x6d = Omikoshi - Battle
+/// 0x6e = Omikoshi - Battle Results
+/// 0x70 = Doji Training - Results
+/// 0x75 = Warning Screen
 pub const fn current_menu_id() -> MemoryRef {
     bits32!(0x1068d5c)
+}
+
+/// [8-bit] Omikoshi - Opponent ID
+pub const fn omikoshi_opponent_id() -> MemoryRef {
+    bits8!(0x1068ede)
 }

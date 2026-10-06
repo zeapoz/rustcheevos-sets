@@ -1,3 +1,4 @@
+pub mod achievement;
 pub mod difficulty;
 pub mod menu;
 pub mod mode;

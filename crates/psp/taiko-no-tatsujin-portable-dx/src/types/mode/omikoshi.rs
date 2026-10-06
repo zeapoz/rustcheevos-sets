@@ -33,7 +33,7 @@ impl OmikoshiMode {
 
     pub fn disciples_in_battle() -> Chain<MemoryRef> {
         chain!(
-            add_address!(mem::game_mode_specific_data_pointer().bitwise_and(PSP_POINTER_MASK)),
+            add_address!(mem::game_mode_specific_data_0x1ffffff().bitwise_and(PSP_POINTER_MASK)),
             bits32!(0x100),
         )
     }

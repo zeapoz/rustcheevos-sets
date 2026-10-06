@@ -2,11 +2,11 @@ use std::fmt;
 
 use rustcheevos::{
     prelude::*,
-    types::{chain::Chain, memory::MemoryRef},
+    types::{chain::Chain, memory::MemoryRef, requirement::Condition},
 };
 
 use crate::{
-    mem::file_1_song_scoreboard_kantan,
+    mem,
     types::{difficulty::Difficulty, profile::Profile},
 };
 
@@ -45,13 +45,29 @@ macro_rules! gen_song_defs {
                 const SONG_SIZE_BYTES: u32 = 32;
                 const RESULT_OFFSET: usize = 0x1;
 
-                let song_stats_offset = file_1_song_scoreboard_kantan() + difficulty.offset();
+                let song_stats_offset = mem::file_1_song_scoreboard_kantan() + difficulty.offset();
                 let song_offset = song_stats_offset + (self.id() * SONG_SIZE_BYTES) as usize;
 
                 chain!(
                     Profile::offset_for_current(),
                     bits8!(song_offset + RESULT_OFFSET),
                 )
+            }
+
+            fn unlocked_state(&self) -> Chain<MemoryRef> {
+                assert!(!self.is_dlc());
+                chain!(
+                    Profile::offset_for_current(),
+                    bits8!(mem::file_1_song_unlock_flags()),
+                )
+            }
+
+            pub fn is_locked(&self) -> Chain<Condition> {
+                self.unlocked_state().eq(0x0)
+            }
+
+            pub fn is_unlocked(&self) -> Chain<Condition> {
+                self.unlocked_state().eq(0x1)
             }
 
             /// Returns the title of the song.
@@ -222,15 +238,15 @@ gen_song_defs! {
     AoNoSenritsu => SongData { id: 0x2d, title: "Ao no Senritsu", dlc: false },
     InuHoeru => SongData { id: 0x2e, title: "Inu Hoeru", dlc: false },
     LOVEIkusa => SongData { id: 0x2f, title: "LOVE Ikusa!!", dlc: false },
-    TaiyoumoYappappa => SongData { id: 0x30, title: "Taiyou mo Yappappa", dlc: false },
-    TaiyoumoYappappaUra => SongData { id: 0x31, title: "Taiyou mo Yappappa (Ura)", dlc: false },
+    TaiyouMoYappappa => SongData { id: 0x30, title: "Taiyou mo Yappappa", dlc: false },
+    TaiyouMoYappappaUra => SongData { id: 0x31, title: "Taiyou mo Yappappa (Ura)", dlc: false },
     SportsDigestion => SongData { id: 0x32, title: "Sports Digestion ", dlc: false },
     SportsDigestionUra => SongData { id: 0x33, title: "Sports Digestion (Ura)", dlc: false },
     HappyPeace => SongData { id: 0x34, title: "Happy & Peace", dlc: false },
     RaMorenaKumonai => SongData { id: 0x35, title: "Ra Morena Kumonai", dlc: false },
     DesertDeYakiniku => SongData { id: 0x36, title: "Desert de Yakiniku", dlc: false },
-    RindawaKyoumoZekkouchou => SongData { id: 0x37, title: "Rinda wa Kyou mo Zekkouchou", dlc: false },
-    RindawaKyoumoZekkouchouUra => SongData { id: 0x38, title: "Rinda wa Kyou mo Zekkouchou (Ura)", dlc: false },
+    RindaWaKyoumoZekkouchou => SongData { id: 0x37, title: "Rinda wa Kyou mo Zekkouchou", dlc: false },
+    RindaWaKyoumoZekkouchouUra => SongData { id: 0x38, title: "Rinda wa Kyou mo Zekkouchou (Ura)", dlc: false },
     DensetsunoMatsuri => SongData { id: 0x39, title: "Densetsu no Matsuri", dlc: false },
     DontCut => SongData { id: 0x3a, title: "DON'T CUT", dlc: false },
     DontCutUra => SongData { id: 0x3b, title: "DON'T CUT (Ura)", dlc: false },

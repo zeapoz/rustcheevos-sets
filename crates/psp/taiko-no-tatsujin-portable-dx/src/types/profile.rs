@@ -1,3 +1,5 @@
+use std::fmt;
+
 use rustcheevos::{
     prelude::*,
     types::{
@@ -38,6 +40,15 @@ impl Profile {
     /// Returns a chain counting the number of golden crowns.
     pub fn num_golden_crowns() -> Chain<Arithmetic> {
         Self::num_total_crowns(Result::GoldenCrown)
+    }
+
+    /// Returns a chain counting the number of drum hits on the Taiko counter.
+    pub fn total_drum_hits() -> Chain<MemoryRef> {
+        chain!(Self::offset_for_current(), mem::file_1_taiko_counter())
+    }
+
+    pub fn rank() -> Chain<MemoryRef> {
+        chain!(Self::offset_for_current(), mem::file_1_current_rank())
     }
 
     /// Returns a chain counting the number of obtained headgear.
@@ -101,5 +112,41 @@ impl Profile {
             .iter()
             .map(|s| add_source!(map_fn(s.best_result(difficulty))))
             .collect()
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub enum Rank {
+    Apprentice = 0x01,
+    Novice = 0x02,
+    HalfAMan = 0x03,
+    Qualified = 0x04,
+    Capable = 0x05,
+    GoGetter = 0x06,
+    Professional = 0x07,
+    Expert = 0x08,
+    IronMan = 0x09,
+    Master = 0x0a,
+    GrandMaster = 0x0b,
+    TaikoGod = 0x0c,
+}
+
+impl fmt::Display for Rank {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let s = match self {
+            Rank::Apprentice => "Apprentice",
+            Rank::Novice => "Novice",
+            Rank::HalfAMan => "Half a Man",
+            Rank::Qualified => "Qualified",
+            Rank::Capable => "Capable",
+            Rank::GoGetter => "Go-getter",
+            Rank::Professional => "Professional",
+            Rank::Expert => "Expert",
+            Rank::IronMan => "Iron Man",
+            Rank::Master => "Master",
+            Rank::GrandMaster => "Grand Master",
+            Rank::TaikoGod => "Taiko God",
+        };
+        write!(f, "{s}")
     }
 }
