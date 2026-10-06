@@ -87,7 +87,7 @@ fn obtain_big_green() -> Achievement {
         .collect();
 
     Achievement::builder("Omega Overdrive")
-        .description("Evolve every evolvable Omega into their adult form and obtain Big Green")
+        .description("After collecting every standard Omega, evolve every evolvable Omega into their adult form and obtain Big Green")
         .core(chain!(
             delta!(
                 Omega::BigGreen

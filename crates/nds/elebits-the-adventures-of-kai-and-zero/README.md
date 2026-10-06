@@ -21,7 +21,7 @@
 
 | Badge | Name | Description | Points | Tag |
 |-------|------|-------------|--------|-----|
-| ![Playing with Fire](https://media.retroachievements.org/Badge/712140.png) | Playing with Fire | Help a troubled villager and obtain the Fire Omega. Note: This set currently only works on BizHawk due to unexposed memory in other emulators | 3 | Progression |
+| ![Playing with Fire](https://media.retroachievements.org/Badge/712140.png) | Playing with Fire | Help a troubled villager and obtain the Fire Omega. Note: This set currently only works on BizHawk and melonDS DS due to unexposed memory in other emulators | 3 | Progression |
 | ![Ice to Meet You](https://media.retroachievements.org/Badge/712141.png) | Ice to Meet You | Defrost a creature encased in ice and obtain the Ice Omega | 3 | Progression |
 | ![Warp Speed Ahead](https://media.retroachievements.org/Badge/712142.png) | Warp Speed Ahead | Smash open an ancient stone and obtain the Warp Omega | 3 | Progression |
 | ![Heavy Hitter](https://media.retroachievements.org/Badge/712143.png) | Heavy Hitter | Defeat and obtain the Power Omega | 10 | Progression |
@@ -59,7 +59,7 @@
 | ![High Voltage](https://media.retroachievements.org/Badge/712175.png) | High Voltage | Load 7,500 Watts into the Capture Gun and obtain Twinbee | 10 |  |
 | ![Full Power! Maximum Capacity!](https://media.retroachievements.org/Badge/712176.png) | Full Power! Maximum Capacity! | Load 10,000 Watts into the Capture Gun and obtain Moai | 10 |  |
 | ![Complete Collection](https://media.retroachievements.org/Badge/712177.png) | Complete Collection | Collect every standard Omega and obtain Dewy | 10 |  |
-| ![Omega Overdrive](https://media.retroachievements.org/Badge/712178.png) | Omega Overdrive | Evolve every evolvable Omega into their adult form and obtain Big Green | 25 |  |
+| ![Omega Overdrive](https://media.retroachievements.org/Badge/712178.png) | Omega Overdrive | After collecting every standard Omega, evolve every evolvable Omega into their adult form and obtain Big Green | 25 |  |
 | ![Code Red](https://media.retroachievements.org/Badge/712179.png) | Code Red | Enter a secret code and obtain Big Red | 1 |  |
 | ![A Chilly Surprise](https://media.retroachievements.org/Badge/712180.png) | A Chilly Surprise | Disarm the Power Omega using the Ice Omega | 2 | Missable |
 | ![Unshaken](https://media.retroachievements.org/Badge/713055.png) | Unshaken | Defeat the Earth Omega without taking a single hit | 10 | Missable |
@@ -91,7 +91,7 @@
 | ![Target Acquired](https://media.retroachievements.org/Badge/712206.png) | Target Acquired | Pick up a Wide Lock Laser | 2 |  |
 | ![On Fire](https://media.retroachievements.org/Badge/712207.png) | On Fire | Pick up a Fever Laser x2 | 2 |  |
 | ![Hot Streak](https://media.retroachievements.org/Badge/712208.png) | Hot Streak | Pick up a Fever Laser x3 | 2 |  |
-| ![Power-Up Package](https://media.retroachievements.org/Badge/712209.png) | Power-Up Package | Have every power-up active at once | 10 |  |
+| ![Power-Up Package](https://media.retroachievements.org/Badge/712209.png) | Power-Up Package | Without using a bonus Omega, have every Capture Gun item active at once | 10 |  |
 | ![Trailblazer](https://media.retroachievements.org/Badge/712210.png) | Trailblazer | With the Trace Laser active, net a combo of 17 or more in the Elebit Forest | 10 |  |
 | ![Elebit Excavation](https://media.retroachievements.org/Badge/712211.png) | Elebit Excavation | With the Fever Laser x3 active, net a combo of 20 or more in the Elebit Mine | 10 |  |
 | ![Vista Voyager](https://media.retroachievements.org/Badge/712212.png) | Vista Voyager | With the Fever Laser x2 active, net a combo of 19 or more in the Resort Island | 10 |  |
@@ -127,7 +127,7 @@
 
 | Display |
 |---------|
-| `Playing Elebits: The Adventures of Kai and Zero in an unsupported emulator • Play in BizHawk to earn achievements` |
+| `Playing Elebits: The Adventures of Kai and Zero in an unsupported emulator • Play in BizHawk or melonDS DS to earn achievements` |
 | `Kai and {Omega}{OmegaForm} are {GameAction} in a multiplayer game • {Number}w` |
 | `Kai and {Omega}{OmegaForm} are fighting against {BossArena} • {Number}/{Number} 🔴` |
 | `Kai and {Omega}{OmegaForm} are {GameAction} in the Elebit Forest \| {Number}/{Number} 🔴 • {Number}w \| {Number}/3 🟣 • {Number}/6 🔋` |
