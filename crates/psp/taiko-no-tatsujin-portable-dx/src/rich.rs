@@ -8,12 +8,11 @@ use crate::types::menu::{
 };
 use crate::types::mode::omikoshi::BattleOpponents;
 use crate::types::mode::{MedleyMode, omikoshi::OmikoshiMode};
-use crate::types::profile::{
-    Profile, TOTAL_NUM_CLOTHES, TOTAL_NUM_HEADGEAR, TOTAL_NUM_IN_GAME_ACHIEVEMENTS,
-};
+use crate::types::profile::Profile;
 use crate::types::result::Result;
 use crate::types::song::Song;
 use crate::types::song::in_game_stats::InGameStats;
+use crate::util::{TOTAL_NUM_CLOTHES, TOTAL_NUM_HEADGEAR, TOTAL_NUM_IN_GAME_ACHIEVEMENTS};
 
 struct InGameHandles {
     score: MacroRef,
@@ -366,14 +365,17 @@ fn register_don_chans_room_displays(
         "Learning how to play the Taiko with Bachi-sensei",
     );
 
-    let headgear = rp.builtin_macro(BuiltInMacro::Number, Profile::num_headgear());
-    let clothing = rp.builtin_macro(BuiltInMacro::Number, Profile::num_clothes());
+    let headgear = rp.builtin_macro(BuiltInMacro::Number, measured!(Profile::num_headgear()));
+    let clothing = rp.builtin_macro(BuiltInMacro::Number, measured!(Profile::num_clothes()));
     rp.add_conditional_display(
         MenuState::is(MenuState::DonChansRoom(DonChansRoomState::ClothingMenu)),
         format!("Searching for a new fit • {headgear}/{TOTAL_NUM_HEADGEAR} 🧢 • {clothing}/{TOTAL_NUM_CLOTHES} 👚"),
     );
 
-    let challenges = rp.builtin_macro(BuiltInMacro::Number, Profile::num_challenges_completed());
+    let challenges = rp.builtin_macro(
+        BuiltInMacro::Number,
+        measured!(Profile::num_challenges_completed()),
+    );
     rp.add_conditional_display(
         chain!(
             or_next!(MenuState::is(MenuState::DonChansRoom(

@@ -10,6 +10,7 @@ pub const YELLOW_PER_WORLD: u32 = 4;
 pub const RED_PER_WORLD: u32 = 2;
 pub const BATTERIES_PER_WORLD: u32 = YELLOW_PER_WORLD + RED_PER_WORLD;
 
+// TODO: Make this a shared util.
 pub fn bit_at(address: usize, bit: u32) -> MemoryRef {
     match bit {
         0 => bit0!(address),

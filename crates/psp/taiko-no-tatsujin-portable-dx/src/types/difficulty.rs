@@ -1,5 +1,10 @@
 use std::fmt;
 
+use rustcheevos::prelude::*;
+use rustcheevos::types::requirement::Condition;
+
+use crate::mem;
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 #[repr(u8)]
 pub enum Difficulty {
@@ -24,6 +29,10 @@ impl Difficulty {
             (Self::Muzukashii as u32, Self::Muzukashii.to_string()),
             (Self::Oni as u32, Self::Oni.to_string()),
         ]
+    }
+
+    pub fn is(difficulty: Difficulty) -> Condition {
+        mem::current_song_difficulty().eq(difficulty as u32)
     }
 }
 

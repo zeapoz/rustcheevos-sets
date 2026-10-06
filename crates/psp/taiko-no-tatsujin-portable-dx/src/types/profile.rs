@@ -10,13 +10,10 @@ use rustcheevos::{
 use crate::{
     mem,
     types::{result::Result, song::Song},
+    util::{TOTAL_NUM_CLOTHES, TOTAL_NUM_HEADGEAR, TOTAL_NUM_IN_GAME_ACHIEVEMENTS},
 };
 
 use super::difficulty::Difficulty;
-
-pub const TOTAL_NUM_HEADGEAR: u32 = 29;
-pub const TOTAL_NUM_CLOTHES: u32 = 29;
-pub const TOTAL_NUM_IN_GAME_ACHIEVEMENTS: u32 = 78;
 
 pub struct Profile;
 
@@ -44,29 +41,29 @@ impl Profile {
     }
 
     /// Returns a chain counting the number of obtained headgear.
-    pub fn num_headgear() -> Chain<Arithmetic> {
+    pub fn num_headgear() -> Chain<MemoryRef> {
         let num_headgear = Self::count_byte_array_flags(
             mem::file_1_headgear_unlock_flags(),
             TOTAL_NUM_HEADGEAR as usize,
         );
-        measured!(num_headgear)
+        num_headgear
     }
 
     /// Returns a chain counting the number of obtained clothes.
-    pub fn num_clothes() -> Chain<Arithmetic> {
+    pub fn num_clothes() -> Chain<MemoryRef> {
         let num_clothes = Self::count_byte_array_flags(
             mem::file_1_clothes_unlock_flags(),
             TOTAL_NUM_CLOTHES as usize,
         );
-        measured!(num_clothes)
+        num_clothes
     }
 
-    pub fn num_challenges_completed() -> Chain<Arithmetic> {
+    pub fn num_challenges_completed() -> Chain<MemoryRef> {
         let num_challenges = Self::count_byte_array_flags(
             mem::in_game_achievements_unlock_flags(),
             TOTAL_NUM_IN_GAME_ACHIEVEMENTS as usize,
         );
-        measured!(num_challenges)
+        num_challenges
     }
 
     fn count_byte_array_flags(addr: usize, size: usize) -> Chain<MemoryRef> {
@@ -91,7 +88,7 @@ impl Profile {
         )
     }
 
-    fn num_crowns_per_difficulty(difficulty: Difficulty, crown: Result) -> ResolvedChain {
+    pub fn num_crowns_per_difficulty(difficulty: Difficulty, crown: Result) -> ResolvedChain {
         let map_fn = |s: Chain<MemoryRef>| {
             if crown == Result::SilverCrown {
                 s.modulo(Result::GoldenCrown as u32)

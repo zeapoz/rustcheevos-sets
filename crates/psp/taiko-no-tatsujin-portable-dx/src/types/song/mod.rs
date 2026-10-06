@@ -40,16 +40,6 @@ macro_rules! gen_song_defs {
                 }
             }
 
-            /// Returns the title of the song.
-            pub fn title(&self) -> &'static str {
-                self.data().title
-            }
-
-            /// Returns the ID of the song.
-            pub fn id(&self) -> u32 {
-                self.data().id
-            }
-
             /// Returns a chain resolving to the stored best result for the given difficulty.
             pub fn best_result(&self, difficulty: Difficulty) -> Chain<MemoryRef> {
                 const SONG_SIZE_BYTES: u32 = 32;
@@ -62,6 +52,20 @@ macro_rules! gen_song_defs {
                     Profile::offset_for_current(),
                     bits8!(song_offset + RESULT_OFFSET),
                 )
+            }
+
+            /// Returns the title of the song.
+            pub fn title(&self) -> &'static str {
+                self.data().title
+            }
+
+            /// Returns the ID of the song.
+            pub fn id(&self) -> u32 {
+                self.data().id
+            }
+
+            pub fn is_dlc(&self) -> bool {
+                self.data().dlc
             }
         }
 

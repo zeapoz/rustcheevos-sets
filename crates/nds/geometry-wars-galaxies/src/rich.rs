@@ -33,9 +33,9 @@ fn preparing_cond() -> Condition {
 
 /// Returns a chain group for when to show the exploring the universe display.
 fn exploring_cond() -> Requirements {
-    let mut group = Requirements::new(Condition::always_true());
-    group.add_alt_group(Game::menu_state().eq(MenuState::GalaxySelect as u32));
-    group.add_alt_group(Game::menu_state().eq(MenuState::PlanetSelect as u32));
+    let group = Requirements::new(Condition::always_true())
+        .with_alt(Game::menu_state().eq(MenuState::GalaxySelect as u32))
+        .with_alt(Game::menu_state().eq(MenuState::PlanetSelect as u32));
     group
 }
 
@@ -43,7 +43,7 @@ fn exploring_cond() -> Requirements {
 fn menu_cond() -> Requirements {
     let mut group = Requirements::new(Condition::always_true());
     for menu in MenuState::all_named() {
-        group.add_alt_group(Game::menu_state().eq(*menu as u32));
+        group = group.with_alt(Game::menu_state().eq(*menu as u32));
     }
     group
 }
