@@ -2,9 +2,27 @@ use rustcheevos::prelude::*;
 use rustcheevos::types::achievement::Achievement;
 
 use crate::{
-    types::{menu::GameMode, mode::omikoshi::OmikoshiMode, profile::Profile, sounds::Sound},
+    types::{
+        menu::GameMode,
+        mode::omikoshi::{BattleOpponent, OmikoshiMode},
+        profile::Profile,
+        sounds::Sound,
+    },
     util::{TOTAL_NUM_CLOTHES, TOTAL_NUM_DOJO, TOTAL_NUM_HEADGEAR},
 };
+
+pub fn beat_boss(boss: BattleOpponent) -> Achievement {
+    Achievement::builder("TBD - Beat Boss")
+        .description(format!("Defeat {boss} in the Omikoshi story mode"))
+        .core(chain!(
+            delta!(boss.defeated_stats().eq(BattleOpponent::UNLOCKED_FLAG)),
+            boss.defeated_stats().eq(BattleOpponent::BOSS_DEFEATED_FLAG),
+            // TODO: Replace with menu state maybe?
+            GameMode::is(GameMode::Omikoshi),
+            Profile::is_loaded(),
+        ))
+        .build()
+}
 
 pub fn control_dojo(num_dojos: u32) -> Achievement {
     let fmt_string = if num_dojos == TOTAL_NUM_DOJO {

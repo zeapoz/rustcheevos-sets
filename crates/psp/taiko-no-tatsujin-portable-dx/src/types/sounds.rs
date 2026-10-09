@@ -39,6 +39,9 @@ pub enum Sound {
 }
 
 impl Sound {
+    pub const LOCKED_FLAG: u8 = 0x0;
+    pub const UNLOCKED_FLAG: u8 = 0x1;
+
     pub fn memory_ref(&self) -> MemoryRef {
         const BASE_ADDR: usize = 0x100ef48;
 
@@ -48,11 +51,11 @@ impl Sound {
     }
 
     pub fn is_locked(&self) -> Condition {
-        self.memory_ref().eq(0x0)
+        self.memory_ref().eq(Self::LOCKED_FLAG)
     }
 
     pub fn is_unlocked(&self) -> Condition {
-        self.memory_ref().eq(0x1)
+        self.memory_ref().eq(Self::UNLOCKED_FLAG)
     }
 }
 

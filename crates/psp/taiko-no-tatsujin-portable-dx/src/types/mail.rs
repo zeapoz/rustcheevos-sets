@@ -22,12 +22,15 @@ pub enum Mail {
 }
 
 impl Mail {
+    pub const UNSEEN_FLAG: u8 = 0x0;
+    pub const SEEN_FLAG: u8 = 0x1;
+
     pub fn is_unseen(self) -> Chain<Condition> {
-        self.seen_state().eq(0x0)
+        self.seen_state().eq(Self::UNSEEN_FLAG)
     }
 
     pub fn is_seen(self) -> Chain<Condition> {
-        self.seen_state().eq(0x1)
+        self.seen_state().eq(Self::SEEN_FLAG)
     }
 
     fn seen_state(self) -> Chain<MemoryRef> {

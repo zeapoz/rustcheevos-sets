@@ -1,8 +1,10 @@
 use rustcheevos::types::achievement::Achievement;
 
 use crate::{
-    set::core::{in_game_achievement::in_game_achievement, mail::recieved_mail},
-    types::{achievement::InGameAchievement, mail::Mail},
+    set::core::{
+        in_game_achievement::in_game_achievement, mail::recieved_mail, omikoshi::beat_boss,
+    },
+    types::{achievement::InGameAchievement, mail::Mail, mode::omikoshi::BattleOpponent},
 };
 
 pub mod general;
@@ -14,6 +16,16 @@ pub mod songs;
 #[rustfmt::skip]
 pub fn generate_set() -> Vec<Achievement> {
     vec![
+        // Omikoshi
+        beat_boss(BattleOpponent::GutsCannon),
+        beat_boss(BattleOpponent::DokonGang),
+        beat_boss(BattleOpponent::DokonPlusDokonGang),
+        beat_boss(BattleOpponent::GutsJet),
+        beat_boss(BattleOpponent::DevilDonChan),
+        beat_boss(BattleOpponent::GutsEater),
+        beat_boss(BattleOpponent::ArmageDon),
+
+        // In-game achievements
         in_game_achievement("Clear a song in Freeplay mode", InGameAchievement::FirstClear),
         in_game_achievement("Earn 15 silver crowns on Kantan difficulty", InGameAchievement::Earn15SilverCrownsOnKantan),
         in_game_achievement("Earn 30 silver crowns on Kantan difficulty", InGameAchievement::Earn30SilverCrownsOnKantan),

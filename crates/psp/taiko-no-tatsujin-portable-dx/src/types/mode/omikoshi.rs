@@ -1,3 +1,5 @@
+use std::fmt;
+
 use rustcheevos::{
     prelude::*,
     types::{chain::Chain, memory::MemoryRef, rich::LookupTable},
@@ -41,7 +43,8 @@ impl OmikoshiMode {
     }
 }
 
-pub enum BattleOpponents {
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub enum BattleOpponent {
     Hokkaido = 0x00,
     Aomori = 0x01,
     Iwate = 0x02,
@@ -98,7 +101,20 @@ pub enum BattleOpponents {
     ArmageDon = 0x35,
 }
 
-impl BattleOpponents {
+impl BattleOpponent {
+    pub const STATE_FLAG_OFFSET: usize = 0x6;
+
+    pub const BOSS_DEFEATED_FLAG: u8 = 0x2;
+    pub const UNLOCKED_FLAG: u8 = 0x4;
+
+    pub fn defeated_stats(&self) -> Chain<MemoryRef> {
+        let struct_offset = mem::omikoshi_prefecture_structs() + *self as usize * 32;
+        chain!(
+            Profile::offset_for_current(),
+            bits8!(struct_offset + Self::STATE_FLAG_OFFSET)
+        )
+    }
+
     // TODO: Derive macro that generates this definition and a lookup table.
     pub fn lookup_table() -> LookupTable {
         LookupTable::new("OmikoshiOpponent").with_entries(vec![
@@ -167,60 +183,66 @@ impl BattleOpponents {
 
     pub fn lookup_string(&self) -> &'static str {
         match self {
-            BattleOpponents::Hokkaido => "Hokkaido Prefecture",
-            BattleOpponents::Aomori => "Aomori Prefecture",
-            BattleOpponents::Iwate => "Iwate Prefecture",
-            BattleOpponents::Miyagi => "Miyagi Prefecture",
-            BattleOpponents::Akita => "Akita Prefecture",
-            BattleOpponents::Yamagata => "Yamagata Prefecture",
-            BattleOpponents::Fukushima => "Fukushima Prefecture",
-            BattleOpponents::Ibaraki => "Ibaraki Prefecture",
-            BattleOpponents::Tochigi => "Tochigi Prefecture",
-            BattleOpponents::Gunma => "Gunma Prefecture",
-            BattleOpponents::Saitama => "Saitama Prefecture",
-            BattleOpponents::Chiba => "Chiba Prefecture",
-            BattleOpponents::Tokyo => "Tokyo Prefecture",
-            BattleOpponents::Kanagawa => "Kanagawa Prefecture",
-            BattleOpponents::Niigata => "Niigata Prefecture",
-            BattleOpponents::Toyama => "Toyama Prefecture",
-            BattleOpponents::Ishikawa => "Ishikawa Prefecture",
-            BattleOpponents::Fukui => "Fukui Prefecture",
-            BattleOpponents::Yamanashi => "Yamanashi Prefecture",
-            BattleOpponents::Nagano => "Nagano Prefecture",
-            BattleOpponents::Gifu => "Gifu Prefecture",
-            BattleOpponents::Shizuoka => "Shizuoka Prefecture",
-            BattleOpponents::Aichi => "Aichi Prefecture",
-            BattleOpponents::Mie => "Mie Prefecture",
-            BattleOpponents::Shiga => "Shiga Prefecture",
-            BattleOpponents::Kyoto => "Kyoto Prefecture",
-            BattleOpponents::Osaka => "Osaka Prefecture",
-            BattleOpponents::Hyogo => "Hyogo Prefecture",
-            BattleOpponents::Nara => "Nara Prefecture",
-            BattleOpponents::Wakayama => "Wakayama Prefecture",
-            BattleOpponents::Tottori => "Tottori Prefecture",
-            BattleOpponents::Shimane => "Shimane Prefecture",
-            BattleOpponents::Okuyama => "Okuyama Prefecture",
-            BattleOpponents::Hiroshima => "Hiroshima Prefecture",
-            BattleOpponents::Yamaguchi => "Yamaguchi Prefecture",
-            BattleOpponents::Tokushima => "Tokushima Prefecture",
-            BattleOpponents::Kagawa => "Kagawa Prefecture",
-            BattleOpponents::Ehime => "Ehime Prefecture",
-            BattleOpponents::Kochi => "Kochi Prefecture",
-            BattleOpponents::Fukuoka => "Fukuoka Prefecture",
-            BattleOpponents::Saga => "Saga Prefecture",
-            BattleOpponents::Nagasaki => "Nagasaki Prefecture",
-            BattleOpponents::Kumamoto => "Kumamoto Prefecture",
-            BattleOpponents::Oita => "Oita Prefecture",
-            BattleOpponents::Miyasaki => "Miyasaki Prefecture",
-            BattleOpponents::Kagoshima => "Kagoshima Prefecture",
-            BattleOpponents::Okinawa => "Okinawa Prefecture",
-            BattleOpponents::GutsCannon => "Guts Cannon",
-            BattleOpponents::DokonGang => "Dokon Gang",
-            BattleOpponents::DokonPlusDokonGang => "Dokon + Dokon Gang",
-            BattleOpponents::GutsJet => "Guts Jet",
-            BattleOpponents::DevilDonChan => "Devil Don-chan",
-            BattleOpponents::GutsEater => "Guts Eater",
-            BattleOpponents::ArmageDon => "Armage-Don",
+            BattleOpponent::Hokkaido => "Hokkaido Prefecture",
+            BattleOpponent::Aomori => "Aomori Prefecture",
+            BattleOpponent::Iwate => "Iwate Prefecture",
+            BattleOpponent::Miyagi => "Miyagi Prefecture",
+            BattleOpponent::Akita => "Akita Prefecture",
+            BattleOpponent::Yamagata => "Yamagata Prefecture",
+            BattleOpponent::Fukushima => "Fukushima Prefecture",
+            BattleOpponent::Ibaraki => "Ibaraki Prefecture",
+            BattleOpponent::Tochigi => "Tochigi Prefecture",
+            BattleOpponent::Gunma => "Gunma Prefecture",
+            BattleOpponent::Saitama => "Saitama Prefecture",
+            BattleOpponent::Chiba => "Chiba Prefecture",
+            BattleOpponent::Tokyo => "Tokyo Prefecture",
+            BattleOpponent::Kanagawa => "Kanagawa Prefecture",
+            BattleOpponent::Niigata => "Niigata Prefecture",
+            BattleOpponent::Toyama => "Toyama Prefecture",
+            BattleOpponent::Ishikawa => "Ishikawa Prefecture",
+            BattleOpponent::Fukui => "Fukui Prefecture",
+            BattleOpponent::Yamanashi => "Yamanashi Prefecture",
+            BattleOpponent::Nagano => "Nagano Prefecture",
+            BattleOpponent::Gifu => "Gifu Prefecture",
+            BattleOpponent::Shizuoka => "Shizuoka Prefecture",
+            BattleOpponent::Aichi => "Aichi Prefecture",
+            BattleOpponent::Mie => "Mie Prefecture",
+            BattleOpponent::Shiga => "Shiga Prefecture",
+            BattleOpponent::Kyoto => "Kyoto Prefecture",
+            BattleOpponent::Osaka => "Osaka Prefecture",
+            BattleOpponent::Hyogo => "Hyogo Prefecture",
+            BattleOpponent::Nara => "Nara Prefecture",
+            BattleOpponent::Wakayama => "Wakayama Prefecture",
+            BattleOpponent::Tottori => "Tottori Prefecture",
+            BattleOpponent::Shimane => "Shimane Prefecture",
+            BattleOpponent::Okuyama => "Okuyama Prefecture",
+            BattleOpponent::Hiroshima => "Hiroshima Prefecture",
+            BattleOpponent::Yamaguchi => "Yamaguchi Prefecture",
+            BattleOpponent::Tokushima => "Tokushima Prefecture",
+            BattleOpponent::Kagawa => "Kagawa Prefecture",
+            BattleOpponent::Ehime => "Ehime Prefecture",
+            BattleOpponent::Kochi => "Kochi Prefecture",
+            BattleOpponent::Fukuoka => "Fukuoka Prefecture",
+            BattleOpponent::Saga => "Saga Prefecture",
+            BattleOpponent::Nagasaki => "Nagasaki Prefecture",
+            BattleOpponent::Kumamoto => "Kumamoto Prefecture",
+            BattleOpponent::Oita => "Oita Prefecture",
+            BattleOpponent::Miyasaki => "Miyasaki Prefecture",
+            BattleOpponent::Kagoshima => "Kagoshima Prefecture",
+            BattleOpponent::Okinawa => "Okinawa Prefecture",
+            BattleOpponent::GutsCannon => "Guts Cannon",
+            BattleOpponent::DokonGang => "Dokon Gang",
+            BattleOpponent::DokonPlusDokonGang => "Dokon + Dokon Gang",
+            BattleOpponent::GutsJet => "Guts Jet",
+            BattleOpponent::DevilDonChan => "Devil Don-chan",
+            BattleOpponent::GutsEater => "Guts Eater",
+            BattleOpponent::ArmageDon => "Armage-Don",
         }
+    }
+}
+
+impl fmt::Display for BattleOpponent {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}", self.lookup_string())
     }
 }

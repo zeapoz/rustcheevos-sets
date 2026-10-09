@@ -6,7 +6,7 @@ use crate::types::difficulty::Difficulty;
 use crate::types::menu::{
     DonChansRoomState, FreeplayState, GeneralMenuState, MedleyState, MenuState, OmikoshiState,
 };
-use crate::types::mode::omikoshi::BattleOpponents;
+use crate::types::mode::omikoshi::BattleOpponent;
 use crate::types::mode::{MedleyMode, omikoshi::OmikoshiMode};
 use crate::types::profile::Profile;
 use crate::types::result::Result;
@@ -261,7 +261,6 @@ fn register_freeplay_displays(
             result.crown, result.score, result.combo, result.quota_gauge
         ),
     );
-    // TODO: Get rid of the default string when loading new songs.
 }
 
 fn register_medley_displays(
@@ -308,7 +307,7 @@ fn register_omikoshi_displays(
     }: &RpHandles,
 ) {
     let prefecture_or_boss =
-        rp.register_lookup(BattleOpponents::lookup_table(), mem::omikoshi_opponent_id());
+        rp.register_lookup(BattleOpponent::lookup_table(), mem::omikoshi_opponent_id());
 
     let conquered_dojos = rp.builtin_macro(
         BuiltInMacro::Number,
@@ -340,7 +339,8 @@ fn register_omikoshi_displays(
     rp.add_conditional_display(
         MenuState::is(MenuState::Omikoshi(OmikoshiState::Battle)),
         format!(
-            "Battling against {prefecture_or_boss} • Disciples: {disciples_in_battle} • Total hits: {}",
+            "Battling against {prefecture_or_boss} • Disciples: {disciples_in_battle} • Combo: {} • Total hits: {}",
+            in_game.combo,
             in_game.total_hits,
         ),
     );
