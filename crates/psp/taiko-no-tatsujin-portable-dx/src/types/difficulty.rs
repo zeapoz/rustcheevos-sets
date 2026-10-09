@@ -17,6 +17,8 @@ pub enum Difficulty {
 impl Difficulty {
     pub const SAVE_DATA_STRIDE: usize = 0xe6;
 
+    pub const ALL: [Self; 4] = [Self::Kantan, Self::Futsuu, Self::Muzukashii, Self::Oni];
+
     /// Returns the save data offset for this difficulty.
     pub fn offset(&self) -> usize {
         *self as usize * Self::SAVE_DATA_STRIDE

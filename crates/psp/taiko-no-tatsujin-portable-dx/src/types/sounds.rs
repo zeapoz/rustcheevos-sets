@@ -39,8 +39,8 @@ pub enum Sound {
 }
 
 impl Sound {
-    pub const LOCKED_FLAG: u8 = 0x0;
-    pub const UNLOCKED_FLAG: u8 = 0x1;
+    pub const LOCKED_FLAG: u32 = 0x0;
+    pub const UNLOCKED_FLAG: u32 = 0x1;
 
     pub fn memory_ref(&self) -> MemoryRef {
         const BASE_ADDR: usize = 0x100ef48;

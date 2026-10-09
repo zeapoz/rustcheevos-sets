@@ -88,8 +88,8 @@ pub enum InGameAchievement {
 }
 
 impl InGameAchievement {
-    pub const LOCKED_FLAG: u8 = 0x0;
-    pub const UNLOCKED_FLAG: u8 = 0x1;
+    pub const LOCKED_FLAG: u32 = 0x0;
+    pub const UNLOCKED_FLAG: u32 = 0x1;
 
     pub fn is_locked(self) -> Chain<Condition> {
         self.unlock_state().eq(Self::LOCKED_FLAG)

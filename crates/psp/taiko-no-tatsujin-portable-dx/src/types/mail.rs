@@ -22,8 +22,8 @@ pub enum Mail {
 }
 
 impl Mail {
-    pub const UNSEEN_FLAG: u8 = 0x0;
-    pub const SEEN_FLAG: u8 = 0x1;
+    pub const UNSEEN_FLAG: u32 = 0x0;
+    pub const SEEN_FLAG: u32 = 0x1;
 
     pub fn is_unseen(self) -> Chain<Condition> {
         self.seen_state().eq(Self::UNSEEN_FLAG)

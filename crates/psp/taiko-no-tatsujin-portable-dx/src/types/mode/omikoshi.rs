@@ -2,7 +2,7 @@ use std::fmt;
 
 use rustcheevos::{
     prelude::*,
-    types::{chain::Chain, memory::MemoryRef, rich::LookupTable},
+    types::{chain::Chain, memory::MemoryRef, requirement::Condition, rich::LookupTable},
 };
 
 use crate::{mem, types::profile::Profile, util::PSP_POINTER_MASK};
@@ -104,8 +104,8 @@ pub enum BattleOpponent {
 impl BattleOpponent {
     pub const STATE_FLAG_OFFSET: usize = 0x6;
 
-    pub const BOSS_DEFEATED_FLAG: u8 = 0x2;
-    pub const UNLOCKED_FLAG: u8 = 0x4;
+    pub const BOSS_DEFEATED_FLAG: u32 = 0x2;
+    pub const UNLOCKED_FLAG: u32 = 0x4;
 
     pub fn defeated_stats(&self) -> Chain<MemoryRef> {
         let struct_offset = mem::omikoshi_prefecture_structs() + *self as usize * 32;

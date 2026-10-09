@@ -9,6 +9,7 @@ use crate::{
 
 pub mod general;
 pub mod in_game_achievement;
+pub mod leaderboards;
 pub mod mail;
 pub mod omikoshi;
 pub mod songs;
