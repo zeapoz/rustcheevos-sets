@@ -2,8 +2,9 @@ use rustcheevos::{
     prelude::*,
     types::{chain::Chain, memory::MemoryRef, requirement::Arithmetic},
 };
+use util::psp::PSP_POINTER_MASK;
 
-use crate::{mem, util::PSP_POINTER_MASK};
+use crate::mem;
 
 pub mod omikoshi;
 

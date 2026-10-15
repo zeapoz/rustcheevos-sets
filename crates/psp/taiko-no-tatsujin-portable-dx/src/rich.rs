@@ -247,7 +247,8 @@ fn register_freeplay_displays(
     rp.add_conditional_display(
         chain!(
             MenuState::is(MenuState::Freeplay(FreeplayState::Playing)),
-            mem::in_game_flag().eq(0x1)
+            mem::in_game_flag().eq(0x1),
+            InGameStats::pointer_not_null(),
         ),
         format!(
             "Playing \"{current_song}\" ({difficulty}) • Score: {} • Combo: {} • Soul gauge: {}%",
@@ -279,9 +280,10 @@ fn register_medley_displays(
         rp.builtin_macro(BuiltInMacro::Number, measured!(MedleyMode::num_songs()));
 
     rp.add_conditional_display(
-        chain!(MenuState::is(MenuState::Medley(MedleyState::Playing)),
-
-            mem::in_game_flag().eq(0x1)
+        chain!(
+            MenuState::is(MenuState::Medley(MedleyState::Playing)),
+            mem::in_game_flag().eq(0x1),
+            InGameStats::pointer_not_null(),
         ),
         format!(
             "Playing \"{current_song}\" ({difficulty}) in a medley [{current_song_nr}/{medley_num_songs}] • Score: {} • Combo: {} Soul gauge: {}%",

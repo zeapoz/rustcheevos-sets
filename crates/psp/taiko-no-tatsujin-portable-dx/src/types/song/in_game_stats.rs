@@ -6,8 +6,9 @@ use rustcheevos::{
         requirement::{Arithmetic, Condition},
     },
 };
+use util::psp::PSP_POINTER_MASK;
 
-use crate::{mem, util::PSP_POINTER_MASK};
+use crate::mem;
 
 pub struct InGameStats;
 

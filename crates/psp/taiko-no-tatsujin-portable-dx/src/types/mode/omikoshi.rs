@@ -2,10 +2,11 @@ use std::fmt;
 
 use rustcheevos::{
     prelude::*,
-    types::{chain::Chain, memory::MemoryRef, requirement::Condition, rich::LookupTable},
+    types::{chain::Chain, memory::MemoryRef, rich::LookupTable},
 };
+use util::psp::PSP_POINTER_MASK;
 
-use crate::{mem, types::profile::Profile, util::PSP_POINTER_MASK};
+use crate::{mem, types::profile::Profile};
 
 pub struct OmikoshiMode;
 

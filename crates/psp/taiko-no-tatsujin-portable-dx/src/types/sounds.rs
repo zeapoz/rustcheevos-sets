@@ -3,39 +3,40 @@ use std::fmt;
 use rustcheevos::prelude::*;
 use rustcheevos::types::memory::MemoryRef;
 use rustcheevos::types::requirement::Condition;
+use util::bit_at;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Sound {
-    Taiko = 0,
-    Deluxe = 1,
-    Drum = 2,
-    Synthesizer = 3,
-    Tambourine = 4,
-    WoodenFish = 5,
-    Shuriken = 6,
-    Fart = 7,
-    Donchan = 8,
-    Tsuzumi = 9,
-    FryPan = 10,
-    Bell = 11,
-    Quiz = 12,
-    Rap = 13,
-    Clapping = 14,
-    DogAndCat = 15,
-    EightBit = 16,
-    Knife = 17,
-    ChibiDon = 18,
-    Cameraman = 19,
-    GangsterDon = 20,
-    YokozunaDon = 21,
-    Chabu = 22,
-    Gun = 23,
-    Dynamite = 24,
-    Conga = 25,
-    Yahoo = 26,
-    FizzyDrink = 27,
-    Sneeze = 28,
-    KungFu = 29,
+    Taiko = 0x0,
+    Deluxe = 0x1,
+    Drum = 0x2,
+    Synthesizer = 0x3,
+    Tambourine = 0x4,
+    WoodenFish = 0x5,
+    Shuriken = 0x6,
+    Fart = 0x7,
+    Donchan = 0x8,
+    Tsuzumi = 0x9,
+    FryPan = 0xa,
+    Bell = 0xb,
+    Quiz = 0xc,
+    Rap = 0xd,
+    Clapping = 0xe,
+    DogAndCat = 0xf,
+    EightBit = 0x10,
+    Knife = 0x11,
+    ChibiDon = 0x12,
+    Cameraman = 0x13,
+    GangsterDon = 0x14,
+    YokozunaDon = 0x15,
+    Chabu = 0x16,
+    Gun = 0x17,
+    Dynamite = 0x18,
+    Conga = 0x19,
+    Yahoo = 0x1a,
+    FizzyDrink = 0x1b,
+    Sneeze = 0x1c,
+    KungFu = 0x1d,
 }
 
 impl Sound {
@@ -94,20 +95,5 @@ impl fmt::Display for Sound {
             Sound::KungFu => "Kung Fu",
         };
         write!(f, "{s}")
-    }
-}
-
-// TODO: Make this a shared util.
-pub fn bit_at(address: usize, bit: usize) -> MemoryRef {
-    match bit {
-        0 => bit0!(address),
-        1 => bit1!(address),
-        2 => bit2!(address),
-        3 => bit3!(address),
-        4 => bit4!(address),
-        5 => bit5!(address),
-        6 => bit6!(address),
-        7 => bit7!(address),
-        _ => panic!("invalid bit index"),
     }
 }

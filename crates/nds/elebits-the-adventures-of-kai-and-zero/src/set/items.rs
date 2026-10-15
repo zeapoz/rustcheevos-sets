@@ -2,11 +2,11 @@ use rustcheevos::{
     prelude::*,
     types::{achievement::Achievement, chain::ResolvedChain, requirement::Condition},
 };
+use util::bit_at;
 
 use crate::{
     mem,
     types::{game::Game, game_state::GameState, hud::Hud, location::Location},
-    utils::bit_at,
 };
 
 #[rustfmt::skip]
@@ -32,7 +32,7 @@ fn item_pickup_achievement(
     badge_id: u32,
     title: &str,
     description: &str,
-    bit: u32,
+    bit: usize,
 ) -> Achievement {
     Achievement::builder(title)
         .description(description)

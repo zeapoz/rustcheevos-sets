@@ -1,9 +1,13 @@
 [workspace]
 members = [
-    "crates/*/*",
+    "crates/util",
+    "crates/nds/*",
+    "crates/psp/*",
 ]
 resolver = "3"
 
 [workspace.dependencies]
 rustcheevos = { git = "https://github.com/zeapoz/rustcheevos" }
 rustcheevos-cli = { git = "https://github.com/zeapoz/rustcheevos" }
+
+util = { path = "crates/util" }
