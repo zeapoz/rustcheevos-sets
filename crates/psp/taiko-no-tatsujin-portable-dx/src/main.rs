@@ -1,4 +1,4 @@
-use rustcheevos::types::game::GameData;
+use rustcheevos::types::{game::GameData, set::Set};
 use rustcheevos_cli::{CliError, RustcheevosCli};
 
 use crate::{
@@ -18,9 +18,13 @@ const GAME_NAME: &str = "Taiko no Tatsujin: Portable DX";
 fn main() -> Result<(), CliError> {
     let mut game_data = GameData::new(GAME_ID, GAME_NAME);
 
-    game_data
+    let mut base_set = Set::new_base();
+    base_set
         .add_achievements(generate_set())
-        .add_leaderboards(generate_leaderboards())
+        .add_leaderboards(generate_leaderboards());
+
+    game_data
+        .set_base_set(base_set)
         .set_rich_presence(generate_rich_presence());
 
     RustcheevosCli::parse().run(&game_data)
