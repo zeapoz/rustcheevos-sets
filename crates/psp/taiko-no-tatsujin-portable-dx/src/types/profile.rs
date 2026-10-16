@@ -53,28 +53,25 @@ impl Profile {
 
     /// Returns a chain counting the number of obtained headgear.
     pub fn num_headgear() -> Chain<MemoryRef> {
-        let num_headgear = Self::count_byte_array_flags(
+        Self::count_byte_array_flags(
             mem::file_1_headgear_unlock_flags(),
             TOTAL_NUM_HEADGEAR as usize,
-        );
-        num_headgear
+        )
     }
 
     /// Returns a chain counting the number of obtained clothes.
     pub fn num_clothes() -> Chain<MemoryRef> {
-        let num_clothes = Self::count_byte_array_flags(
+        Self::count_byte_array_flags(
             mem::file_1_clothes_unlock_flags(),
             TOTAL_NUM_CLOTHES as usize,
-        );
-        num_clothes
+        )
     }
 
     pub fn num_challenges_completed() -> Chain<MemoryRef> {
-        let num_challenges = Self::count_byte_array_flags(
+        Self::count_byte_array_flags(
             mem::in_game_achievements_unlock_flags(),
             TOTAL_NUM_IN_GAME_ACHIEVEMENTS as usize,
-        );
-        num_challenges
+        )
     }
 
     fn count_byte_array_flags(addr: usize, size: usize) -> Chain<MemoryRef> {
