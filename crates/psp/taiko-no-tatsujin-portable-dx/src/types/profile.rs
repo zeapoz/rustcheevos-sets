@@ -11,7 +11,10 @@ use rustcheevos::{
 
 use crate::{
     mem,
-    types::{result::Result, song::Song},
+    types::{
+        result::Result,
+        song::{ALL_SONGS, Song},
+    },
     util::{TOTAL_NUM_CLOTHES, TOTAL_NUM_HEADGEAR, TOTAL_NUM_IN_GAME_ACHIEVEMENTS},
 };
 
@@ -105,7 +108,7 @@ impl Profile {
             }
         };
 
-        Song::ALL
+        ALL_SONGS
             .iter()
             .map(|s| add_source!(map_fn(s.best_result(difficulty))))
             .collect()

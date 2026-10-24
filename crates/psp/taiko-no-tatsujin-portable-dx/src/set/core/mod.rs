@@ -1,10 +1,17 @@
+use crate::{
+    set::core::songs::clear_song_with_result,
+    types::{result::Result, song::ALL_STANDARD_SONGS},
+};
 use rustcheevos::types::achievement::Achievement;
 
 use crate::{
     set::core::{
         in_game_achievement::in_game_achievement, mail::recieved_mail, omikoshi::beat_boss,
     },
-    types::{achievement::InGameAchievement, mail::Mail, mode::omikoshi::BattleOpponent},
+    types::{
+        achievement::InGameAchievement, difficulty::Difficulty, mail::Mail,
+        mode::omikoshi::BattleOpponent,
+    },
 };
 
 pub mod general;
@@ -16,7 +23,7 @@ pub mod songs;
 
 #[rustfmt::skip]
 pub fn generate_set() -> Vec<Achievement> {
-    vec![
+    let mut core = vec![
         // Omikoshi
         beat_boss(BattleOpponent::GutsCannon),
         beat_boss(BattleOpponent::DokonGang),
@@ -112,7 +119,13 @@ pub fn generate_set() -> Vec<Achievement> {
         recieved_mail("Achieve the rank of Iron Man", Mail::IronManPromotion),
         recieved_mail("Achieve the rank of Master", Mail::MasterPromotion),
         recieved_mail("Achieve the rank of Grand Master", Mail::GrandMasterPromotion),
-    ]
+    ];
+
+    let all_songs_fc = ALL_STANDARD_SONGS.iter().map(|song|
+        clear_song_with_result("TBD - Song FC", song, Result::GoldenCrown, Difficulty::Muzukashii)
+    );
+    core.extend(all_songs_fc);
+    core
 }
 
 // BACKUP

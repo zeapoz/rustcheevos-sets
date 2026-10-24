@@ -6,33 +6,26 @@ use crate::{
     types::{
         difficulty::Difficulty,
         menu::{FreeplayState, MenuState},
-        song::Song,
+        song::{ALL_STANDARD_SONGS, Song},
     },
 };
 
 pub fn generate_leaderboards() -> Vec<Leaderboard> {
-    // Generate leaderboard for all non-dlc songs for all 4 (enum variants) difficulties
-    // Song::ALL
-    //     .iter()
-    //     .filter_map(|s| s.is_dlc().then_some())
-    //     .collect()
-
     Difficulty::ALL
         .iter()
         .rev()
         .flat_map(|&difficulty| {
-            // Skip Taiko Guide Chapter 116 as it's not a standard song
-            Song::ALL[..Song::ALL.len() - 1]
+            ALL_STANDARD_SONGS
                 .iter()
-                .filter_map(move |&s| (!s.is_dlc()).then_some(leaderboard(s, difficulty)))
+                .map(move |song| leaderboard(song, difficulty))
         })
         .collect()
 }
 
-fn leaderboard(song: Song, difficulty: Difficulty) -> Leaderboard {
+fn leaderboard(song: &Song, difficulty: Difficulty) -> Leaderboard {
     Leaderboard::builder(format!("{} - {}", song.title(), difficulty))
         .description(format!(
-            "Get the highest score on {} on {} difficulty",
+            "Get the highest score on \"{}\" on {} difficulty",
             song.title(),
             difficulty
         ))

@@ -1,4 +1,4 @@
-use std::fmt;
+use std::{fmt, sync::LazyLock};
 
 use rustcheevos::{
     prelude::*,
@@ -12,6 +12,15 @@ use crate::{
 
 mod id;
 pub mod in_game_stats;
+
+pub static ALL_SONGS: LazyLock<&'static [Song]> =
+    LazyLock::new(|| &Song::ALL[..Song::ALL.len() - 1]);
+
+pub static ALL_STANDARD_SONGS: LazyLock<Vec<&Song>> =
+    LazyLock::new(|| ALL_SONGS.iter().filter(|s| !s.is_dlc()).collect());
+
+pub static ALL_DLC_SONGS: LazyLock<Vec<&Song>> =
+    LazyLock::new(|| ALL_SONGS.iter().filter(|s| s.is_dlc()).collect());
 
 pub struct SongData {
     id: u32,
@@ -27,7 +36,7 @@ macro_rules! gen_song_defs {
         }
 
         impl Song {
-            pub const ALL: &[Song] = &[ $( Song::$variant ),* ];
+            const ALL: &[Song] = &[ $( Song::$variant ),* ];
 
             pub const LOOKUP_ENTRIES: &[(u32, &str)] = &[
                 $( ($data.id, $data.title) ),*
