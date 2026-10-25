@@ -15,13 +15,13 @@ pub enum Difficulty {
 }
 
 impl Difficulty {
-    pub const SAVE_DATA_STRIDE: usize = 0xe6;
+    pub const DIFFICULTY_STRIDE: usize = 0x2580;
 
     pub const ALL: [Self; 4] = [Self::Kantan, Self::Futsuu, Self::Muzukashii, Self::Oni];
 
-    /// Returns the save data offset for this difficulty.
+    /// Returns the data offset for this difficulty.
     pub fn offset(&self) -> usize {
-        *self as usize * Self::SAVE_DATA_STRIDE
+        *self as usize * Self::DIFFICULTY_STRIDE
     }
 
     pub fn lookup() -> [(u32, String); 4] {

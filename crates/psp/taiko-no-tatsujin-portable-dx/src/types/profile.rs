@@ -11,10 +11,7 @@ use rustcheevos::{
 
 use crate::{
     mem,
-    types::{
-        result::Result,
-        song::{ALL_SONGS, Song},
-    },
+    types::{result::Result, song::ALL_SONGS},
     util::{TOTAL_NUM_CLOTHES, TOTAL_NUM_HEADGEAR, TOTAL_NUM_IN_GAME_ACHIEVEMENTS},
 };
 
