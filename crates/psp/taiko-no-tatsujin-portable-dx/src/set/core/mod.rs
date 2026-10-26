@@ -1,8 +1,14 @@
 use crate::{
-    set::core::songs::clear_song_with_result,
-    types::{result::Result, song::ALL_STANDARD_SONGS},
+    set::core::{in_game_achievement::in_game_achievement_with, songs::clear_song_with_result},
+    types::{
+        mode::omikoshi::OmikoshiMode, profile::Profile, result::Result, song::ALL_STANDARD_SONGS,
+    },
+    util::{TOTAL_NUM_DOJO, TOTAL_NUM_OMIKOSHI_CLOTHES, TOTAL_NUM_OMIKOSHI_HEADGEAR},
 };
-use rustcheevos::types::achievement::Achievement;
+use rustcheevos::{
+    prelude::*,
+    types::{achievement::Achievement, chain::ResolvedChain},
+};
 
 use crate::{
     set::core::{
@@ -32,6 +38,11 @@ pub fn generate_set() -> Vec<Achievement> {
         beat_boss(BattleOpponent::DevilDonChan),
         beat_boss(BattleOpponent::GutsEater),
         beat_boss(BattleOpponent::ArmageDon),
+        unlock_boss_rush_mode("Clear \"Cycle of Rebirth\" and unlock the Boss Rush mode"),
+
+        // Omikoshi clothes and headgear.
+        obtain_omikoshi_headgear("Find all headgear in the Omikoshi story mode"),
+        obtain_omikoshi_clothes("Find all clothes in the Omikoshi story mode"),
 
         // In-game achievements
         in_game_achievement("Clear a song in Freeplay mode", InGameAchievement::FirstClear),
@@ -47,17 +58,17 @@ pub fn generate_set() -> Vec<Achievement> {
         in_game_achievement("Earn 15 silver crowns on Oni difficulty", InGameAchievement::Earn15SilverCrownsOnOni),
         in_game_achievement("Earn 30 silver crowns on Oni difficulty", InGameAchievement::Earn30SilverCrownsOnOni),
         in_game_achievement("Earn 70 silver crowns on Oni difficulty", InGameAchievement::Earn70SilverCrownsOnOni),
-        in_game_achievement("Accumulate 10,000 hits on the Taiko Counter", InGameAchievement::Accumulate10000HitsOnTheTaikoCounter),
-        in_game_achievement("Accumulate 20,000 hits on the Taiko Counter", InGameAchievement::Accumulate20000HitsOnTheTaikoCounter),
-        in_game_achievement("Accumulate 30,000 hits on the Taiko Counter", InGameAchievement::Accumulate30000HitsOnTheTaikoCounter),
-        in_game_achievement("Accumulate 40,000 hits on the Taiko Counter", InGameAchievement::Accumulate40000HitsOnTheTaikoCounter),
-        in_game_achievement("Accumulate 50,000 hits on the Taiko Counter", InGameAchievement::Accumulate50000HitsOnTheTaikoCounter),
-        in_game_achievement("Accumulate 60,000 hits on the Taiko Counter", InGameAchievement::Accumulate60000HitsOnTheTaikoCounter),
-        in_game_achievement("Accumulate 70,000 hits on the Taiko Counter", InGameAchievement::Accumulate70000HitsOnTheTaikoCounter),
-        in_game_achievement("Accumulate 76,500 hits on the Taiko Counter", InGameAchievement::Accumulate76500HitsOnTheTaikoCounter),
-        in_game_achievement("Accumulate 80,000 hits on the Taiko Counter", InGameAchievement::Accumulate80000HitsOnTheTaikoCounter),
-        in_game_achievement("Accumulate 90,000 hits on the Taiko Counter", InGameAchievement::Accumulate90000HitsOnTheTaikoCounter),
-        in_game_achievement("Accumulate 99,999 hits on the Taiko Counter", InGameAchievement::Accumulate99999HitsOnTheTaikoCounter),
+        accumulate_hits("Accumulate 10,000 hits on the Taiko Counter", InGameAchievement::Accumulate10000HitsOnTheTaikoCounter, 10_000),
+        accumulate_hits("Accumulate 20,000 hits on the Taiko Counter", InGameAchievement::Accumulate20000HitsOnTheTaikoCounter, 20_000),
+        accumulate_hits("Accumulate 30,000 hits on the Taiko Counter", InGameAchievement::Accumulate30000HitsOnTheTaikoCounter, 30_000),
+        accumulate_hits("Accumulate 40,000 hits on the Taiko Counter", InGameAchievement::Accumulate40000HitsOnTheTaikoCounter, 40_000),
+        accumulate_hits("Accumulate 50,000 hits on the Taiko Counter", InGameAchievement::Accumulate50000HitsOnTheTaikoCounter, 50_000),
+        accumulate_hits("Accumulate 60,000 hits on the Taiko Counter", InGameAchievement::Accumulate60000HitsOnTheTaikoCounter, 60_000),
+        accumulate_hits("Accumulate 70,000 hits on the Taiko Counter", InGameAchievement::Accumulate70000HitsOnTheTaikoCounter, 70_000),
+        accumulate_hits("Accumulate 76,500 hits on the Taiko Counter", InGameAchievement::Accumulate76500HitsOnTheTaikoCounter, 76_500),
+        accumulate_hits("Accumulate 80,000 hits on the Taiko Counter", InGameAchievement::Accumulate80000HitsOnTheTaikoCounter, 80_000),
+        accumulate_hits("Accumulate 90,000 hits on the Taiko Counter", InGameAchievement::Accumulate90000HitsOnTheTaikoCounter, 90_000),
+        accumulate_hits("Accumulate 99,999 hits on the Taiko Counter", InGameAchievement::Accumulate99999HitsOnTheTaikoCounter, 99_999),
         in_game_achievement("Earn 10 golden crowns", InGameAchievement::Earn10GoldenCrowns),
         in_game_achievement("Earn 25 golden crowns", InGameAchievement::Earn25GoldenCrowns),
         in_game_achievement("Earn 50 golden crowns", InGameAchievement::Earn50GoldenCrowns),
@@ -77,11 +88,11 @@ pub fn generate_set() -> Vec<Achievement> {
         in_game_achievement("Clear 30 dojo training stages", InGameAchievement::Clear30DojoTrainingStages),
         in_game_achievement("Clear 40 dojo training stages", InGameAchievement::Clear40DojoTrainingStages),
         in_game_achievement("Clear 50 dojo training stages", InGameAchievement::Clear50DojoTrainingStages),
-        in_game_achievement("Control 10 dojos in Omikoshi mode", InGameAchievement::Control10DojosInOmikoshiMode),
-        in_game_achievement("Control 20 dojos in Omikoshi mode", InGameAchievement::Control20DojosInOmikoshiMode),
-        in_game_achievement("Control 30 dojos in Omikoshi mode", InGameAchievement::Control30DojosInOmikoshiMode),
-        in_game_achievement("Control 40 dojos in Omikoshi mode", InGameAchievement::Control40DojosInOmikoshiMode),
-        in_game_achievement("Control all dojos in Omikoshi mode", InGameAchievement::ControlAllDojosInOmikoshiMode),
+        control_dojos("Control 10 dojo in Omikoshi mode", InGameAchievement::Control10DojosInOmikoshiMode, 10),
+        control_dojos("Control 20 dojo in Omikoshi mode", InGameAchievement::Control20DojosInOmikoshiMode, 20),
+        control_dojos("Control 30 dojo in Omikoshi mode", InGameAchievement::Control30DojosInOmikoshiMode, 30),
+        control_dojos("Control 40 dojo in Omikoshi mode", InGameAchievement::Control40DojosInOmikoshiMode, 40),
+        control_dojos("Control all dojo in Omikoshi mode", InGameAchievement::ControlAllDojosInOmikoshiMode, TOTAL_NUM_DOJO),
         in_game_achievement("Beat Omikoshi mode", InGameAchievement::BeatOmikoshiMode),
         in_game_achievement("Beat 2 opponents in a row in Boss Rush mode", InGameAchievement::Beat2OpponentsInARowInBossRushMode),
         in_game_achievement("Beat 5 opponents in a row in Boss Rush mode", InGameAchievement::Beat5OpponentsInARowInBossRushMode),
@@ -128,42 +139,81 @@ pub fn generate_set() -> Vec<Achievement> {
     core
 }
 
-// BACKUP
-// // clear_song_with_result("Test Achievement", Song::OneDay, Result::SilverCrown, Difficulty::Muzukashii),
-// // clear_song_with_result("Test Achievement 2", Song::OneDay, Result::GoldenCrown, Difficulty::Muzukashii),
-//
-// // Omikoshi
-// control_dojo(10),
-// control_dojo(20),
-// control_dojo(30),
-// control_dojo(40),
-// control_dojo(TOTAL_NUM_DOJO),
-// gather_drum_disciples(100, Sound::ChibiDon),
-// gather_drum_disciples(200, Sound::GangsterDon),
-// gather_drum_disciples(300, Sound::YokozunaDon),
-// unlock_all_headgear(),
-// unlock_all_clothes(),
-//
-// // General
-// total_drum_hits(10_000, Song::EtudeOp104Ura),
-// total_drum_hits(20_000, Song::BlackRoseApostleUra),
-// total_drum_hits(30_000, Song::HatsuneMikuNoGekishouUra),
-// total_drum_hits(40_000, Song::RotterTarminationUra),
-// total_drum_hits(50_000, Song::WhiteRoseInsanityUra),
-// total_drum_hits(60_000, Song::TaiyouMoYappappaUra),
-// total_drum_hits(70_000, Song::SportsDigestionUra),
-// total_drum_hits(76_500, Song::RindaWaKyoumoZekkouchouUra),
-// total_drum_hits(80_000, Song::DontCutUra),
-// total_drum_hits(90_000, Song::RumbleRanbuUra),
-// total_drum_hits(99_999, Song::MataSaitama2000),
-// achieve_rank(Rank::Apprentice),
-// achieve_rank(Rank::Novice),
-// achieve_rank(Rank::HalfAMan),
-// achieve_rank(Rank::Qualified),
-// achieve_rank(Rank::Capable),
-// achieve_rank(Rank::GoGetter),
-// achieve_rank(Rank::Professional),
-// achieve_rank(Rank::Expert),
-// achieve_rank(Rank::IronMan),
-// achieve_rank(Rank::Master),
-// achieve_rank(Rank::GrandMaster),
+pub fn obtain_omikoshi_headgear(description: &'static str) -> Achievement {
+    let delta_num_omikoshi_headgear: ResolvedChain = Profile::num_omikoshi_headgear()
+        .eq(TOTAL_NUM_OMIKOSHI_HEADGEAR - 1)
+        .resolve()
+        .iter()
+        .map(|r| delta!(r))
+        .collect();
+
+    Achievement::builder("TBD - Obtain Omikoshi headgear")
+        .description(description)
+        .core(chain!(
+            delta_num_omikoshi_headgear,
+            measured!(Profile::num_omikoshi_headgear().eq(TOTAL_NUM_OMIKOSHI_HEADGEAR)),
+            measured_if!(Profile::is_loaded())
+        ))
+        .build()
+}
+
+pub fn obtain_omikoshi_clothes(description: &'static str) -> Achievement {
+    let delta_num_omikoshi_clothes: ResolvedChain = Profile::num_omikoshi_clothes()
+        .eq(TOTAL_NUM_OMIKOSHI_CLOTHES - 1)
+        .resolve()
+        .iter()
+        .map(|r| delta!(r))
+        .collect();
+
+    Achievement::builder("TBD - Obtain Omikoshi clothes")
+        .description(description)
+        .core(chain!(
+            delta_num_omikoshi_clothes,
+            measured!(Profile::num_omikoshi_clothes().eq(TOTAL_NUM_OMIKOSHI_CLOTHES)),
+            measured_if!(Profile::is_loaded())
+        ))
+        .build()
+}
+
+pub fn control_dojos(
+    description: &'static str,
+    in_game_achievement: InGameAchievement,
+    dojos: u32,
+) -> Achievement {
+    in_game_achievement_with(
+        description,
+        in_game_achievement,
+        chain!(
+            measured!(OmikoshiMode::number_of_controlled_prefectures().ge(dojos)),
+            measured_if!(Profile::is_loaded())
+        )
+        .into(),
+    )
+}
+
+pub fn accumulate_hits(
+    description: &'static str,
+    in_game_achievement: InGameAchievement,
+    hits: u32,
+) -> Achievement {
+    in_game_achievement_with(
+        description,
+        in_game_achievement,
+        chain!(
+            measured!(Profile::total_drum_hits().ge(hits)),
+            measured_if!(Profile::is_loaded())
+        )
+        .into(),
+    )
+}
+
+pub fn unlock_boss_rush_mode(description: &'static str) -> Achievement {
+    Achievement::builder("TBD - Boss Rush mode unlocked")
+        .description(description)
+        .core(chain!(
+            delta!(Profile::boss_rush_mode_unlocked().eq(0)),
+            Profile::boss_rush_mode_unlocked().eq(1),
+            Profile::is_loaded(),
+        ))
+        .build()
+}

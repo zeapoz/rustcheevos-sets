@@ -12,7 +12,10 @@ use rustcheevos::{
 use crate::{
     mem,
     types::{result::Result, song::ALL_SONGS},
-    util::{TOTAL_NUM_CLOTHES, TOTAL_NUM_HEADGEAR, TOTAL_NUM_IN_GAME_ACHIEVEMENTS},
+    util::{
+        TOTAL_NUM_CLOTHES, TOTAL_NUM_HEADGEAR, TOTAL_NUM_IN_GAME_ACHIEVEMENTS,
+        TOTAL_NUM_OMIKOSHI_CLOTHES, TOTAL_NUM_OMIKOSHI_HEADGEAR,
+    },
 };
 
 use super::difficulty::Difficulty;
@@ -49,6 +52,26 @@ impl Profile {
 
     pub fn rank() -> Chain<MemoryRef> {
         chain!(Self::offset_for_current(), mem::file_1_current_rank())
+    }
+
+    pub fn boss_rush_mode_unlocked() -> Chain<MemoryRef> {
+        chain!(Self::offset_for_current(), bit3!(mem::omikoshi_flags()))
+    }
+
+    /// Returns a chain counting the number of obtained omikoshi headgear.
+    pub fn num_omikoshi_headgear() -> Chain<MemoryRef> {
+        Self::count_byte_array_flags(
+            mem::file_1_headgear_unlock_flags(),
+            TOTAL_NUM_OMIKOSHI_HEADGEAR as usize,
+        )
+    }
+
+    /// Returns a chain counting the number of obtained omikoshi clothes.
+    pub fn num_omikoshi_clothes() -> Chain<MemoryRef> {
+        Self::count_byte_array_flags(
+            mem::file_1_clothes_unlock_flags(),
+            TOTAL_NUM_OMIKOSHI_CLOTHES as usize,
+        )
     }
 
     /// Returns a chain counting the number of obtained headgear.

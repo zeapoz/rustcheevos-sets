@@ -414,8 +414,8 @@ pub const fn file_1_clothes_unlock_flags() -> usize {
 /// Bit1 = Battled Today Flag
 /// Bit3 = Boss Rush Mode Unlocked
 /// Bit7 = Unknown
-pub const fn omikoshi_flags() -> MemoryRef {
-    bits8!(0x100e29c)
+pub const fn omikoshi_flags() -> usize {
+    0x100e29c
 }
 
 /// [8-bit] Omikoshi - Starting Prefecture

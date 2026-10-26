@@ -10,7 +10,6 @@ use crate::{
     types::{difficulty::Difficulty, profile::Profile},
 };
 
-mod id;
 pub mod in_game_stats;
 
 pub static ALL_SONGS: LazyLock<&'static [Song]> =
