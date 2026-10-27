@@ -46,7 +46,6 @@ pub fn generate_set() -> Vec<Achievement> {
         beat_boss(BattleOpponent::DevilDonChan),
         beat_boss(BattleOpponent::GutsEater),
         beat_boss(BattleOpponent::ArmageDon),
-        unlock_boss_rush_mode("Clear \"Cycle of Rebirth\" and unlock the Boss Rush mode"),
 
         // Omikoshi clothes and headgear.
         obtain_omikoshi_headgear("Find all headgear in the Omikoshi story mode"),
@@ -251,17 +250,6 @@ pub fn accumulate_hits(
         )
         .into(),
     )
-}
-
-pub fn unlock_boss_rush_mode(description: &'static str) -> Achievement {
-    Achievement::builder("TBD - Boss Rush mode unlocked")
-        .description(description)
-        .core(chain!(
-            delta!(Profile::boss_rush_mode_unlocked().eq(0)),
-            Profile::boss_rush_mode_unlocked().eq(1),
-            Profile::is_loaded(),
-        ))
-        .build()
 }
 
 pub fn clear_song_with_all_great(
