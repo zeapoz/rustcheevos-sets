@@ -46,18 +46,18 @@ pub fn generate_set() -> Vec<Achievement> {
 
         // In-game achievements
         in_game_achievement("Clear a song in Freeplay mode", InGameAchievement::FirstClear),
-        in_game_achievement("Earn 15 silver crowns on Kantan difficulty", InGameAchievement::Earn15SilverCrownsOnKantan),
-        in_game_achievement("Earn 30 silver crowns on Kantan difficulty", InGameAchievement::Earn30SilverCrownsOnKantan),
-        in_game_achievement("Earn 70 silver crowns on Kantan difficulty", InGameAchievement::Earn70SilverCrownsOnKantan),
-        in_game_achievement("Earn 15 silver crowns on Futsuu difficulty", InGameAchievement::Earn15SilverCrownsOnFutsuu),
-        in_game_achievement("Earn 30 silver crowns on Futsuu difficulty", InGameAchievement::Earn30SilverCrownsOnFutsuu),
-        in_game_achievement("Earn 70 silver crowns on Futsuu difficulty", InGameAchievement::Earn70SilverCrownsOnFutsuu),
-        in_game_achievement("Earn 15 silver crowns on Muzukashii difficulty", InGameAchievement::Earn15SilverCrownsOnMuzukashii),
-        in_game_achievement("Earn 30 silver crowns on Muzukashii difficulty", InGameAchievement::Earn30SilverCrownsOnMuzukashii),
-        in_game_achievement("Earn 70 silver crowns on Muzukashii difficulty", InGameAchievement::Earn70SilverCrownsOnMuzukashii),
-        in_game_achievement("Earn 15 silver crowns on Oni difficulty", InGameAchievement::Earn15SilverCrownsOnOni),
-        in_game_achievement("Earn 30 silver crowns on Oni difficulty", InGameAchievement::Earn30SilverCrownsOnOni),
-        in_game_achievement("Earn 70 silver crowns on Oni difficulty", InGameAchievement::Earn70SilverCrownsOnOni),
+        earn_silver_crowns("Earn 15 silver crowns on Kantan difficulty", InGameAchievement::Earn15SilverCrownsOnKantan, 15, Difficulty::Kantan),
+        earn_silver_crowns("Earn 30 silver crowns on Kantan difficulty", InGameAchievement::Earn30SilverCrownsOnKantan, 30, Difficulty::Kantan),
+        earn_silver_crowns("Earn 70 silver crowns on Kantan difficulty", InGameAchievement::Earn70SilverCrownsOnKantan, 70, Difficulty::Kantan),
+        earn_silver_crowns("Earn 15 silver crowns on Futsuu difficulty", InGameAchievement::Earn15SilverCrownsOnFutsuu, 15, Difficulty::Futsuu),
+        earn_silver_crowns("Earn 30 silver crowns on Futsuu difficulty", InGameAchievement::Earn30SilverCrownsOnFutsuu, 30, Difficulty::Futsuu),
+        earn_silver_crowns("Earn 70 silver crowns on Futsuu difficulty", InGameAchievement::Earn70SilverCrownsOnFutsuu, 30, Difficulty::Futsuu),
+        earn_silver_crowns("Earn 15 silver crowns on Muzukashii difficulty", InGameAchievement::Earn15SilverCrownsOnMuzukashii, 15, Difficulty::Muzukashii),
+        earn_silver_crowns("Earn 30 silver crowns on Muzukashii difficulty", InGameAchievement::Earn30SilverCrownsOnMuzukashii, 30, Difficulty::Muzukashii),
+        earn_silver_crowns("Earn 70 silver crowns on Muzukashii difficulty", InGameAchievement::Earn70SilverCrownsOnMuzukashii, 70, Difficulty::Muzukashii),
+        earn_silver_crowns("Earn 15 silver crowns on Oni difficulty", InGameAchievement::Earn15SilverCrownsOnOni, 15, Difficulty::Oni),
+        earn_silver_crowns("Earn 30 silver crowns on Oni difficulty", InGameAchievement::Earn30SilverCrownsOnOni, 30, Difficulty::Oni),
+        earn_silver_crowns("Earn 70 silver crowns on Oni difficulty", InGameAchievement::Earn70SilverCrownsOnOni, 70, Difficulty::Oni),
         accumulate_hits("Accumulate 10,000 hits on the Taiko Counter", InGameAchievement::Accumulate10000HitsOnTheTaikoCounter, 10_000),
         accumulate_hits("Accumulate 20,000 hits on the Taiko Counter", InGameAchievement::Accumulate20000HitsOnTheTaikoCounter, 20_000),
         accumulate_hits("Accumulate 30,000 hits on the Taiko Counter", InGameAchievement::Accumulate30000HitsOnTheTaikoCounter, 30_000),
@@ -69,11 +69,11 @@ pub fn generate_set() -> Vec<Achievement> {
         accumulate_hits("Accumulate 80,000 hits on the Taiko Counter", InGameAchievement::Accumulate80000HitsOnTheTaikoCounter, 80_000),
         accumulate_hits("Accumulate 90,000 hits on the Taiko Counter", InGameAchievement::Accumulate90000HitsOnTheTaikoCounter, 90_000),
         accumulate_hits("Accumulate 99,999 hits on the Taiko Counter", InGameAchievement::Accumulate99999HitsOnTheTaikoCounter, 99_999),
-        in_game_achievement("Earn 10 golden crowns", InGameAchievement::Earn10GoldenCrowns),
-        in_game_achievement("Earn 25 golden crowns", InGameAchievement::Earn25GoldenCrowns),
-        in_game_achievement("Earn 50 golden crowns", InGameAchievement::Earn50GoldenCrowns),
-        in_game_achievement("Earn 75 golden crowns", InGameAchievement::Earn75GoldenCrowns),
-        in_game_achievement("Earn 100 golden crowns", InGameAchievement::Earn100GoldenCrowns),
+        earn_golden_crowns("Earn 10 golden crowns", InGameAchievement::Earn10GoldenCrowns, 10),
+        earn_golden_crowns("Earn 25 golden crowns", InGameAchievement::Earn25GoldenCrowns, 25),
+        earn_golden_crowns("Earn 50 golden crowns", InGameAchievement::Earn50GoldenCrowns, 50),
+        earn_golden_crowns("Earn 75 golden crowns", InGameAchievement::Earn75GoldenCrowns, 75),
+        earn_golden_crowns("Earn 100 golden crowns", InGameAchievement::Earn100GoldenCrowns, 100),
         in_game_achievement("Clear a song with all great hits and no misses in Freeplay mode", InGameAchievement::ClearASongWithAllGreatHitsAndNoMisses),
         in_game_achievement("Clear a song with all good hits and no misses in Freeplay mode", InGameAchievement::ClearASongWithAllGoodHitsAndNoMisses),
         in_game_achievement("Reach a combo of 100 hits or more", InGameAchievement::ReachAComboOf100HitsOrMore),
@@ -139,11 +139,47 @@ pub fn generate_set() -> Vec<Achievement> {
     core
 }
 
+pub fn earn_silver_crowns(
+    description: &'static str,
+    in_game_achievement: InGameAchievement,
+    n: u32,
+    difficulty: Difficulty,
+) -> Achievement {
+    in_game_achievement_with(
+        description,
+        in_game_achievement,
+        chain!(
+            Profile::num_crowns_per_difficulty(difficulty, Result::SilverCrown),
+            measured!(0.eq(n)),
+            measured_if!(Profile::is_loaded())
+        )
+        .into(),
+    )
+}
+
+pub fn earn_golden_crowns(
+    description: &'static str,
+    in_game_achievement: InGameAchievement,
+    n: u32,
+) -> Achievement {
+    in_game_achievement_with(
+        description,
+        in_game_achievement,
+        chain!(
+            Profile::num_golden_crowns(),
+            measured!(0.eq(n)),
+            measured_if!(Profile::is_loaded())
+        )
+        .into(),
+    )
+}
+
 pub fn obtain_omikoshi_headgear(description: &'static str) -> Achievement {
     let delta_num_omikoshi_headgear: ResolvedChain = Profile::num_omikoshi_headgear()
         .eq(TOTAL_NUM_OMIKOSHI_HEADGEAR - 1)
         .resolve()
         .iter()
+        // TODO: We need delta! over a resolved chain.
         .map(|r| delta!(r))
         .collect();
 

@@ -115,10 +115,11 @@ impl Profile {
             Self::num_crowns_per_difficulty(Difficulty::Futsuu, crown),
             Self::num_crowns_per_difficulty(Difficulty::Muzukashii, crown),
             Self::num_crowns_per_difficulty(Difficulty::Oni, crown),
-            measured!(0u32)
+            measured!(0)
         )
     }
 
+    // FIXME: Could we return a Chain<Arithmetic> here instead?
     pub fn num_crowns_per_difficulty(difficulty: Difficulty, crown: Result) -> ResolvedChain {
         let map_fn = |s: Chain<MemoryRef>| {
             if crown == Result::SilverCrown {
