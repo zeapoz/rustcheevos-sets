@@ -1,5 +1,10 @@
 use std::fmt;
 
+use rustcheevos::prelude::*;
+use rustcheevos::types::requirement::Condition;
+
+use crate::mem;
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum Result {
     Fail = 0x0,
@@ -13,6 +18,10 @@ impl Result {
         (Self::SilverCrown as u32, "🥈 "),
         (Self::GoldenCrown as u32, "🏅 "),
     ];
+
+    pub fn end_result_is(result: Self) -> Condition {
+        mem::end_result().eq(result as u32)
+    }
 }
 
 impl fmt::Display for Result {

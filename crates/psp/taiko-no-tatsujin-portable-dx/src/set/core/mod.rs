@@ -1,13 +1,21 @@
 use crate::{
     set::core::{in_game_achievement::in_game_achievement_with, songs::clear_song_with_result},
     types::{
-        mode::omikoshi::OmikoshiMode, profile::Profile, result::Result, song::ALL_STANDARD_SONGS,
+        menu::{GeneralMenuState, MenuState},
+        mode::omikoshi::OmikoshiMode,
+        profile::Profile,
+        result::Result,
+        song::{ALL_STANDARD_SONGS, in_game_stats::InGameStats},
     },
     util::{TOTAL_NUM_DOJO, TOTAL_NUM_OMIKOSHI_CLOTHES, TOTAL_NUM_OMIKOSHI_HEADGEAR},
 };
 use rustcheevos::{
     prelude::*,
-    types::{achievement::Achievement, chain::ResolvedChain},
+    types::{
+        achievement::Achievement,
+        chain::{Chain, ResolvedChain},
+        requirement::Condition,
+    },
 };
 
 use crate::{
@@ -74,8 +82,8 @@ pub fn generate_set() -> Vec<Achievement> {
         earn_golden_crowns("Earn 50 golden crowns", InGameAchievement::Earn50GoldenCrowns, 50),
         earn_golden_crowns("Earn 75 golden crowns", InGameAchievement::Earn75GoldenCrowns, 75),
         earn_golden_crowns("Earn 100 golden crowns", InGameAchievement::Earn100GoldenCrowns, 100),
-        in_game_achievement("Clear a song with all great hits and no misses in Freeplay mode", InGameAchievement::ClearASongWithAllGreatHitsAndNoMisses),
-        in_game_achievement("Clear a song with all good hits and no misses in Freeplay mode", InGameAchievement::ClearASongWithAllGoodHitsAndNoMisses),
+        clear_song_with_all_great("Clear a song with all great hits and no misses in Freeplay mode", InGameAchievement::ClearASongWithAllGreatHitsAndNoMisses),
+        clear_song_with_all_good("Clear a song with all good hits and no misses in Freeplay mode", InGameAchievement::ClearASongWithAllGoodHitsAndNoMisses),
         in_game_achievement("Reach a combo of 100 hits or more", InGameAchievement::ReachAComboOf100HitsOrMore),
         in_game_achievement("Reach a combo of 200 hits or more", InGameAchievement::ReachAComboOf200HitsOrMore),
         in_game_achievement("Reach a combo of 400 hits or more", InGameAchievement::ReachAComboOf400HitsOrMore),
@@ -166,7 +174,10 @@ pub fn earn_golden_crowns(
         description,
         in_game_achievement,
         chain!(
-            Profile::num_golden_crowns(),
+            Profile::num_crowns_per_difficulty(Difficulty::Kantan, Result::GoldenCrown),
+            Profile::num_crowns_per_difficulty(Difficulty::Futsuu, Result::GoldenCrown),
+            Profile::num_crowns_per_difficulty(Difficulty::Muzukashii, Result::GoldenCrown),
+            Profile::num_crowns_per_difficulty(Difficulty::Oni, Result::GoldenCrown),
             measured!(0.eq(n)),
             measured_if!(Profile::is_loaded())
         )
@@ -250,6 +261,45 @@ pub fn unlock_boss_rush_mode(description: &'static str) -> Achievement {
             delta!(Profile::boss_rush_mode_unlocked().eq(0)),
             Profile::boss_rush_mode_unlocked().eq(1),
             Profile::is_loaded(),
+        ))
+        .build()
+}
+
+pub fn clear_song_with_all_great(
+    description: &'static str,
+    in_game_achievement: InGameAchievement,
+) -> Achievement {
+    clear_song_with_all(
+        description,
+        in_game_achievement,
+        chain!(InGameStats::good_hits().eq(0), InGameStats::misses().eq(0)),
+    )
+}
+
+pub fn clear_song_with_all_good(
+    description: &'static str,
+    in_game_achievement: InGameAchievement,
+) -> Achievement {
+    clear_song_with_all(
+        description,
+        in_game_achievement,
+        chain!(InGameStats::great_hits().eq(0), InGameStats::misses().eq(0)),
+    )
+}
+
+fn clear_song_with_all(
+    description: &'static str,
+    in_game_achievement: InGameAchievement,
+    prelude: Chain<Condition>,
+) -> Achievement {
+    Achievement::builder("TBD - In-Game Achievement")
+        .description(description)
+        .core(chain!(
+            trigger!(in_game_achievement.is_locked()),
+            trigger!(in_game_achievement.is_unlocked()),
+            prelude,
+            or_next!(MenuState::is(MenuState::General(GeneralMenuState::Mail))),
+            InGameStats::pointer_not_null(),
         ))
         .build()
 }

@@ -12,8 +12,8 @@ pub fn clear_song_with_result(
     difficulty: Difficulty,
 ) -> Achievement {
     let core = chain!(
-        delta!(mem::end_result().eq(0x0)),
-        mem::end_result().eq(result as u32),
+        delta!(Result::end_result_is(Result::Fail)),
+        Result::end_result_is(result),
         mem::current_song_id().eq(*song as u32),
         Difficulty::is(difficulty),
         SpecialModifier::is_not(SpecialModifier::Auto),
