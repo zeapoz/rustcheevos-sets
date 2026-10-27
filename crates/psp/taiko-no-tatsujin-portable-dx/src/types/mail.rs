@@ -9,16 +9,15 @@ use crate::types::profile::Profile;
 pub enum Mail {
     ApprenticePromotion = 0x4e,
     NovicePromotion = 0x4f,
-    DisciplePromotion = 0x50,
-    HalfAManPromotion = 0x51,
-    QualifiedPromotion = 0x52,
-    CapablePromotion = 0x53,
-    GoGetterPromotion = 0x54,
-    ProfessionalPromotion = 0x55,
-    ExpertPromotion = 0x56,
-    IronManPromotion = 0x57,
-    MasterPromotion = 0x58,
-    GrandMasterPromotion = 0x59,
+    HalfAManPromotion = 0x50,
+    QualifiedPromotion = 0x51,
+    CapablePromotion = 0x52,
+    GoGetterPromotion = 0x53,
+    ProfessionalPromotion = 0x54,
+    ExpertPromotion = 0x55,
+    IronManPromotion = 0x56,
+    MasterPromotion = 0x57,
+    GrandMasterPromotion = 0x58,
 }
 
 impl Mail {

@@ -128,7 +128,6 @@ pub fn generate_set() -> Vec<Achievement> {
         // Mail.
         recieved_mail("Achieve the rank of Apprentice", Mail::ApprenticePromotion),
         recieved_mail("Achieve the rank of Novice", Mail::NovicePromotion),
-        recieved_mail("Achieve the rank of Disciple", Mail::DisciplePromotion),
         recieved_mail("Achieve the rank of Half a Man", Mail::HalfAManPromotion),
         recieved_mail("Achieve the rank of Qualified", Mail::QualifiedPromotion),
         recieved_mail("Achieve the rank of Capable", Mail::CapablePromotion),
