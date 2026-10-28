@@ -1,12 +1,9 @@
-use rustcheevos::types::{game::GameData, set::Set};
+use rustcheevos::types::game::GameData;
 use rustcheevos_cli::{CliError, RustcheevosCli};
 
 use crate::{
     rich::generate_rich_presence,
-    set::{
-        core::{core_leaderboards, generate_set},
-        dlc::dlc_subset,
-    },
+    set::{CoreSet, DLCSubset},
 };
 
 mod mem;
@@ -21,14 +18,9 @@ const GAME_NAME: &str = "Taiko no Tatsujin: Portable DX";
 fn main() -> Result<(), CliError> {
     let mut game_data = GameData::new(GAME_ID, GAME_NAME);
 
-    let mut base_set = Set::new_base();
-    base_set
-        .add_achievements(generate_set())
-        .add_leaderboards(core_leaderboards());
-
     game_data
-        .set_base_set(base_set)
-        .add_subset(dlc_subset())
+        .set_base_set(CoreSet::generate())
+        .add_subset(DLCSubset::generate())
         .set_rich_presence(generate_rich_presence());
 
     RustcheevosCli::parse().run(&game_data)

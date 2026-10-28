@@ -1,4 +1,6 @@
-pub mod core;
-pub mod dlc;
-pub(super) mod leaderboard;
-pub(super) mod song;
+pub(super) mod common;
+mod core;
+mod dlc;
+
+pub use core::CoreSet;
+pub use dlc::DLCSubset;
