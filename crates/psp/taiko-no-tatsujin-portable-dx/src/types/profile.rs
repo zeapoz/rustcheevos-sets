@@ -11,7 +11,7 @@ use rustcheevos::{
 
 use crate::{
     mem,
-    types::{result::Result, song::ALL_SONGS},
+    types::{song::ALL_SONGS, song::result::SongResult},
     util::{
         TOTAL_NUM_CLOTHES, TOTAL_NUM_HEADGEAR, TOTAL_NUM_IN_GAME_ACHIEVEMENTS,
         TOTAL_NUM_OMIKOSHI_CLOTHES, TOTAL_NUM_OMIKOSHI_HEADGEAR,
@@ -37,12 +37,12 @@ impl Profile {
 
     /// Returns a chain counting the number of silver crowns.
     pub fn num_silver_crowns() -> Chain<Arithmetic> {
-        Self::num_total_crowns(Result::SilverCrown)
+        Self::num_total_crowns(SongResult::SilverCrown)
     }
 
     /// Returns a chain counting the number of golden crowns.
     pub fn num_golden_crowns() -> Chain<Arithmetic> {
-        Self::num_total_crowns(Result::GoldenCrown)
+        Self::num_total_crowns(SongResult::GoldenCrown)
     }
 
     /// Returns a chain counting the number of drum hits on the Taiko counter.
@@ -109,29 +109,37 @@ impl Profile {
         )
     }
 
-    fn num_total_crowns(crown: Result) -> Chain<Arithmetic> {
+    fn num_total_crowns(crown: SongResult) -> Chain<Arithmetic> {
         chain!(
             Self::num_crowns_per_difficulty(Difficulty::Kantan, crown),
             Self::num_crowns_per_difficulty(Difficulty::Futsuu, crown),
             Self::num_crowns_per_difficulty(Difficulty::Muzukashii, crown),
-            Self::num_crowns_per_difficulty(Difficulty::Oni, crown),
-            measured!(0)
+            measured!(Self::num_crowns_per_difficulty(Difficulty::Oni, crown)),
         )
     }
 
-    // FIXME: Could we return a Chain<Arithmetic> here instead?
-    pub fn num_crowns_per_difficulty(difficulty: Difficulty, crown: Result) -> ResolvedChain {
+    pub fn num_crowns_per_difficulty(
+        difficulty: Difficulty,
+        crown: SongResult,
+    ) -> Chain<Arithmetic> {
         let map_fn = |s: Chain<MemoryRef>| {
-            if crown == Result::SilverCrown {
-                s.modulo(Result::GoldenCrown as u32)
+            if crown == SongResult::SilverCrown {
+                s.modulo(SongResult::GoldenCrown as u32)
             } else {
-                s.div(Result::GoldenCrown as u32)
+                s.div(SongResult::GoldenCrown as u32)
             }
         };
 
         ALL_SONGS
             .iter()
             .map(|s| add_source!(map_fn(s.best_result(difficulty))))
+            .collect()
+    }
+
+    pub fn num_silver_crowns_or_higher_per_difficulty(difficulty: Difficulty) -> Chain<Condition> {
+        ALL_SONGS
+            .iter()
+            .map(|s| add_hits!(s.best_result(difficulty).ne(SongResult::Fail as u32)))
             .collect()
     }
 }

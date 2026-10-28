@@ -5,7 +5,7 @@ use rustcheevos::types::{
 
 use crate::{
     set::{common::leaderboard::generate_leaderboards, common::song::clear_song_with_result},
-    types::{difficulty::Difficulty, result::Result, song::ALL_DLC_SONGS},
+    types::{difficulty::Difficulty, song::ALL_DLC_SONGS, song::result::SongResult},
 };
 
 pub struct DLCSubset;
@@ -25,7 +25,7 @@ impl DLCSubset {
                 clear_song_with_result(
                     "TBD - Song FC",
                     song,
-                    Result::GoldenCrown,
+                    SongResult::GoldenCrown,
                     Difficulty::Muzukashii,
                 )
             })

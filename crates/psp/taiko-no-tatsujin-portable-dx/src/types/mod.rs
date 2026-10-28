@@ -5,6 +5,5 @@ pub mod menu;
 pub mod mode;
 pub mod modifier;
 pub mod profile;
-pub mod result;
 pub mod song;
 pub mod sounds;

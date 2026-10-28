@@ -9,9 +9,9 @@ use crate::types::menu::{
 use crate::types::mode::omikoshi::BattleOpponent;
 use crate::types::mode::{MedleyMode, omikoshi::OmikoshiMode};
 use crate::types::profile::Profile;
-use crate::types::result::Result;
 use crate::types::song::Song;
 use crate::types::song::in_game_stats::InGameStats;
+use crate::types::song::result::SongResult;
 use crate::util::{TOTAL_NUM_CLOTHES, TOTAL_NUM_HEADGEAR, TOTAL_NUM_IN_GAME_ACHIEVEMENTS};
 
 struct InGameHandles {
@@ -64,7 +64,7 @@ impl ResultHandles {
             measured!(mem::results_quota_gauge().div(100)),
         );
         let combo = rp.builtin_macro(BuiltInMacro::Number, mem::results_highest_combo());
-        let crown_lt = LookupTable::new("SongResult").with_entries(Result::LOOKUP_TABLE);
+        let crown_lt = LookupTable::new("SongResult").with_entries(SongResult::LOOKUP_TABLE);
         let crown = rp.register_lookup(crown_lt, mem::end_result());
         Self {
             score,

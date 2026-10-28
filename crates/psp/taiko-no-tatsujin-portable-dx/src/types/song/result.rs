@@ -6,13 +6,13 @@ use rustcheevos::types::requirement::Condition;
 use crate::mem;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
-pub enum Result {
+pub enum SongResult {
     Fail = 0x0,
     SilverCrown = 0x1,
     GoldenCrown = 0x2,
 }
 
-impl Result {
+impl SongResult {
     pub const LOOKUP_TABLE: [(u32, &'static str); 3] = [
         (Self::Fail as u32, ""),
         (Self::SilverCrown as u32, "🥈 "),
@@ -24,12 +24,12 @@ impl Result {
     }
 }
 
-impl fmt::Display for Result {
+impl fmt::Display for SongResult {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let s = match self {
-            Result::Fail => "Fail",
-            Result::SilverCrown => "Silver Crown",
-            Result::GoldenCrown => "Golden Crown",
+            SongResult::Fail => "Fail",
+            SongResult::SilverCrown => "Silver Crown",
+            SongResult::GoldenCrown => "Golden Crown",
         };
         write!(f, "{s}")
     }

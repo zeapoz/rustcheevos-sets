@@ -7,7 +7,7 @@ use crate::{
         menu::{GeneralMenuState, MenuState},
         mode::omikoshi::OmikoshiMode,
         profile::Profile,
-        result::Result,
+        song::result::SongResult,
         song::{ALL_STANDARD_SONGS, in_game_stats::InGameStats},
     },
     util::{TOTAL_NUM_DOJO, TOTAL_NUM_OMIKOSHI_CLOTHES, TOTAL_NUM_OMIKOSHI_HEADGEAR},
@@ -16,7 +16,7 @@ use rustcheevos::{
     prelude::*,
     types::{
         achievement::Achievement,
-        chain::{Chain, ResolvedChain},
+        chain::Chain,
         requirement::Condition,
         set::{Base, Set},
     },
@@ -151,7 +151,7 @@ impl CoreSet {
         ];
 
         let all_songs_fc = ALL_STANDARD_SONGS.iter().map(|song|
-            clear_song_with_result("TBD - Song FC", song, Result::GoldenCrown, Difficulty::Muzukashii)
+            clear_song_with_result("TBD - Song FC", song, SongResult::GoldenCrown, Difficulty::Muzukashii)
         );
         core.extend(all_songs_fc);
         core
@@ -168,10 +168,9 @@ fn earn_silver_crowns(
         description,
         in_game_achievement,
         chain!(
-            // TODO: We need not just count the number of silver crowns, but also golden crowns.
-            // Probably with hits
-            Profile::num_crowns_per_difficulty(difficulty, Result::SilverCrown),
-            measured!(0.eq(n)),
+            // TODO: Fixed, just needs to be tested.
+            Profile::num_silver_crowns_or_higher_per_difficulty(difficulty),
+            Condition::always_false().with_hits(n),
             measured_if!(Profile::is_loaded())
         )
         .into(),
@@ -183,15 +182,18 @@ fn earn_golden_crowns(
     in_game_achievement: InGameAchievement,
     n: u32,
 ) -> Achievement {
+    let measured_num_crowns =
+        Profile::num_crowns_per_difficulty(Difficulty::Oni, SongResult::GoldenCrown)
+            .map_head(|h| measured!(h.lhs().eq(n)));
+
     in_game_achievement_with(
         description,
         in_game_achievement,
         chain!(
-            Profile::num_crowns_per_difficulty(Difficulty::Kantan, Result::GoldenCrown),
-            Profile::num_crowns_per_difficulty(Difficulty::Futsuu, Result::GoldenCrown),
-            Profile::num_crowns_per_difficulty(Difficulty::Muzukashii, Result::GoldenCrown),
-            Profile::num_crowns_per_difficulty(Difficulty::Oni, Result::GoldenCrown),
-            measured!(0.eq(n)),
+            Profile::num_crowns_per_difficulty(Difficulty::Kantan, SongResult::GoldenCrown),
+            Profile::num_crowns_per_difficulty(Difficulty::Futsuu, SongResult::GoldenCrown),
+            Profile::num_crowns_per_difficulty(Difficulty::Muzukashii, SongResult::GoldenCrown),
+            measured_num_crowns,
             measured_if!(Profile::is_loaded())
         )
         .into(),
@@ -199,18 +201,14 @@ fn earn_golden_crowns(
 }
 
 fn obtain_omikoshi_headgear(description: &'static str) -> Achievement {
-    let delta_num_omikoshi_headgear: ResolvedChain = Profile::num_omikoshi_headgear()
-        .eq(TOTAL_NUM_OMIKOSHI_HEADGEAR - 1)
-        .resolve()
-        .iter()
-        // TODO: We need delta! over a resolved chain.
-        .map(|r| delta!(r))
-        .collect();
-
     Achievement::builder("TBD - Obtain Omikoshi headgear")
         .description(description)
         .core(chain!(
-            delta_num_omikoshi_headgear,
+            delta!(
+                Profile::num_omikoshi_headgear()
+                    .eq(TOTAL_NUM_OMIKOSHI_HEADGEAR - 1)
+                    .resolve()
+            ),
             measured!(Profile::num_omikoshi_headgear().eq(TOTAL_NUM_OMIKOSHI_HEADGEAR)),
             measured_if!(Profile::is_loaded())
         ))
@@ -218,17 +216,14 @@ fn obtain_omikoshi_headgear(description: &'static str) -> Achievement {
 }
 
 fn obtain_omikoshi_clothes(description: &'static str) -> Achievement {
-    let delta_num_omikoshi_clothes: ResolvedChain = Profile::num_omikoshi_clothes()
-        .eq(TOTAL_NUM_OMIKOSHI_CLOTHES - 1)
-        .resolve()
-        .iter()
-        .map(|r| delta!(r))
-        .collect();
-
     Achievement::builder("TBD - Obtain Omikoshi clothes")
         .description(description)
         .core(chain!(
-            delta_num_omikoshi_clothes,
+            delta!(
+                Profile::num_omikoshi_clothes()
+                    .eq(TOTAL_NUM_OMIKOSHI_CLOTHES - 1)
+                    .resolve()
+            ),
             measured!(Profile::num_omikoshi_clothes().eq(TOTAL_NUM_OMIKOSHI_CLOTHES)),
             measured_if!(Profile::is_loaded())
         ))

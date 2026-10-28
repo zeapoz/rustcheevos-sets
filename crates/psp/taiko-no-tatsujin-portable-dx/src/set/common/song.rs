@@ -2,24 +2,26 @@ use rustcheevos::{prelude::*, types::achievement::Achievement};
 
 use crate::{
     mem,
-    types::{difficulty::Difficulty, modifier::SpecialModifier, result::Result, song::Song},
+    types::{
+        difficulty::Difficulty, modifier::SpecialModifier, song::Song, song::result::SongResult,
+    },
 };
 
 pub fn clear_song_with_result(
     title: &str,
     song: &Song,
-    result: Result,
+    result: SongResult,
     difficulty: Difficulty,
 ) -> Achievement {
     let core = chain!(
-        delta!(Result::end_result_is(Result::Fail)),
-        Result::end_result_is(result),
+        delta!(SongResult::end_result_is(SongResult::Fail)),
+        SongResult::end_result_is(result),
         mem::current_song_id().eq(*song as u32),
         Difficulty::is(difficulty),
         SpecialModifier::is_not(SpecialModifier::Auto),
     );
 
-    let insert = if result == Result::SilverCrown {
+    let insert = if result == SongResult::SilverCrown {
         "or higher "
     } else {
         ""

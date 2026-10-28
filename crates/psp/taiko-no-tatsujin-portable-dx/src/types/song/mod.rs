@@ -11,6 +11,7 @@ use crate::{
 };
 
 pub mod in_game_stats;
+pub mod result;
 
 pub static ALL_SONGS: LazyLock<&'static [Song]> =
     LazyLock::new(|| &Song::ALL[..Song::ALL.len() - 1]);
