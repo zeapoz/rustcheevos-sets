@@ -3,7 +3,10 @@ use rustcheevos_cli::{CliError, RustcheevosCli};
 
 use crate::{
     rich::generate_rich_presence,
-    set::core::{generate_set, leaderboards::generate_leaderboards},
+    set::{
+        core::{core_leaderboards, generate_set},
+        dlc::dlc_subset,
+    },
 };
 
 mod mem;
@@ -21,10 +24,11 @@ fn main() -> Result<(), CliError> {
     let mut base_set = Set::new_base();
     base_set
         .add_achievements(generate_set())
-        .add_leaderboards(generate_leaderboards());
+        .add_leaderboards(core_leaderboards());
 
     game_data
         .set_base_set(base_set)
+        .add_subset(dlc_subset())
         .set_rich_presence(generate_rich_presence());
 
     RustcheevosCli::parse().run(&game_data)

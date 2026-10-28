@@ -1,5 +1,8 @@
 use crate::{
-    set::core::{in_game_achievement::in_game_achievement_with, songs::clear_song_with_result},
+    set::{
+        core::in_game_achievement::in_game_achievement_with, leaderboard::generate_leaderboards,
+        song::clear_song_with_result,
+    },
     types::{
         menu::{GeneralMenuState, MenuState},
         mode::omikoshi::OmikoshiMode,
@@ -14,6 +17,7 @@ use rustcheevos::{
     types::{
         achievement::Achievement,
         chain::{Chain, ResolvedChain},
+        leaderboard::Leaderboard,
         requirement::Condition,
     },
 };
@@ -30,10 +34,8 @@ use crate::{
 
 pub mod general;
 pub mod in_game_achievement;
-pub mod leaderboards;
 pub mod mail;
 pub mod omikoshi;
-pub mod songs;
 
 #[rustfmt::skip]
 pub fn generate_set() -> Vec<Achievement> {
@@ -145,6 +147,10 @@ pub fn generate_set() -> Vec<Achievement> {
     core
 }
 
+pub fn core_leaderboards() -> Vec<Leaderboard> {
+    generate_leaderboards(&ALL_STANDARD_SONGS)
+}
+
 pub fn earn_silver_crowns(
     description: &'static str,
     in_game_achievement: InGameAchievement,
@@ -155,6 +161,8 @@ pub fn earn_silver_crowns(
         description,
         in_game_achievement,
         chain!(
+            // TODO: We need not just count the number of silver crowns, but also golden crowns.
+            // Probably with hits
             Profile::num_crowns_per_difficulty(difficulty, Result::SilverCrown),
             measured!(0.eq(n)),
             measured_if!(Profile::is_loaded())

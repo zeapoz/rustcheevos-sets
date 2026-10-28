@@ -6,23 +6,23 @@ use crate::{
     types::{
         difficulty::Difficulty,
         menu::{FreeplayState, MenuState},
-        song::{ALL_STANDARD_SONGS, Song},
+        song::Song,
     },
 };
 
-pub fn generate_leaderboards() -> Vec<Leaderboard> {
+pub fn generate_leaderboards(songs: &[&'static Song]) -> Vec<Leaderboard> {
     Difficulty::ALL
         .iter()
         .rev()
         .flat_map(|&difficulty| {
-            ALL_STANDARD_SONGS
+            songs
                 .iter()
-                .map(move |song| leaderboard(song, difficulty))
+                .map(move |song| new_leaderboard(song, difficulty))
         })
         .collect()
 }
 
-fn leaderboard(song: &Song, difficulty: Difficulty) -> Leaderboard {
+pub fn new_leaderboard(song: &Song, difficulty: Difficulty) -> Leaderboard {
     Leaderboard::builder(format!("{} - {}", song.title(), difficulty))
         .description(format!(
             "Get the highest score on \"{}\" on {} difficulty",
