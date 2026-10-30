@@ -23,7 +23,7 @@ pub fn generate_leaderboards(songs: &[&'static Song]) -> Vec<Leaderboard> {
 }
 
 pub fn new_leaderboard(song: &Song, difficulty: Difficulty) -> Leaderboard {
-    Leaderboard::builder(format!("{} - {}", song.title(), difficulty))
+    Leaderboard::builder(format!("\"{}\" - {}", song.title(), difficulty))
         .description(format!(
             "Get the highest score on \"{}\" on {} difficulty!",
             song.title(),

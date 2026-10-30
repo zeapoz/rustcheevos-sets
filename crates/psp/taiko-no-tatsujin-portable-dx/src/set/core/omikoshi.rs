@@ -6,9 +6,8 @@ use crate::{
         menu::GameMode,
         mode::omikoshi::{BattleOpponent, OmikoshiMode},
         profile::Profile,
-        sounds::Sound,
     },
-    util::{TOTAL_NUM_CLOTHES, TOTAL_NUM_DOJO, TOTAL_NUM_HEADGEAR},
+    util::{TOTAL_NUM_OMIKOSHI_CLOTHES, TOTAL_NUM_OMIKOSHI_HEADGEAR},
 };
 
 pub fn beat_boss(boss: BattleOpponent) -> Achievement {
@@ -24,60 +23,58 @@ pub fn beat_boss(boss: BattleOpponent) -> Achievement {
         .build()
 }
 
-pub fn control_dojo(num_dojos: u32) -> Achievement {
-    let fmt_string = if num_dojos == TOTAL_NUM_DOJO {
-        "all"
-    } else {
-        &num_dojos.to_string()
-    };
+pub fn obtain_omikoshi_headgear(description: &'static str) -> Achievement {
+    Achievement::builder("TBD - Obtain Omikoshi headgear")
+        .description(description)
+        .core(chain!(
+            delta!(
+                Profile::num_omikoshi_headgear()
+                    .eq(TOTAL_NUM_OMIKOSHI_HEADGEAR - 1)
+                    .resolve()
+            ),
+            measured!(Profile::num_omikoshi_headgear().eq(TOTAL_NUM_OMIKOSHI_HEADGEAR)),
+            measured_if!(GameMode::is(GameMode::Omikoshi)),
+            measured_if!(Profile::is_loaded())
+        ))
+        .build()
+}
 
+pub fn obtain_omikoshi_clothes(description: &'static str) -> Achievement {
+    Achievement::builder("TBD - Obtain Omikoshi clothes")
+        .description(description)
+        .core(chain!(
+            delta!(
+                Profile::num_omikoshi_clothes()
+                    .eq(TOTAL_NUM_OMIKOSHI_CLOTHES - 1)
+                    .resolve()
+            ),
+            measured!(Profile::num_omikoshi_clothes().eq(TOTAL_NUM_OMIKOSHI_CLOTHES)),
+            measured_if!(GameMode::is(GameMode::Omikoshi)),
+            measured_if!(Profile::is_loaded())
+        ))
+        .build()
+}
+
+pub fn control_dojo(description: &'static str, dojos: u32) -> Achievement {
     Achievement::builder("TBD - Control Dojo")
-        .description(format!(
-            "Control {fmt_string} dojo in the Omikoshi story mode"
-        ))
+        .description(description)
         .core(chain!(
-            delta!(OmikoshiMode::number_of_controlled_prefectures().eq(num_dojos - 1)),
-            measured!(OmikoshiMode::number_of_controlled_prefectures().eq(num_dojos)),
-            measured_if!(GameMode::is(GameMode::Omikoshi)),
-            Profile::is_loaded()
-        ))
-        .build()
-}
-
-pub fn gather_drum_disciples(num_disciples: u32, sound: Sound) -> Achievement {
-    Achievement::builder("TBD - Gather Drum Disciples")
-        .description(format!(
-            "Gather {num_disciples} Drum disciples in the Omikoshi story mode and unlock the {sound} sound"
-        ))
-        .core(chain!(
-            delta!(sound.is_locked()),
-            sound.is_unlocked(),
-            OmikoshiMode::number_of_disciples_on_hand().ge(num_disciples),
+            delta!(OmikoshiMode::number_of_controlled_prefectures().eq(dojos - 1)),
+            OmikoshiMode::number_of_controlled_prefectures().eq(dojos),
             GameMode::is(GameMode::Omikoshi),
-            Profile::is_loaded()
+            Profile::is_loaded(),
         ))
         .build()
 }
 
-pub fn unlock_all_headgear() -> Achievement {
-    Achievement::builder("TBD - Unlock All Headgear")
-        .description("Find all headgear in the Omikoshi story mode")
+pub fn gather_drum_disciples(description: &'static str, disciples: u32) -> Achievement {
+    Achievement::builder("TBD - Gather Drum Disciples")
+        .description(description)
         .core(chain!(
-            delta!(Profile::num_headgear().eq(TOTAL_NUM_HEADGEAR - 1)),
-            measured!(Profile::num_headgear().eq(TOTAL_NUM_HEADGEAR)),
-            Profile::is_loaded()
-        ))
-        .build()
-}
-
-pub fn unlock_all_clothes() -> Achievement {
-    Achievement::builder("TBD - Unlock All Clothes")
-        .description("Find all clothes in the Omikoshi story mode")
-        .core(chain!(
-            delta!(Profile::num_clothes().eq(TOTAL_NUM_CLOTHES - 1)),
-            measured!(Profile::num_clothes().eq(TOTAL_NUM_CLOTHES)),
-            measured_if!(GameMode::is(GameMode::Omikoshi)),
-            Profile::is_loaded()
+            delta!(OmikoshiMode::number_of_disciples_on_hand().lt(disciples)),
+            OmikoshiMode::number_of_disciples_on_hand().ge(disciples),
+            GameMode::is(GameMode::Omikoshi),
+            Profile::is_loaded(),
         ))
         .build()
 }

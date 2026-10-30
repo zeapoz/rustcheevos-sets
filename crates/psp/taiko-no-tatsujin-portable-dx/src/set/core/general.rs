@@ -1,36 +1,64 @@
-use rustcheevos::prelude::*;
 use rustcheevos::types::achievement::Achievement;
+use rustcheevos::{prelude::*, types::requirement::Condition};
 
-use crate::types::profile::{Profile, Rank};
-use crate::types::song::Song;
+use crate::types::song::result::SongResult;
+use crate::{
+    set::core::in_game_achievement::in_game_achievement_with,
+    types::{achievement::InGameAchievement, difficulty::Difficulty, profile::Profile},
+};
 
-pub fn total_drum_hits(num: u32, song: Song) -> Achievement {
-    let fmt_num = {
-        let thousands = num / 1_000;
-        let remainder = num % 1_000;
-        format!("{thousands},{remainder:03}")
-    };
-
-    Achievement::builder("TBD - Total Drum Hits")
-        .description(format!(
-            "Accumulate {fmt_num} total hits on the Taiko counter and unlock \"{song}\""
-        ))
-        .core(chain!(
-            delta!(song.is_locked()),
-            song.is_unlocked(),
-            Profile::total_drum_hits().ge(num),
-            Profile::is_loaded(),
-        ))
-        .build()
+pub fn earn_silver_crowns(
+    description: &'static str,
+    in_game_achievement: InGameAchievement,
+    n: u32,
+    difficulty: Difficulty,
+) -> Achievement {
+    in_game_achievement_with(
+        description,
+        in_game_achievement,
+        rustcheevos::types::chain::ResolvedChain::from(chain!(
+            Profile::num_silver_crowns_or_higher_per_difficulty(difficulty),
+            Condition::always_false().with_hits(n),
+            measured_if!(Profile::is_loaded())
+        )),
+    )
 }
 
-pub fn achieve_rank(rank: Rank) -> Achievement {
-    Achievement::builder("TBD - Promotion")
-        .description(format!("Achieve the rank of {rank}"))
-        .core(chain!(
-            delta!(Profile::rank().eq(rank as u32 - 1)),
-            Profile::rank().eq(rank as u32),
-            Profile::is_loaded(),
-        ))
-        .build()
+pub fn earn_golden_crowns(
+    description: &'static str,
+    in_game_achievement: InGameAchievement,
+    n: u32,
+) -> Achievement {
+    let measured_num_crowns =
+        Profile::num_crowns_per_difficulty(Difficulty::Oni, SongResult::GoldenCrown)
+            .map_head(|h| measured!(h.lhs().eq(n)));
+
+    in_game_achievement_with(
+        description,
+        in_game_achievement,
+        chain!(
+            Profile::num_crowns_per_difficulty(Difficulty::Kantan, SongResult::GoldenCrown),
+            Profile::num_crowns_per_difficulty(Difficulty::Futsuu, SongResult::GoldenCrown),
+            Profile::num_crowns_per_difficulty(Difficulty::Muzukashii, SongResult::GoldenCrown),
+            measured_num_crowns,
+            measured_if!(Profile::is_loaded())
+        )
+        .into(),
+    )
+}
+
+pub fn accumulate_hits(
+    description: &'static str,
+    in_game_achievement: InGameAchievement,
+    hits: u32,
+) -> Achievement {
+    in_game_achievement_with(
+        description,
+        in_game_achievement,
+        chain!(
+            measured!(Profile::total_drum_hits().ge(hits)),
+            measured_if!(Profile::is_loaded())
+        )
+        .into(),
+    )
 }

@@ -14,6 +14,75 @@ use crate::types::song::in_game_stats::InGameStats;
 use crate::types::song::result::SongResult;
 use crate::util::{TOTAL_NUM_CLOTHES, TOTAL_NUM_HEADGEAR, TOTAL_NUM_IN_GAME_ACHIEVEMENTS};
 
+const MENU_STATE_LOOKUP: [(u32, &str); 23] = [
+    (
+        FreeplayState::SongSelect as u32,
+        "Browsing songs in Freeplay mode",
+    ),
+    (
+        MedleyState::SongSelect as u32,
+        "Browsing songs in Medley mode",
+    ),
+    (
+        OmikoshiState::SelectStartingPrefecture as u32,
+        "Selecting home prefecture",
+    ),
+    (OmikoshiState::Cutscene as u32, "Watching a cutscene"),
+    (OmikoshiState::Dojo as u32, "Hanging around the Dojo"),
+    (OmikoshiState::Map as u32, "Planning a new conquest"),
+    (OmikoshiState::Preparing as u32, "Preparing for battle"),
+    (
+        OmikoshiState::BattleResults as u32,
+        "Viewing the results of the battle",
+    ),
+    (
+        DonChansRoomState::Menu as u32,
+        "Hanging out in Don-chan's room",
+    ),
+    (
+        DonChansRoomState::Scoreboard as u32,
+        "Looking at the scoreboard",
+    ),
+    // TODO: Would be nice if we could have the count of mails.
+    (
+        DonChansRoomState::Mailbox as u32,
+        "Going through the Mailbox",
+    ),
+    (
+        DonChansRoomState::AchievementList as u32,
+        "Browsing the in-game achievements",
+    ),
+    (
+        DonChansRoomState::EverybodyData as u32,
+        "Looking at Everybody's Data",
+    ),
+    (
+        GeneralMenuState::SplashScreen as u32,
+        "Viewing the splash screens",
+    ),
+    (GeneralMenuState::TitleScreen as u32, "On the title screen"),
+    (
+        GeneralMenuState::WarningScreen as u32,
+        "On the warning screen",
+    ),
+    (
+        GeneralMenuState::ProfileSelect as u32,
+        "Selecting a profile",
+    ),
+    (GeneralMenuState::Mail as u32, "Reading an e-mail"),
+    (GeneralMenuState::NameEntry as u32, "Entering a name"),
+    (GeneralMenuState::Download as u32, "In the Download menu"),
+    (
+        GeneralMenuState::Multiplayer as u32,
+        "In the Multiplayer menu",
+    ),
+    (
+        GeneralMenuState::Settings as u32,
+        "Configuring options in the Settings menu",
+    ),
+    (GeneralMenuState::Saving as u32, "Saving..."),
+];
+
 struct InGameHandles {
     score: MacroRef,
     combo: MacroRef,
@@ -100,73 +169,7 @@ impl RpHandles {
         let golden_crowns = rp.builtin_macro(BuiltInMacro::Number, Profile::num_golden_crowns());
         let silver_crowns = rp.builtin_macro(BuiltInMacro::Number, Profile::num_silver_crowns());
 
-        let menu_state_lt = LookupTable::new("MenuState")
-            .with_entry((
-                FreeplayState::SongSelect as u32,
-                "Browsing songs in Freeplay mode",
-            ))
-            .with_entry((
-                MedleyState::SongSelect as u32,
-                "Browsing songs in Medley mode",
-            ))
-            .with_entry((
-                OmikoshiState::SelectStartingPrefecture as u32,
-                "Selecting home prefecture",
-            ))
-            .with_entry((OmikoshiState::Cutscene as u32, "Watching a cutscene"))
-            .with_entry((OmikoshiState::Dojo as u32, "Hanging around the Dojo"))
-            .with_entry((OmikoshiState::Map as u32, "Planning a new conquest"))
-            .with_entry((OmikoshiState::Preparing as u32, "Preparing for battle"))
-            .with_entry((
-                OmikoshiState::BattleResults as u32,
-                "Viewing the results of the battle",
-            ))
-            .with_entry((
-                DonChansRoomState::Menu as u32,
-                "Hanging out in Don-chan's room",
-            ))
-            .with_entry((
-                DonChansRoomState::Scoreboard as u32,
-                "Looking at the scoreboard",
-            ))
-            // TODO: Would be nice if we could have the count of mails.
-            .with_entry((
-                DonChansRoomState::Mailbox as u32,
-                "Going through the Mailbox",
-            ))
-            .with_entry((
-                DonChansRoomState::AchievementList as u32,
-                "Browsing the in-game achievements",
-            ))
-            .with_entry((
-                DonChansRoomState::EverybodyData as u32,
-                "Looking at Everybody's Data",
-            ))
-            .with_entry((
-                GeneralMenuState::SplashScreen as u32,
-                "Viewing the splash screens",
-            ))
-            .with_entry((GeneralMenuState::TitleScreen as u32, "On the title screen"))
-            .with_entry((
-                GeneralMenuState::WarningScreen as u32,
-                "On the warning screen",
-            ))
-            .with_entry((
-                GeneralMenuState::ProfileSelect as u32,
-                "Selecting a profile",
-            ))
-            .with_entry((GeneralMenuState::Mail as u32, "Reading an e-mail"))
-            .with_entry((GeneralMenuState::NameEntry as u32, "Entering a name"))
-            .with_entry((GeneralMenuState::Download as u32, "In the Download menu"))
-            .with_entry((
-                GeneralMenuState::Multiplayer as u32,
-                "In the Multiplayer menu",
-            ))
-            .with_entry((
-                GeneralMenuState::Settings as u32,
-                "Configuring options in the Settings menu",
-            ))
-            .with_entry((GeneralMenuState::Saving as u32, "Saving..."));
+        let menu_state_lt = LookupTable::new("MenuState").with_entries(MENU_STATE_LOOKUP);
         let menu_state = rp.register_lookup(menu_state_lt, mem::current_menu_id());
 
         Self {
@@ -195,7 +198,7 @@ pub(crate) fn generate_rich_presence() -> RichPresence {
     );
     rp.add_conditional_display(
         MenuState::is(MenuState::General(GeneralMenuState::MainMenu)),
-        format!("In the main menu • {taiko_counter} 🥁"),
+        format!("In the main menu • 🥁x{taiko_counter}"),
     );
 
     rp.add_conditional_display(
@@ -206,7 +209,7 @@ pub(crate) fn generate_rich_presence() -> RichPresence {
             MenuState::is(MenuState::Freeplay(FreeplayState::SongSelect))
         ),
         format!(
-            "{} • {} 🥇 • {} 🥈",
+            "{} • 🥇x{} • 🥈x{}",
             rp_handles.menu_state, rp_handles.golden_crowns, rp_handles.silver_crowns
         ),
     );
@@ -371,7 +374,7 @@ fn register_don_chans_room_displays(
     let clothing = rp.builtin_macro(BuiltInMacro::Number, measured!(Profile::num_clothes()));
     rp.add_conditional_display(
         MenuState::is(MenuState::DonChansRoom(DonChansRoomState::ClothingMenu)),
-        format!("Searching for a new fit • {headgear}/{TOTAL_NUM_HEADGEAR} 🧢 • {clothing}/{TOTAL_NUM_CLOTHES} 👚"),
+        format!("Searching for a new fit • 🧢 {headgear}/{TOTAL_NUM_HEADGEAR}  • 👚 {clothing}/{TOTAL_NUM_CLOTHES}"),
     );
 
     let challenges = rp.builtin_macro(
@@ -385,6 +388,6 @@ fn register_don_chans_room_displays(
             ))),
             MenuState::is(MenuState::DonChansRoom(DonChansRoomState::AchievementList))
         ),
-        format!("{menu_state} • {challenges}/{TOTAL_NUM_IN_GAME_ACHIEVEMENTS} 🏆"),
+        format!("{menu_state} • 🏆 {challenges}/{TOTAL_NUM_IN_GAME_ACHIEVEMENTS}"),
     );
 }

@@ -1,25 +1,24 @@
 use crate::{
     set::{
         common::{leaderboard::generate_leaderboards, song::clear_song_with_result},
-        core::in_game_achievement::in_game_achievement_with,
+        core::{
+            general::{accumulate_hits, earn_golden_crowns, earn_silver_crowns},
+            omikoshi::{
+                control_dojo, gather_drum_disciples, obtain_omikoshi_clothes,
+                obtain_omikoshi_headgear,
+            },
+            song::{achieve_combo, clear_song_with_all_good, clear_song_with_all_great},
+        },
     },
     types::{
-        menu::{GeneralMenuState, MenuState},
-        mode::omikoshi::OmikoshiMode,
-        profile::Profile,
-        song::result::SongResult,
-        song::{ALL_STANDARD_SONGS, in_game_stats::InGameStats},
+        menu::GameMode,
+        song::{ALL_STANDARD_SONGS, result::SongResult},
     },
-    util::{TOTAL_NUM_DOJO, TOTAL_NUM_OMIKOSHI_CLOTHES, TOTAL_NUM_OMIKOSHI_HEADGEAR},
+    util::TOTAL_NUM_DOJO,
 };
-use rustcheevos::{
-    prelude::*,
-    types::{
-        achievement::Achievement,
-        chain::Chain,
-        requirement::Condition,
-        set::{Base, Set},
-    },
+use rustcheevos::types::{
+    achievement::Achievement,
+    set::{Base, Set},
 };
 
 use crate::{
@@ -32,10 +31,11 @@ use crate::{
     },
 };
 
-pub mod general;
-pub mod in_game_achievement;
-pub mod mail;
-pub mod omikoshi;
+mod general;
+mod in_game_achievement;
+mod mail;
+mod omikoshi;
+mod song;
 
 pub struct CoreSet;
 
@@ -93,12 +93,12 @@ impl CoreSet {
             earn_golden_crowns("Earn 50 golden crowns", InGameAchievement::Earn50GoldenCrowns, 50),
             earn_golden_crowns("Earn 75 golden crowns", InGameAchievement::Earn75GoldenCrowns, 75),
             earn_golden_crowns("Earn 100 golden crowns", InGameAchievement::Earn100GoldenCrowns, 100),
-            clear_song_with_all_great("Clear a song with all great hits and no misses in Freeplay mode", InGameAchievement::ClearASongWithAllGreatHitsAndNoMisses),
-            clear_song_with_all_good("Clear a song with all good hits and no misses in Freeplay mode", InGameAchievement::ClearASongWithAllGoodHitsAndNoMisses),
-            in_game_achievement("Reach a combo of 100 hits or more", InGameAchievement::ReachAComboOf100HitsOrMore),
-            in_game_achievement("Reach a combo of 200 hits or more", InGameAchievement::ReachAComboOf200HitsOrMore),
-            in_game_achievement("Reach a combo of 400 hits or more", InGameAchievement::ReachAComboOf400HitsOrMore),
-            in_game_achievement("Reach a combo of 600 hits or more", InGameAchievement::ReachAComboOf600HitsOrMore),
+            clear_song_with_all_great("Clear a song with all great hits and no misses in Freeplay mode"),
+            clear_song_with_all_good("Clear a song with all good hits and no misses in Freeplay mode"),
+            achieve_combo("Reach a combo of 100 hits or more", 100, GameMode::Freeplay),
+            achieve_combo("Reach a combo of 200 hits or more", 200, GameMode::Freeplay),
+            achieve_combo("Reach a combo of 400 hits or more", 400, GameMode::Freeplay),
+            achieve_combo("Reach a combo of 600 hits or more", 600, GameMode::Freeplay),
             in_game_achievement("Get more than 100 total hits in a song", InGameAchievement::GetMoreThan100TotalHitsInASong),
             in_game_achievement("Score 500,000 points or more in a song", InGameAchievement::Score500000PointsOrMoreInASong),
             in_game_achievement("Clear 5 dojo training stages", InGameAchievement::Clear5DojoTrainingStages),
@@ -107,19 +107,19 @@ impl CoreSet {
             in_game_achievement("Clear 30 dojo training stages", InGameAchievement::Clear30DojoTrainingStages),
             in_game_achievement("Clear 40 dojo training stages", InGameAchievement::Clear40DojoTrainingStages),
             in_game_achievement("Clear 50 dojo training stages", InGameAchievement::Clear50DojoTrainingStages),
-            control_dojos("Control 10 dojo in Omikoshi mode", InGameAchievement::Control10DojosInOmikoshiMode, 10),
-            control_dojos("Control 20 dojo in Omikoshi mode", InGameAchievement::Control20DojosInOmikoshiMode, 20),
-            control_dojos("Control 30 dojo in Omikoshi mode", InGameAchievement::Control30DojosInOmikoshiMode, 30),
-            control_dojos("Control 40 dojo in Omikoshi mode", InGameAchievement::Control40DojosInOmikoshiMode, 40),
-            control_dojos("Control all dojo in Omikoshi mode", InGameAchievement::ControlAllDojosInOmikoshiMode, TOTAL_NUM_DOJO),
-            in_game_achievement("Beat Omikoshi mode", InGameAchievement::BeatOmikoshiMode),
+            control_dojo("Control 10 dojo in Omikoshi mode", 10),
+            control_dojo("Control 20 dojo in Omikoshi mode", 20),
+            control_dojo("Control 30 dojo in Omikoshi mode", 30),
+            control_dojo("Control 40 dojo in Omikoshi mode", 40),
+            control_dojo("Control all 47 dojo in Omikoshi mode", TOTAL_NUM_DOJO),
+            in_game_achievement("Beat the Omikoshi mode", InGameAchievement::BeatOmikoshiMode),
             in_game_achievement("Beat 2 opponents in a row in Boss Rush mode", InGameAchievement::Beat2OpponentsInARowInBossRushMode),
             in_game_achievement("Beat 5 opponents in a row in Boss Rush mode", InGameAchievement::Beat5OpponentsInARowInBossRushMode),
             in_game_achievement("Clear the Boss Rush mode", InGameAchievement::ClearTheBossRushMode),
-            in_game_achievement("Gather 100 or more Drum Disciples in Omikoshi mode", InGameAchievement::Gather100OrMoreDrumDisciplesInOmikoshiMode),
-            in_game_achievement("Gather 200 or more Drum Disciples in Omikoshi mode", InGameAchievement::Gather200OrMoreDrumDisciplesInOmikoshiMode),
-            in_game_achievement("Gather 300 or more Drum Disciples in Omikoshi mode", InGameAchievement::Gather300OrMoreDrumDisciplesInOmikoshiMode),
-            in_game_achievement("Beat the opponent by more than 9 meters in a dojo battle", InGameAchievement::BeatTheOpponentByMoreThan9MetersInADojoBattle),
+            gather_drum_disciples("Gather 100 or more Drum Disciples in Omikoshi mode", 100),
+            gather_drum_disciples("Gather 200 or more Drum Disciples in Omikoshi mode", 200),
+            gather_drum_disciples("Gather 300 or more Drum Disciples in Omikoshi mode", 300),
+            in_game_achievement("Beat the opponent by more than 9 meters in an Omikoshi battle", InGameAchievement::BeatTheOpponentByMoreThan9MetersInADojoBattle),
             in_game_achievement("Fail 10 times in Freeplay mode", InGameAchievement::Fail10TimesInFreeplay),
             in_game_achievement("Earn a Gold Crown on \"The world is all one!!\" on Kantan difficulty", InGameAchievement::EarnAGoldenCrownOnTheWorldIsAllOneOnKantan),
             in_game_achievement("Earn a Gold Crown on \"The world is all one!!\" on Futsuu difficulty", InGameAchievement::EarnAGoldenCrownOnTheWorldIsAllOneOnFutsuu),
@@ -129,10 +129,10 @@ impl CoreSet {
             in_game_achievement("Earn a Gold Crown on \"Hatsune Miku no Gekishou\" on Futsuu difficulty", InGameAchievement::EarnGoldenCrownOnHatsuneMikuNoGekishouOnFutsuu),
             in_game_achievement("Earn a Gold Crown on \"MachineGun Kiss\" on Kantan difficulty", InGameAchievement::EarnGoldenCrownOnMachineGunKissOnKantan),
             in_game_achievement("Earn a Gold Crown on \"MachineGun Kiss\" on Futsuu difficulty", InGameAchievement::EarnGoldenCrownOnMachineGunKissOnFutsuu),
-            in_game_achievement("Reach a combo of 500 or more in Medley mode", InGameAchievement::ReachAComboOf500OrMoreInMedleyMode),
-            in_game_achievement("Reach a combo of 1000 or more in Medley mode", InGameAchievement::ReachAComboOf1000OrMoreInMedleyMode),
-            in_game_achievement("Reach a combo of 1500 or more in Medley mode", InGameAchievement::ReachAComboOf1500OrMoreInMedleyMode),
-            in_game_achievement("Reach a combo of 2000 or more in Medley mode", InGameAchievement::ReachAComboOf2000OrMoreInMedleyMode),
+            achieve_combo("Reach a combo of 500 or more in Medley mode", 500, GameMode::Medley),
+            achieve_combo("Reach a combo of 1000 or more in Medley mode", 1000, GameMode::Medley),
+            achieve_combo("Reach a combo of 1500 or more in Medley mode", 1500, GameMode::Medley),
+            achieve_combo("Reach a combo of 2000 or more in Medley mode", 2000, GameMode::Medley),
             in_game_achievement("Drumroll a total of 500 times or more in Medley mode", InGameAchievement::DrumrollATotalOf500TimesOrMoreInMedleyMode),
             in_game_achievement("Score 3,000,000 points or more in Medley mode", InGameAchievement::Score3000000PointsOrMoreInMedleyMode),
 
@@ -156,147 +156,4 @@ impl CoreSet {
         core.extend(all_songs_fc);
         core
     }
-}
-
-fn earn_silver_crowns(
-    description: &'static str,
-    in_game_achievement: InGameAchievement,
-    n: u32,
-    difficulty: Difficulty,
-) -> Achievement {
-    in_game_achievement_with(
-        description,
-        in_game_achievement,
-        chain!(
-            // TODO: Fixed, just needs to be tested.
-            Profile::num_silver_crowns_or_higher_per_difficulty(difficulty),
-            Condition::always_false().with_hits(n),
-            measured_if!(Profile::is_loaded())
-        )
-        .into(),
-    )
-}
-
-fn earn_golden_crowns(
-    description: &'static str,
-    in_game_achievement: InGameAchievement,
-    n: u32,
-) -> Achievement {
-    let measured_num_crowns =
-        Profile::num_crowns_per_difficulty(Difficulty::Oni, SongResult::GoldenCrown)
-            .map_head(|h| measured!(h.lhs().eq(n)));
-
-    in_game_achievement_with(
-        description,
-        in_game_achievement,
-        chain!(
-            Profile::num_crowns_per_difficulty(Difficulty::Kantan, SongResult::GoldenCrown),
-            Profile::num_crowns_per_difficulty(Difficulty::Futsuu, SongResult::GoldenCrown),
-            Profile::num_crowns_per_difficulty(Difficulty::Muzukashii, SongResult::GoldenCrown),
-            measured_num_crowns,
-            measured_if!(Profile::is_loaded())
-        )
-        .into(),
-    )
-}
-
-fn obtain_omikoshi_headgear(description: &'static str) -> Achievement {
-    Achievement::builder("TBD - Obtain Omikoshi headgear")
-        .description(description)
-        .core(chain!(
-            delta!(
-                Profile::num_omikoshi_headgear()
-                    .eq(TOTAL_NUM_OMIKOSHI_HEADGEAR - 1)
-                    .resolve()
-            ),
-            measured!(Profile::num_omikoshi_headgear().eq(TOTAL_NUM_OMIKOSHI_HEADGEAR)),
-            measured_if!(Profile::is_loaded())
-        ))
-        .build()
-}
-
-fn obtain_omikoshi_clothes(description: &'static str) -> Achievement {
-    Achievement::builder("TBD - Obtain Omikoshi clothes")
-        .description(description)
-        .core(chain!(
-            delta!(
-                Profile::num_omikoshi_clothes()
-                    .eq(TOTAL_NUM_OMIKOSHI_CLOTHES - 1)
-                    .resolve()
-            ),
-            measured!(Profile::num_omikoshi_clothes().eq(TOTAL_NUM_OMIKOSHI_CLOTHES)),
-            measured_if!(Profile::is_loaded())
-        ))
-        .build()
-}
-
-fn control_dojos(
-    description: &'static str,
-    in_game_achievement: InGameAchievement,
-    dojos: u32,
-) -> Achievement {
-    in_game_achievement_with(
-        description,
-        in_game_achievement,
-        chain!(
-            measured!(OmikoshiMode::number_of_controlled_prefectures().ge(dojos)),
-            measured_if!(Profile::is_loaded())
-        )
-        .into(),
-    )
-}
-
-fn accumulate_hits(
-    description: &'static str,
-    in_game_achievement: InGameAchievement,
-    hits: u32,
-) -> Achievement {
-    in_game_achievement_with(
-        description,
-        in_game_achievement,
-        chain!(
-            measured!(Profile::total_drum_hits().ge(hits)),
-            measured_if!(Profile::is_loaded())
-        )
-        .into(),
-    )
-}
-
-fn clear_song_with_all_great(
-    description: &'static str,
-    in_game_achievement: InGameAchievement,
-) -> Achievement {
-    clear_song_with_all(
-        description,
-        in_game_achievement,
-        chain!(InGameStats::good_hits().eq(0), InGameStats::misses().eq(0)),
-    )
-}
-
-fn clear_song_with_all_good(
-    description: &'static str,
-    in_game_achievement: InGameAchievement,
-) -> Achievement {
-    clear_song_with_all(
-        description,
-        in_game_achievement,
-        chain!(InGameStats::great_hits().eq(0), InGameStats::misses().eq(0)),
-    )
-}
-
-fn clear_song_with_all(
-    description: &'static str,
-    in_game_achievement: InGameAchievement,
-    prelude: Chain<Condition>,
-) -> Achievement {
-    Achievement::builder("TBD - In-Game Achievement")
-        .description(description)
-        .core(chain!(
-            trigger!(in_game_achievement.is_locked()),
-            trigger!(in_game_achievement.is_unlocked()),
-            prelude,
-            or_next!(MenuState::is(MenuState::General(GeneralMenuState::Mail))),
-            InGameStats::pointer_not_null(),
-        ))
-        .build()
 }

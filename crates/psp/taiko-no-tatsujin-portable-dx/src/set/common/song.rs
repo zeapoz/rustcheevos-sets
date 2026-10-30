@@ -3,7 +3,9 @@ use rustcheevos::{prelude::*, types::achievement::Achievement};
 use crate::{
     mem,
     types::{
-        difficulty::Difficulty, modifier::SpecialModifier, song::Song, song::result::SongResult,
+        difficulty::Difficulty,
+        modifier::SpecialModifier,
+        song::{Song, result::SongResult},
     },
 };
 
@@ -31,7 +33,6 @@ pub fn clear_song_with_result(
         .description(format!(
             "Earn a {result} {insert}on \"{song}\" on {difficulty} difficulty"
         ))
-        .points(0)
         .core(core)
         .build()
 }
