@@ -30,8 +30,8 @@ pub fn new_leaderboard(song: &Song, difficulty: Difficulty) -> Leaderboard {
             difficulty
         ))
         .start(chain!(
-            delta!(MenuState::is(MenuState::Freeplay(FreeplayState::Playing))),
-            MenuState::is(MenuState::Freeplay(FreeplayState::Results)),
+            delta!(MenuState::is(FreeplayState::Playing as u32)),
+            MenuState::is(FreeplayState::Results as u32),
             mem::current_song_id().eq(song.id()),
             mem::results_score().ne(0)
         ))

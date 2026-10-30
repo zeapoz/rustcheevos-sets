@@ -28,15 +28,8 @@ pub enum MenuState {
 }
 
 impl MenuState {
-    pub fn is(state: Self) -> Condition {
-        let s = match state {
-            MenuState::Freeplay(s) => s as u32,
-            MenuState::Medley(s) => s as u32,
-            MenuState::Omikoshi(s) => s as u32,
-            MenuState::DonChansRoom(s) => s as u32,
-            MenuState::General(s) => s as u32,
-        };
-        mem::current_menu_id().eq(s)
+    pub fn is(state: u32) -> Condition {
+        mem::current_menu_id().eq(state)
     }
 }
 

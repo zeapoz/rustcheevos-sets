@@ -35,11 +35,11 @@ fn clear_song_with_all(
         .core(chain!(
             delta!(in_game_achievement.is_locked()),
             in_game_achievement.is_unlocked(),
-            MenuState::is(MenuState::General(GeneralMenuState::Mail)),
+            MenuState::is(GeneralMenuState::Mail as u32),
         ))
         .alt_group(Condition::always_true())
         .alt_group(chain!(
-            trigger!(MenuState::is(MenuState::Freeplay(FreeplayState::Playing))),
+            trigger!(MenuState::is(FreeplayState::Playing as u32)),
             prelude,
         ))
         .build()

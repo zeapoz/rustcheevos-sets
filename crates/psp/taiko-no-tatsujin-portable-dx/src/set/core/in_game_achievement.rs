@@ -30,7 +30,7 @@ pub fn in_game_achievement_with(
         .core(chain!(
             delta!(in_game_achievement.is_locked()),
             in_game_achievement.is_unlocked(),
-            MenuState::is(MenuState::General(GeneralMenuState::Mail)),
+            MenuState::is(GeneralMenuState::Mail as u32),
             extra_chain,
         ))
         .build()

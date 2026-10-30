@@ -12,7 +12,7 @@ pub fn recieved_mail(description: &'static str, mail: Mail) -> Achievement {
         .core(chain!(
             delta!(mail.is_unseen()),
             mail.is_seen(),
-            MenuState::is(MenuState::General(GeneralMenuState::Mail)),
+            MenuState::is(GeneralMenuState::Mail as u32),
             Profile::is_loaded(),
         ))
         .build()

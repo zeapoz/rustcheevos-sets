@@ -197,16 +197,14 @@ pub(crate) fn generate_rich_presence() -> RichPresence {
         ),
     );
     rp.add_conditional_display(
-        MenuState::is(MenuState::General(GeneralMenuState::MainMenu)),
+        MenuState::is(GeneralMenuState::MainMenu as u32),
         format!("In the main menu • 🥁x{taiko_counter}"),
     );
 
     rp.add_conditional_display(
         chain!(
-            or_next!(MenuState::is(MenuState::DonChansRoom(
-                DonChansRoomState::Scoreboard
-            ))),
-            MenuState::is(MenuState::Freeplay(FreeplayState::SongSelect))
+            or_next!(MenuState::is(DonChansRoomState::Scoreboard as u32)),
+            MenuState::is(FreeplayState::SongSelect as u32)
         ),
         format!(
             "{} • 🥇x{} • 🥈x{}",
@@ -221,8 +219,8 @@ pub(crate) fn generate_rich_presence() -> RichPresence {
 
     rp.add_conditional_display(
         chain!(
-            or_next!(MenuState::is(MenuState::Freeplay(FreeplayState::Playing))),
-            MenuState::is(MenuState::Medley(MedleyState::Playing)),
+            or_next!(MenuState::is(FreeplayState::Playing as u32)),
+            MenuState::is(MedleyState::Playing as u32),
             mem::in_game_flag().eq(0x0),
         ),
         "Loading...",
@@ -249,7 +247,7 @@ fn register_freeplay_displays(
 ) {
     rp.add_conditional_display(
         chain!(
-            MenuState::is(MenuState::Freeplay(FreeplayState::Playing)),
+            MenuState::is(FreeplayState::Playing as u32),
             mem::in_game_flag().eq(0x1),
             InGameStats::pointer_not_null(),
         ),
@@ -259,7 +257,7 @@ fn register_freeplay_displays(
         ),
     );
     rp.add_conditional_display(
-        MenuState::is(MenuState::Freeplay(FreeplayState::Results)),
+        MenuState::is(FreeplayState::Results as u32),
         format!(
             "Viewing results for \"{current_song}\" ({difficulty}) • {}Score: {} • Highest Combo: {} • Soul gauge: {}%",
             result.crown, result.score, result.combo, result.quota_gauge
@@ -284,7 +282,7 @@ fn register_medley_displays(
 
     rp.add_conditional_display(
         chain!(
-            MenuState::is(MenuState::Medley(MedleyState::Playing)),
+            MenuState::is(MedleyState::Playing as u32),
             mem::in_game_flag().eq(0x1),
             InGameStats::pointer_not_null(),
         ),
@@ -294,7 +292,7 @@ fn register_medley_displays(
         ),
     );
     rp.add_conditional_display(
-        MenuState::is(MenuState::Medley(MedleyState::Results)),
+        MenuState::is(MedleyState::Results as u32),
         format!(
             "Viewing medley results • Score: {} • Highest Combo: {} • Soul gauge: {}%",
             result.score, result.combo, result.quota_gauge
@@ -335,14 +333,14 @@ fn register_omikoshi_displays(
     );
 
     rp.add_conditional_display(
-        MenuState::is(MenuState::Omikoshi(OmikoshiState::DojoTrainingResults)),
+        MenuState::is(OmikoshiState::DojoTrainingResults as u32),
         format!(
             "Viewing the results for a Dojo Training session • Combo: {} • Great hits: {} • Soul gauge: {}%",
             result.combo, result.great_hits, result.quota_gauge
         ),
     );
     rp.add_conditional_display(
-        MenuState::is(MenuState::Omikoshi(OmikoshiState::Battle)),
+        MenuState::is(OmikoshiState::Battle as u32),
         format!(
             "Battling against {prefecture_or_boss} • Disciples: {disciples_in_battle} • Combo: {} • Total hits: {}",
             in_game.combo,
@@ -351,11 +349,11 @@ fn register_omikoshi_displays(
     );
     rp.add_conditional_display(
         chain!(
-            or_next!(MenuState::is(MenuState::Omikoshi(OmikoshiState::Cutscene))),
-            or_next!(MenuState::is(MenuState::Omikoshi(OmikoshiState::Dojo))),
-            or_next!(MenuState::is(MenuState::Omikoshi(OmikoshiState::Map))),
-            or_next!(MenuState::is(MenuState::Omikoshi(OmikoshiState::Preparing))),
-            MenuState::is(MenuState::Omikoshi(OmikoshiState::BattleResults)),
+            or_next!(MenuState::is(OmikoshiState::Cutscene as u32)),
+            or_next!(MenuState::is(OmikoshiState::Dojo as u32)),
+            or_next!(MenuState::is(OmikoshiState::Map as u32)),
+            or_next!(MenuState::is(OmikoshiState::Preparing as u32)),
+            MenuState::is(OmikoshiState::BattleResults as u32),
         ),
         format!("{menu_state} • Disciples: {disciples}/{total_disciples} • {conquered_dojos} Dojo controlled"),
     );
@@ -366,14 +364,14 @@ fn register_don_chans_room_displays(
     RpHandles { menu_state, .. }: &RpHandles,
 ) {
     rp.add_conditional_display(
-        MenuState::is(MenuState::DonChansRoom(DonChansRoomState::Tutorial)),
+        MenuState::is(DonChansRoomState::Tutorial as u32),
         "Learning how to play the Taiko with Bachi-sensei",
     );
 
     let headgear = rp.builtin_macro(BuiltInMacro::Number, measured!(Profile::num_headgear()));
     let clothing = rp.builtin_macro(BuiltInMacro::Number, measured!(Profile::num_clothes()));
     rp.add_conditional_display(
-        MenuState::is(MenuState::DonChansRoom(DonChansRoomState::ClothingMenu)),
+        MenuState::is(DonChansRoomState::ClothingMenu as u32),
         format!("Searching for a new fit • 🧢 {headgear}/{TOTAL_NUM_HEADGEAR}  • 👚 {clothing}/{TOTAL_NUM_CLOTHES}"),
     );
 
@@ -383,10 +381,8 @@ fn register_don_chans_room_displays(
     );
     rp.add_conditional_display(
         chain!(
-            or_next!(MenuState::is(MenuState::DonChansRoom(
-                DonChansRoomState::Menu
-            ))),
-            MenuState::is(MenuState::DonChansRoom(DonChansRoomState::AchievementList))
+            or_next!(MenuState::is(DonChansRoomState::Menu as u32)),
+            MenuState::is(DonChansRoomState::AchievementList as u32)
         ),
         format!("{menu_state} • 🏆 {challenges}/{TOTAL_NUM_IN_GAME_ACHIEVEMENTS}"),
     );
