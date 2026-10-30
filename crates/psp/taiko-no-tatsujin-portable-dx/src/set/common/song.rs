@@ -5,7 +5,7 @@ use crate::{
     types::{
         difficulty::Difficulty,
         modifier::SpecialModifier,
-        song::{Song, result::SongResult},
+        song::{Song, in_game_stats::InGameStats, result::SongResult},
     },
 };
 
@@ -16,11 +16,13 @@ pub fn clear_song_with_result(
     difficulty: Difficulty,
 ) -> Achievement {
     let core = chain!(
-        delta!(SongResult::end_result_is(SongResult::Fail)),
-        SongResult::end_result_is(result),
-        mem::current_song_id().eq(*song as u32),
+        trigger!(delta!(SongResult::end_result_is(SongResult::Fail))),
+        trigger!(SongResult::end_result_is(result)),
+        InGameStats::misses().eq(0),
+        mem::current_song_id().eq(song.id()),
         Difficulty::is(difficulty),
         SpecialModifier::is_not(SpecialModifier::Auto),
+        InGameStats::pointer_not_null(),
     );
 
     let insert = if result == SongResult::SilverCrown {

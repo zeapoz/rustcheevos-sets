@@ -1,27 +1,32 @@
 use crate::{
+    mem,
     set::{
         common::{leaderboard::generate_leaderboards, song::clear_song_with_result},
         core::{
             general::{accumulate_hits, earn_golden_crowns, earn_silver_crowns},
-            omikoshi::{
-                control_dojo, gather_drum_disciples, obtain_omikoshi_clothes,
-                obtain_omikoshi_headgear,
-            },
-            song::{clear_song_with_all_good, clear_song_with_all_great},
+            omikoshi::{control_dojo, obtain_omikoshi_clothes, obtain_omikoshi_headgear},
         },
     },
-    types::song::{ALL_STANDARD_SONGS, result::SongResult},
+    types::song::{ALL_STANDARD_SONGS, Song},
     util::TOTAL_NUM_DOJO,
 };
-use rustcheevos::types::{
-    achievement::Achievement,
-    set::{Base, Set},
+use rustcheevos::{
+    prelude::*,
+    types::{
+        achievement::Achievement,
+        set::{Base, Set},
+    },
 };
 
 use crate::{
     set::core::{
-        in_game_achievement::in_game_achievement, mail::recieved_mail, omikoshi::beat_boss,
+        in_game_achievement::{in_game_achievement, in_game_achievement_with_extra},
+        mail::recieved_mail,
+        omikoshi::beat_boss,
     },
+    types::modifier::SpecialModifier,
+    types::song::in_game_stats::InGameStats,
+    types::song::result::SongResult,
     types::{
         achievement::InGameAchievement, difficulty::Difficulty, mail::Mail,
         mode::omikoshi::BattleOpponent,
@@ -29,10 +34,9 @@ use crate::{
 };
 
 mod general;
-mod in_game_achievement;
+pub(super) mod in_game_achievement;
 mod mail;
 mod omikoshi;
-mod song;
 
 pub struct CoreSet;
 
@@ -90,8 +94,8 @@ impl CoreSet {
             earn_golden_crowns("Earn 50 golden crowns", InGameAchievement::Earn50GoldenCrowns, 50),
             earn_golden_crowns("Earn 75 golden crowns", InGameAchievement::Earn75GoldenCrowns, 75),
             earn_golden_crowns("Earn 100 golden crowns", InGameAchievement::Earn100GoldenCrowns, 100),
-            clear_song_with_all_great("Clear a song with all great hits and no misses in Freeplay mode"),
-            clear_song_with_all_good("Clear a song with all good hits and no misses in Freeplay mode"),
+            in_game_achievement("Clear a song with all great hits and no misses in Freeplay mode", InGameAchievement::ClearASongWithAllGreatHitsAndNoMisses),
+            in_game_achievement("Clear a song with all good hits and no misses in Freeplay mode", InGameAchievement::ClearASongWithAllGoodHitsAndNoMisses),
             in_game_achievement("Reach a combo of 100 hits or more", InGameAchievement::ReachAComboOf100HitsOrMore),
             in_game_achievement("Reach a combo of 200 hits or more", InGameAchievement::ReachAComboOf200HitsOrMore),
             in_game_achievement("Reach a combo of 400 hits or more", InGameAchievement::ReachAComboOf400HitsOrMore),
@@ -113,19 +117,19 @@ impl CoreSet {
             in_game_achievement("Beat 2 opponents in a row in Boss Rush mode", InGameAchievement::Beat2OpponentsInARowInBossRushMode),
             in_game_achievement("Beat 5 opponents in a row in Boss Rush mode", InGameAchievement::Beat5OpponentsInARowInBossRushMode),
             in_game_achievement("Clear the Boss Rush mode", InGameAchievement::ClearTheBossRushMode),
-            gather_drum_disciples("Gather 100 or more Drum Disciples in Omikoshi mode", 100),
-            gather_drum_disciples("Gather 200 or more Drum Disciples in Omikoshi mode", 200),
-            gather_drum_disciples("Gather 300 or more Drum Disciples in Omikoshi mode", 300),
+            in_game_achievement("Gather 100 or more Drum Disciples in Omikoshi mode", InGameAchievement::Gather100OrMoreDrumDisciplesInOmikoshiMode),
+            in_game_achievement("Gather 200 or more Drum Disciples in Omikoshi mode", InGameAchievement::Gather200OrMoreDrumDisciplesInOmikoshiMode),
+            in_game_achievement("Gather 300 or more Drum Disciples in Omikoshi mode", InGameAchievement::Gather300OrMoreDrumDisciplesInOmikoshiMode),
             in_game_achievement("Beat the opponent by more than 9 meters in an Omikoshi battle", InGameAchievement::BeatTheOpponentByMoreThan9MetersInADojoBattle),
             in_game_achievement("Fail 10 times in Freeplay mode", InGameAchievement::Fail10TimesInFreeplay),
-            in_game_achievement("Earn a Gold Crown on \"The world is all one!!\" on Kantan difficulty", InGameAchievement::EarnAGoldenCrownOnTheWorldIsAllOneOnKantan),
-            in_game_achievement("Earn a Gold Crown on \"The world is all one!!\" on Futsuu difficulty", InGameAchievement::EarnAGoldenCrownOnTheWorldIsAllOneOnFutsuu),
-            in_game_achievement("Earn a Gold Crown on \"Monster Hunter Medley\" on Kantan difficulty", InGameAchievement::EarnGoldenCrownOnMonsterHunterMedleyOnKantan),
-            in_game_achievement("Earn a Gold Crown on \"Monster Hunter Medley\" on Futsuu difficulty", InGameAchievement::EarnGoldenCrownOnMonsterHunterMedleyOnFutsuu),
-            in_game_achievement("Earn a Gold Crown on \"Hatsune Miku no Gekishou\" on Kantan difficulty", InGameAchievement::EarnGoldenCrownOnHatsuneMikuNoGekishouOnKantan),
-            in_game_achievement("Earn a Gold Crown on \"Hatsune Miku no Gekishou\" on Futsuu difficulty", InGameAchievement::EarnGoldenCrownOnHatsuneMikuNoGekishouOnFutsuu),
-            in_game_achievement("Earn a Gold Crown on \"MachineGun Kiss\" on Kantan difficulty", InGameAchievement::EarnGoldenCrownOnMachineGunKissOnKantan),
-            in_game_achievement("Earn a Gold Crown on \"MachineGun Kiss\" on Futsuu difficulty", InGameAchievement::EarnGoldenCrownOnMachineGunKissOnFutsuu),
+            in_game_achievement_with_extra("Earn a Gold Crown on \"The world is all one!!\" on Kantan difficulty", InGameAchievement::EarnAGoldenCrownOnTheWorldIsAllOneOnKantan, chain!(InGameStats::misses().eq(0), mem::current_song_id().eq(Song::TheWorldIsAllOne.id()), Difficulty::is(Difficulty::Kantan), SpecialModifier::is_not(SpecialModifier::Auto))),
+            in_game_achievement_with_extra("Earn a Gold Crown on \"The world is all one!!\" on Futsuu difficulty", InGameAchievement::EarnAGoldenCrownOnTheWorldIsAllOneOnFutsuu, chain!(InGameStats::misses().eq(0), mem::current_song_id().eq(Song::TheWorldIsAllOne.id()), Difficulty::is(Difficulty::Futsuu), SpecialModifier::is_not(SpecialModifier::Auto))),
+            in_game_achievement_with_extra("Earn a Gold Crown on \"Monster Hunter Medley\" on Kantan difficulty", InGameAchievement::EarnGoldenCrownOnMonsterHunterMedleyOnKantan, chain!(InGameStats::misses().eq(0), mem::current_song_id().eq(Song::MonsterHunterMedley.id()), Difficulty::is(Difficulty::Kantan), SpecialModifier::is_not(SpecialModifier::Auto))),
+            in_game_achievement_with_extra("Earn a Gold Crown on \"Monster Hunter Medley\" on Futsuu difficulty", InGameAchievement::EarnGoldenCrownOnMonsterHunterMedleyOnFutsuu, chain!(InGameStats::misses().eq(0), mem::current_song_id().eq(Song::MonsterHunterMedley.id()), Difficulty::is(Difficulty::Futsuu), SpecialModifier::is_not(SpecialModifier::Auto))),
+            in_game_achievement_with_extra("Earn a Gold Crown on \"Hatsune Miku no Gekishou\" on Kantan difficulty", InGameAchievement::EarnGoldenCrownOnHatsuneMikuNoGekishouOnKantan, chain!(InGameStats::misses().eq(0), mem::current_song_id().eq(Song::HatsuneMikuNoGekishou.id()), Difficulty::is(Difficulty::Kantan), SpecialModifier::is_not(SpecialModifier::Auto))),
+            in_game_achievement_with_extra("Earn a Gold Crown on \"Hatsune Miku no Gekishou\" on Futsuu difficulty", InGameAchievement::EarnGoldenCrownOnHatsuneMikuNoGekishouOnFutsuu, chain!(InGameStats::misses().eq(0), mem::current_song_id().eq(Song::HatsuneMikuNoGekishou.id()), Difficulty::is(Difficulty::Futsuu), SpecialModifier::is_not(SpecialModifier::Auto))),
+            in_game_achievement_with_extra("Earn a Gold Crown on \"MachineGun Kiss\" on Kantan difficulty", InGameAchievement::EarnGoldenCrownOnMachineGunKissOnKantan, chain!(InGameStats::misses().eq(0), mem::current_song_id().eq(Song::MachineGunKiss.id()), Difficulty::is(Difficulty::Kantan), SpecialModifier::is_not(SpecialModifier::Auto))),
+            in_game_achievement_with_extra("Earn a Gold Crown on \"MachineGun Kiss\" on Futsuu difficulty", InGameAchievement::EarnGoldenCrownOnMachineGunKissOnFutsuu, chain!(InGameStats::misses().eq(0), mem::current_song_id().eq(Song::MachineGunKiss.id()), Difficulty::is(Difficulty::Futsuu), SpecialModifier::is_not(SpecialModifier::Auto))),
             in_game_achievement("Reach a combo of 500 or more in Medley mode", InGameAchievement::ReachAComboOf500OrMoreInMedleyMode),
             in_game_achievement("Reach a combo of 1000 or more in Medley mode", InGameAchievement::ReachAComboOf1000OrMoreInMedleyMode),
             in_game_achievement("Reach a combo of 1500 or more in Medley mode", InGameAchievement::ReachAComboOf1500OrMoreInMedleyMode),
@@ -147,6 +151,7 @@ impl CoreSet {
             recieved_mail("Achieve the rank of Grand Master", Mail::GrandMasterPromotion),
         ];
 
+        // TODO: Trigger
         let all_songs_fc = ALL_STANDARD_SONGS.iter().map(|song|
             clear_song_with_result("TBD - Song FC", song, SongResult::GoldenCrown, Difficulty::Muzukashii)
         );

@@ -1,20 +1,13 @@
 use std::{fmt, sync::LazyLock};
 
-use rustcheevos::{
-    prelude::*,
-    types::{chain::Chain, memory::MemoryRef, requirement::Condition},
-};
+use rustcheevos::{prelude::*, types::memory::MemoryRef};
 
-use crate::{
-    mem,
-    types::{difficulty::Difficulty, profile::Profile},
-};
+use crate::{mem, types::difficulty::Difficulty};
 
 pub mod in_game_stats;
 pub mod result;
 
-pub static ALL_SONGS: LazyLock<&'static [Song]> =
-    LazyLock::new(|| &Song::ALL[..Song::ALL.len() - 1]);
+pub static ALL_SONGS: LazyLock<&'static [Song]> = LazyLock::new(|| &Song::ALL[..Song::ALL.len()]);
 
 pub static ALL_STANDARD_SONGS: LazyLock<Vec<&Song>> =
     LazyLock::new(|| ALL_SONGS.iter().filter(|s| !s.is_dlc()).collect());
@@ -50,33 +43,14 @@ macro_rules! gen_song_defs {
             }
 
             /// Returns a chain resolving to the stored best result for the given difficulty.
-            pub fn best_result(&self, difficulty: Difficulty) -> Chain<MemoryRef> {
+            pub fn best_result(&self, difficulty: Difficulty) -> MemoryRef {
                 const SONG_SIZE_BYTES: u32 = 32;
                 const RESULT_OFFSET: usize = 0x1;
 
                 let song_stats_offset = mem::file_1_song_scoreboard_kantan() + difficulty.offset();
                 let song_offset = song_stats_offset + (self.id() * SONG_SIZE_BYTES) as usize;
 
-                chain!(
-                    Profile::offset_for_current(),
-                    bits8!(song_offset + RESULT_OFFSET),
-                )
-            }
-
-            fn unlocked_state(&self) -> Chain<MemoryRef> {
-                assert!(!self.is_dlc());
-                chain!(
-                    Profile::offset_for_current(),
-                    bits8!(mem::file_1_song_unlock_flags()),
-                )
-            }
-
-            pub fn is_locked(&self) -> Chain<Condition> {
-                self.unlocked_state().eq(0x0)
-            }
-
-            pub fn is_unlocked(&self) -> Chain<Condition> {
-                self.unlocked_state().eq(0x1)
+                bits8!(song_offset + RESULT_OFFSET)
             }
 
             /// Returns the title of the song.

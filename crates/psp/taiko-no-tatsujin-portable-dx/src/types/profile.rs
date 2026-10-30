@@ -11,10 +11,10 @@ use rustcheevos::{
 
 use crate::{
     mem,
-    types::{song::ALL_SONGS, song::result::SongResult},
+    types::song::{ALL_SONGS, result::SongResult},
     util::{
-        TOTAL_NUM_CLOTHES, TOTAL_NUM_HEADGEAR, TOTAL_NUM_IN_GAME_ACHIEVEMENTS,
-        TOTAL_NUM_OMIKOSHI_CLOTHES, TOTAL_NUM_OMIKOSHI_HEADGEAR,
+        ByteArrayCounterBuilder, TOTAL_NUM_CLOTHES, TOTAL_NUM_HEADGEAR,
+        TOTAL_NUM_IN_GAME_ACHIEVEMENTS, TOTAL_NUM_OMIKOSHI_CLOTHES, TOTAL_NUM_OMIKOSHI_HEADGEAR,
     },
 };
 
@@ -59,16 +59,16 @@ impl Profile {
     }
 
     /// Returns a chain counting the number of obtained omikoshi headgear.
-    pub fn num_omikoshi_headgear() -> Chain<MemoryRef> {
-        Self::count_byte_array_flags(
+    pub fn num_omikoshi_headgear() -> ByteArrayCounterBuilder {
+        ByteArrayCounterBuilder::new(
             mem::file_1_headgear_unlock_flags(),
             TOTAL_NUM_OMIKOSHI_HEADGEAR as usize,
         )
     }
 
     /// Returns a chain counting the number of obtained omikoshi clothes.
-    pub fn num_omikoshi_clothes() -> Chain<MemoryRef> {
-        Self::count_byte_array_flags(
+    pub fn num_omikoshi_clothes() -> ByteArrayCounterBuilder {
+        ByteArrayCounterBuilder::new(
             mem::file_1_clothes_unlock_flags(),
             TOTAL_NUM_OMIKOSHI_CLOTHES as usize,
         )
@@ -76,37 +76,28 @@ impl Profile {
 
     /// Returns a chain counting the number of obtained headgear.
     pub fn num_headgear() -> Chain<MemoryRef> {
-        Self::count_byte_array_flags(
+        ByteArrayCounterBuilder::new(
             mem::file_1_headgear_unlock_flags(),
             TOTAL_NUM_HEADGEAR as usize,
         )
+        .build()
     }
 
     /// Returns a chain counting the number of obtained clothes.
     pub fn num_clothes() -> Chain<MemoryRef> {
-        Self::count_byte_array_flags(
+        ByteArrayCounterBuilder::new(
             mem::file_1_clothes_unlock_flags(),
             TOTAL_NUM_CLOTHES as usize,
         )
+        .build()
     }
 
     pub fn num_challenges_completed() -> Chain<MemoryRef> {
-        Self::count_byte_array_flags(
+        ByteArrayCounterBuilder::new(
             mem::in_game_achievements_unlock_flags(),
             TOTAL_NUM_IN_GAME_ACHIEVEMENTS as usize,
         )
-    }
-
-    fn count_byte_array_flags(addr: usize, size: usize) -> Chain<MemoryRef> {
-        let add_source_chain: ResolvedChain = (0..size - 1)
-            .map(|i| chain!(Self::offset_for_current(), add_source!(bits8!(addr + i))))
-            .collect();
-
-        chain!(
-            add_source_chain,
-            Self::offset_for_current(),
-            bits8!(addr + size - 1),
-        )
+        .build()
     }
 
     fn num_total_crowns(crown: SongResult) -> Chain<Arithmetic> {
@@ -122,7 +113,7 @@ impl Profile {
         difficulty: Difficulty,
         crown: SongResult,
     ) -> Chain<Arithmetic> {
-        let map_fn = |s: Chain<MemoryRef>| {
+        let map_fn = |s: MemoryRef| {
             if crown == SongResult::SilverCrown {
                 s.modulo(SongResult::GoldenCrown as u32)
             } else {
@@ -132,14 +123,24 @@ impl Profile {
 
         ALL_SONGS
             .iter()
-            .map(|s| add_source!(map_fn(s.best_result(difficulty))))
+            .map(|s| {
+                chain!(
+                    Profile::offset_for_current(),
+                    add_source!(map_fn(s.best_result(difficulty)))
+                )
+            })
             .collect()
     }
 
     pub fn num_silver_crowns_or_higher_per_difficulty(difficulty: Difficulty) -> Chain<Condition> {
         ALL_SONGS
             .iter()
-            .map(|s| add_hits!(s.best_result(difficulty).ne(SongResult::Fail as u32)))
+            .map(|s| {
+                chain!(
+                    Profile::offset_for_current(),
+                    add_hits!(s.best_result(difficulty).ne(SongResult::Fail as u32))
+                )
+            })
             .collect()
     }
 }
