@@ -317,6 +317,11 @@ pub const fn results_missed_hits() -> MemoryRef {
     bits16!(0xfca01a)
 }
 
+/// [16-bit] Results - Drumroll Hits
+pub const fn results_drumroll_hits() -> MemoryRef {
+    bits16!(0xfca01c)
+}
+
 /// [32-bit] End Result
 /// 0x0 = Fail
 /// 0x1 = Silver Crown

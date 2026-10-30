@@ -16,11 +16,12 @@ pub fn earn_silver_crowns(
     in_game_achievement_with(
         description,
         in_game_achievement,
-        rustcheevos::types::chain::ResolvedChain::from(chain!(
+        chain!(
             Profile::num_silver_crowns_or_higher_per_difficulty(difficulty),
             Condition::always_false().with_hits(n),
             measured_if!(Profile::is_loaded())
-        )),
+        )
+        .into(),
     )
 }
 
