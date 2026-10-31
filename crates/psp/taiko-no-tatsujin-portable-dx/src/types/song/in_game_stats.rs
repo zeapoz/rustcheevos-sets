@@ -57,4 +57,8 @@ impl InGameStats {
     pub fn pointer_not_null() -> Condition {
         mem::in_game_structs_0x1ffffff().ne(0)
     }
+
+    pub fn pointer_is_null() -> Condition {
+        mem::in_game_structs_0x1ffffff().eq(0)
+    }
 }

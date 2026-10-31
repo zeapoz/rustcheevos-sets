@@ -14,6 +14,7 @@ pub struct InGameAchievementBuilder {
     achievement: InGameAchievement,
     extra_core: ResolvedChain,
     alt_groups: Vec<ResolvedChain>,
+    trigger: bool,
 }
 
 impl InGameAchievementBuilder {
@@ -23,6 +24,7 @@ impl InGameAchievementBuilder {
             achievement,
             extra_core: ResolvedChain::new(),
             alt_groups: Vec::new(),
+            trigger: false,
         }
     }
 
@@ -36,6 +38,11 @@ impl InGameAchievementBuilder {
         self
     }
 
+    pub fn trigger(mut self) -> Self {
+        self.trigger = true;
+        self
+    }
+
     pub fn build(self) -> Achievement {
         Achievement::builder("TBD - In-Game Achievement")
             .description(self.description)
@@ -45,13 +52,18 @@ impl InGameAchievementBuilder {
     }
 
     fn build_core(&self) -> ResolvedChain {
-        chain!(
+        let mut unlock_cond = chain!(
             delta!(self.achievement.is_locked()),
             self.achievement.is_unlocked(),
-            self.extra_core.clone(),
             MenuState::is(GeneralMenuState::Mail as u32),
         )
-        .into()
+        .resolve();
+
+        if self.trigger {
+            unlock_cond = trigger!(unlock_cond);
+        };
+
+        chain!(unlock_cond, self.extra_core.clone()).into()
     }
 }
 
@@ -61,15 +73,5 @@ pub fn in_game_achievement(
 ) -> Achievement {
     InGameAchievementBuilder::new(description, in_game_achievement)
         .extra_core(Profile::is_loaded())
-        .build()
-}
-
-pub fn in_game_achievement_with_extra(
-    description: &'static str,
-    in_game_achievement: InGameAchievement,
-    extra_core: impl Into<ResolvedChain>,
-) -> Achievement {
-    InGameAchievementBuilder::new(description, in_game_achievement)
-        .extra_core(chain!(Profile::is_loaded(), extra_core.into()))
         .build()
 }
