@@ -3,7 +3,7 @@ use rustcheevos_cli::{CliError, RustcheevosCli};
 
 use crate::{
     rich::generate_rich_presence,
-    set::{CoreSet, DLCSubset},
+    set::{CoreSet, DLCSubset, OniFCSubset},
 };
 
 mod mem;
@@ -21,6 +21,7 @@ fn main() -> Result<(), CliError> {
     game_data
         .set_base_set(CoreSet::generate())
         .add_subset(DLCSubset::generate())
+        .add_subset(OniFCSubset::generate())
         .set_rich_presence(generate_rich_presence());
 
     RustcheevosCli::parse().run(&game_data)
