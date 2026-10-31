@@ -12,7 +12,7 @@ pub struct DLCSubset;
 
 impl DLCSubset {
     pub fn generate() -> Set<Subset> {
-        let mut set = Set::new_subset(1, "DLC", SubsetType::Bonus);
+        let mut set = Set::new_subset(46365, "DLC", SubsetType::Bonus);
         set.add_achievements(Self::generate_set())
             .add_leaderboards(generate_leaderboards(&ALL_DLC_SONGS));
         set
