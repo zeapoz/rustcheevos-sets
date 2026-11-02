@@ -3,7 +3,7 @@ use rustcheevos::types::achievement::Achievement;
 use rustcheevos::types::requirement::Condition;
 
 use crate::mem;
-use crate::types::menu::{FreeplayState, MenuState};
+use crate::types::menu::{FreeplayState, GameMode, MenuState};
 use crate::types::modifier::{SpecialModifier, SpeedModifier};
 use crate::types::song::in_game_stats::InGameStats;
 use crate::types::song::result::SongResult;
@@ -23,6 +23,7 @@ pub fn earn_gold_on(
             and_next!(InGameStats::misses().ne(0)),
             reset_if!(MenuState::is(FreeplayState::Playing as u32)),
             reset_if!(MenuState::is(FreeplayState::SongSelect as u32)),
+            reset_if!(GameMode::is_not(GameMode::Freeplay)),
         ))
         .alt_group(chain!(
             and_next!(mem::current_song_id().eq(song.id())),
@@ -41,6 +42,22 @@ pub fn earn_gold_on(
         .build()
 }
 
+pub fn clear_song_with_special_modifier(
+    description: &'static str,
+    modifier: SpecialModifier,
+) -> Achievement {
+    Achievement::builder("TBD - Modifier")
+        .description(description)
+        .core(chain!(
+            trigger!(delta!(SongResult::end_result_is(SongResult::Fail))),
+            trigger!(SongResult::end_result_is_not(SongResult::Fail)),
+            SpecialModifier::is(modifier),
+            InGameStats::pointer_not_null(),
+            GameMode::is(GameMode::Freeplay),
+        ))
+        .build()
+}
+
 pub fn clear_song_with_modifier_active(
     description: &'static str,
     modifier_active: Chain<Condition>,
@@ -53,6 +70,7 @@ pub fn clear_song_with_modifier_active(
             modifier_active,
             SpecialModifier::is_not(SpecialModifier::Auto),
             InGameStats::pointer_not_null(),
+            GameMode::is(GameMode::Freeplay),
         ))
         .build()
 }
@@ -94,11 +112,18 @@ fn trigger_challenge_achievement(
 ) -> Achievement {
     InGameAchievementBuilder::new(description, in_game_achievement)
         .extra_core(chain!(
-            // TODO: This needs to be restricted further I think, to Freeplay mode.
-            and_next!(delta!(InGameStats::pointer_is_null())),
-            InGameStats::pointer_not_null().with_hits(1),
             restriction,
             reset_if!(MenuState::is(FreeplayState::SongSelect as u32)),
+            GameMode::is(GameMode::Freeplay),
+        ))
+        .alt_group(chain!(
+            and_next!(delta!(InGameStats::pointer_is_null())),
+            and_next!(InGameStats::pointer_not_null()),
+        ))
+        .alt_group(chain!(
+            and_next!(InGameStats::pointer_not_null()),
+            and_next!(delta!(InGameStats::passed_notes()).ne(0)),
+            InGameStats::passed_notes().eq(0).with_hits(1),
         ))
         .trigger()
         .build()

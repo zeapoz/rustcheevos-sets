@@ -17,6 +17,10 @@ impl GameMode {
     pub fn is(mode: Self) -> Condition {
         mem::game_mode().eq(mode as u32)
     }
+
+    pub fn is_not(mode: Self) -> Condition {
+        mem::game_mode().ne(mode as u32)
+    }
 }
 
 pub enum MenuState {
