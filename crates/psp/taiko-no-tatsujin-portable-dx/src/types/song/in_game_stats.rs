@@ -54,6 +54,10 @@ impl InGameStats {
         chain!(Self::stats_pointer(), float!(0x20))
     }
 
+    pub fn passed_notes() -> Chain<MemoryRef> {
+        chain!(Self::stats_pointer(), bits32!(0x11c))
+    }
+
     pub fn pointer_not_null() -> Condition {
         mem::in_game_structs_0x1ffffff().ne(0)
     }

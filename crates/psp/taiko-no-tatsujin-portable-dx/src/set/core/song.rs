@@ -18,13 +18,22 @@ pub fn earn_gold_on(
 ) -> Achievement {
     InGameAchievementBuilder::new(description, in_game_achievement)
         .extra_core(chain!(
+            and_next!(InGameStats::misses().ne(0)),
+            reset_if!(MenuState::is(FreeplayState::Playing as u32)),
+            reset_if!(MenuState::is(FreeplayState::SongSelect as u32)),
+        ))
+        .alt_group(chain!(
             and_next!(mem::current_song_id().eq(song.id())),
             and_next!(Difficulty::is(difficulty)),
             and_next!(delta!(InGameStats::pointer_is_null())),
             InGameStats::pointer_not_null().with_hits(1),
-            and_next!(InGameStats::misses().ne(0)),
-            reset_if!(MenuState::is(FreeplayState::Playing as u32)),
-            reset_if!(MenuState::is(FreeplayState::SongSelect as u32)),
+        ))
+        .alt_group(chain!(
+            and_next!(mem::current_song_id().eq(song.id())),
+            and_next!(Difficulty::is(difficulty)),
+            and_next!(InGameStats::pointer_not_null()),
+            and_next!(delta!(InGameStats::passed_notes()).ne(0)),
+            InGameStats::passed_notes().eq(0).with_hits(1),
         ))
         .trigger()
         .build()
