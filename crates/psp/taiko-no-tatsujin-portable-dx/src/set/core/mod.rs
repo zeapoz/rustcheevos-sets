@@ -4,12 +4,20 @@ use crate::{
         core::{
             general::{accumulate_hits, earn_golden_crowns, earn_silver_crowns},
             omikoshi::{control_dojo, obtain_omikoshi_clothes, obtain_omikoshi_headgear},
-            song::{donderful_combo, earn_gold_on, false_donderful_combo},
+            song::{
+                clear_song_with_modifier_active, donderful_combo, earn_gold_on,
+                false_donderful_combo,
+            },
         },
     },
-    types::song::{ALL_STANDARD_SONGS, Song},
+    types::{
+        modifier::{NoteModifier, SpecialModifier, SpeedModifier},
+        song::{ALL_STANDARD_SONGS, Song},
+    },
     util::TOTAL_NUM_DOJO,
 };
+
+use rustcheevos::prelude::*;
 use rustcheevos::types::{
     achievement::Achievement,
     set::{Base, Set},
@@ -143,6 +151,16 @@ impl CoreSet {
             recieved_mail("Achieve the rank of Iron Man", Mail::IronManPromotion),
             recieved_mail("Achieve the rank of Master", Mail::MasterPromotion),
             recieved_mail("Achieve the rank of Grand Master", Mail::GrandMasterPromotion),
+
+            // Modifiers
+            clear_song_with_modifier_active("Clear any song with the Double speed modifier or higher active", SpeedModifier::is_or_higher(SpeedModifier::Double)),
+            clear_song_with_modifier_active("Clear any song with the Triple speed modifier or higher active", SpeedModifier::is_or_higher(SpeedModifier::Triple)),
+            clear_song_with_modifier_active("Clear any song with the Quadruple speed modifier active", SpeedModifier::is_or_higher(SpeedModifier::Triple)),
+            clear_song_with_modifier_active("Clear any song with the Sudden Death modifier active", SpecialModifier::is(SpecialModifier::SuddenDeath)),
+            clear_song_with_modifier_active("Clear any song with the Invisible modifier active", SpecialModifier::is(SpecialModifier::Invisible)),
+            clear_song_with_modifier_active("Clear any song with the Whimsical notes modifier active", NoteModifier::is(NoteModifier::Whimsical)),
+            clear_song_with_modifier_active("Clear any song with the Random notes modifier active", NoteModifier::is(NoteModifier::Random)),
+            clear_song_with_modifier_active("Clear any song with the Reversed notes modifier active", NoteModifier::is(NoteModifier::Reveresed)),
         ];
 
         // TODO: Trigger

@@ -4,7 +4,9 @@ use rustcheevos::types::requirement::Condition;
 
 use crate::mem;
 use crate::types::menu::{FreeplayState, MenuState};
+use crate::types::modifier::{SpecialModifier, SpeedModifier};
 use crate::types::song::in_game_stats::InGameStats;
+use crate::types::song::result::SongResult;
 use crate::{
     set::core::in_game_achievement::InGameAchievementBuilder,
     types::{achievement::InGameAchievement, difficulty::Difficulty, song::Song},
@@ -36,6 +38,22 @@ pub fn earn_gold_on(
             InGameStats::passed_notes().eq(0).with_hits(1),
         ))
         .trigger()
+        .build()
+}
+
+pub fn clear_song_with_modifier_active(
+    description: &'static str,
+    modifier_active: Chain<Condition>,
+) -> Achievement {
+    Achievement::builder("TBD - Modifier")
+        .description(description)
+        .core(chain!(
+            trigger!(delta!(SongResult::end_result_is(SongResult::Fail))),
+            trigger!(SongResult::end_result_is_not(SongResult::Fail)),
+            modifier_active,
+            SpecialModifier::is_not(SpecialModifier::Auto),
+            InGameStats::pointer_not_null(),
+        ))
         .build()
 }
 
@@ -76,6 +94,7 @@ fn trigger_challenge_achievement(
 ) -> Achievement {
     InGameAchievementBuilder::new(description, in_game_achievement)
         .extra_core(chain!(
+            // TODO: This needs to be restricted further I think, to Freeplay mode.
             and_next!(delta!(InGameStats::pointer_is_null())),
             InGameStats::pointer_not_null().with_hits(1),
             restriction,

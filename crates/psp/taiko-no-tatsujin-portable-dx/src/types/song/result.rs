@@ -22,6 +22,10 @@ impl SongResult {
     pub fn end_result_is(result: Self) -> Condition {
         mem::end_result().eq(result as u32)
     }
+
+    pub fn end_result_is_not(result: Self) -> Condition {
+        mem::end_result().ne(result as u32)
+    }
 }
 
 impl fmt::Display for SongResult {
