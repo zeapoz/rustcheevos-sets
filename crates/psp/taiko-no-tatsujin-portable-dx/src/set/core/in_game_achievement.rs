@@ -10,7 +10,9 @@ use crate::types::{
 };
 
 pub struct InGameAchievementBuilder {
-    description: &'static str,
+    title: String,
+    description: String,
+    points: u32,
     achievement: InGameAchievement,
     extra_core: ResolvedChain,
     alt_groups: Vec<ResolvedChain>,
@@ -18,9 +20,16 @@ pub struct InGameAchievementBuilder {
 }
 
 impl InGameAchievementBuilder {
-    pub fn new(description: &'static str, achievement: InGameAchievement) -> Self {
+    pub fn new(
+        title: &str,
+        description: &str,
+        points: u32,
+        achievement: InGameAchievement,
+    ) -> Self {
         Self {
-            description,
+            title: title.to_string(),
+            description: description.to_string(),
+            points,
             achievement,
             extra_core: ResolvedChain::new(),
             alt_groups: Vec::new(),
@@ -44,8 +53,9 @@ impl InGameAchievementBuilder {
     }
 
     pub fn build(self) -> Achievement {
-        Achievement::builder("TBD - In-Game Achievement")
-            .description(self.description)
+        Achievement::builder(&self.title)
+            .description(&self.description)
+            .points(self.points)
             .core(self.build_core())
             .alt_groups(self.alt_groups)
             .build()
@@ -68,10 +78,12 @@ impl InGameAchievementBuilder {
 }
 
 pub fn in_game_achievement(
-    description: &'static str,
+    title: &str,
+    description: &str,
+    points: u32,
     in_game_achievement: InGameAchievement,
 ) -> Achievement {
-    InGameAchievementBuilder::new(description, in_game_achievement)
+    InGameAchievementBuilder::new(title, description, points, in_game_achievement)
         .extra_core(Profile::is_loaded())
         .build()
 }

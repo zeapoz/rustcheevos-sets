@@ -11,6 +11,7 @@ pub const TOTAL_NUM_HEADGEAR: u32 = TOTAL_NUM_OMIKOSHI_HEADGEAR + 4;
 pub const TOTAL_NUM_CLOTHES: u32 = TOTAL_NUM_OMIKOSHI_CLOTHES + 5;
 pub const TOTAL_NUM_IN_GAME_ACHIEVEMENTS: u32 = 78;
 
+#[derive(Debug, Clone, Copy)]
 pub struct ByteArrayCounterBuilder {
     addr: usize,
     size: usize,

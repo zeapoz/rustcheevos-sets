@@ -4,7 +4,7 @@ use rustcheevos::types::requirement::Condition;
 
 use crate::mem;
 use crate::types::menu::{FreeplayState, GameMode, MenuState};
-use crate::types::modifier::{SpecialModifier, SpeedModifier};
+use crate::types::modifier::SpecialModifier;
 use crate::types::song::in_game_stats::InGameStats;
 use crate::types::song::result::SongResult;
 use crate::{
@@ -13,12 +13,18 @@ use crate::{
 };
 
 pub fn earn_gold_on(
-    description: &'static str,
+    title: &str,
+    points: u32,
     in_game_achievement: InGameAchievement,
     song: Song,
     difficulty: Difficulty,
 ) -> Achievement {
-    InGameAchievementBuilder::new(description, in_game_achievement)
+    let description = format!(
+        "Earn a {} on \"{song}\" on {difficulty} difficulty",
+        SongResult::GoldenCrown
+    );
+
+    InGameAchievementBuilder::new(title, &description, points, in_game_achievement)
         .extra_core(chain!(
             and_next!(InGameStats::misses().ne(0)),
             reset_if!(MenuState::is(FreeplayState::Playing as u32)),
@@ -43,10 +49,12 @@ pub fn earn_gold_on(
 }
 
 pub fn clear_song_with_special_modifier(
-    description: &'static str,
+    title: &str,
+    description: &str,
+    points: u32,
     modifier: SpecialModifier,
 ) -> Achievement {
-    Achievement::builder("TBD - Modifier")
+    Achievement::builder(title)
         .description(description)
         .core(chain!(
             trigger!(delta!(SongResult::end_result_is(SongResult::Fail))),
@@ -55,14 +63,17 @@ pub fn clear_song_with_special_modifier(
             InGameStats::pointer_not_null(),
             GameMode::is(GameMode::Freeplay),
         ))
+        .points(points)
         .build()
 }
 
 pub fn clear_song_with_modifier_active(
-    description: &'static str,
+    title: &str,
+    description: &str,
+    points: u32,
     modifier_active: Chain<Condition>,
 ) -> Achievement {
-    Achievement::builder("TBD - Modifier")
+    Achievement::builder(title)
         .description(description)
         .core(chain!(
             trigger!(delta!(SongResult::end_result_is(SongResult::Fail))),
@@ -72,15 +83,20 @@ pub fn clear_song_with_modifier_active(
             InGameStats::pointer_not_null(),
             GameMode::is(GameMode::Freeplay),
         ))
+        .points(points)
         .build()
 }
 
 pub fn donderful_combo(
-    description: &'static str,
+    title: &str,
+    description: &str,
+    points: u32,
     in_game_achievement: InGameAchievement,
 ) -> Achievement {
     trigger_challenge_achievement(
+        title,
         description,
+        points,
         in_game_achievement,
         chain!(
             or_next!(InGameStats::misses().ne(0)),
@@ -91,11 +107,15 @@ pub fn donderful_combo(
 }
 
 pub fn false_donderful_combo(
-    description: &'static str,
+    title: &str,
+    description: &str,
+    points: u32,
     in_game_achievement: InGameAchievement,
 ) -> Achievement {
     trigger_challenge_achievement(
+        title,
         description,
+        points,
         in_game_achievement,
         chain!(
             or_next!(InGameStats::misses().ne(0)),
@@ -106,11 +126,13 @@ pub fn false_donderful_combo(
 }
 
 fn trigger_challenge_achievement(
-    description: &'static str,
+    title: &str,
+    description: &str,
+    points: u32,
     in_game_achievement: InGameAchievement,
     restriction: Chain<Condition>,
 ) -> Achievement {
-    InGameAchievementBuilder::new(description, in_game_achievement)
+    InGameAchievementBuilder::new(title, description, points, in_game_achievement)
         .extra_core(chain!(
             restriction,
             reset_if!(MenuState::is(FreeplayState::SongSelect as u32)),

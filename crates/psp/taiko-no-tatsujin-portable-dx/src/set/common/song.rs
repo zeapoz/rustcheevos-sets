@@ -36,5 +36,6 @@ pub fn clear_song_with_result(
             "Earn a {result} {insert}on \"{song}\" on {difficulty} difficulty"
         ))
         .core(core)
+        .points(20)
         .build()
 }

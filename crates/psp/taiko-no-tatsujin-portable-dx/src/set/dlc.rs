@@ -23,7 +23,7 @@ impl DLCSubset {
             .iter()
             .map(|song| {
                 clear_song_with_result(
-                    "TBD - Song FC",
+                    "DLC Song FC",
                     song,
                     SongResult::GoldenCrown,
                     Difficulty::Muzukashii,

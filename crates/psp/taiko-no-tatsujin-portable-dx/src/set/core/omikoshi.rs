@@ -7,11 +7,11 @@ use crate::{
         mode::omikoshi::{BattleOpponent, OmikoshiMode},
         profile::Profile,
     },
-    util::{TOTAL_NUM_OMIKOSHI_CLOTHES, TOTAL_NUM_OMIKOSHI_HEADGEAR},
+    util::{ByteArrayCounterBuilder, TOTAL_NUM_OMIKOSHI_CLOTHES, TOTAL_NUM_OMIKOSHI_HEADGEAR},
 };
 
-pub fn beat_boss(boss: BattleOpponent) -> Achievement {
-    Achievement::builder("TBD - Beat Boss")
+pub fn beat_boss(title: &str, points: u32, boss: BattleOpponent) -> Achievement {
+    Achievement::builder(title)
         .description(format!("Defeat {boss} in the Omikoshi story mode"))
         .core(chain!(
             delta!(boss.defeated_stats().eq(BattleOpponent::UNLOCKED_FLAG)),
@@ -19,55 +19,62 @@ pub fn beat_boss(boss: BattleOpponent) -> Achievement {
             GameMode::is(GameMode::Omikoshi),
             Profile::is_loaded(),
         ))
+        .points(points)
         .build()
 }
 
-pub fn obtain_omikoshi_headgear(description: &'static str) -> Achievement {
-    Achievement::builder("TBD - Obtain Omikoshi headgear")
+fn obtain_omikoshi(
+    title: &str,
+    description: &str,
+    points: u32,
+    memory_ref: ByteArrayCounterBuilder,
+    num_items: u32,
+) -> Achievement {
+    Achievement::builder(title)
         .description(description)
         .core(chain!(
-            delta!(Profile::num_omikoshi_headgear())
-                .build()
-                .eq(TOTAL_NUM_OMIKOSHI_HEADGEAR - 1)
-                .resolve(),
-            measured!(
-                Profile::num_omikoshi_headgear()
-                    .build()
-                    .eq(TOTAL_NUM_OMIKOSHI_HEADGEAR)
-            ),
+            delta!(memory_ref.build()).eq(num_items - 1).resolve(),
+            measured!(memory_ref.build().eq(num_items)),
             measured_if!(GameMode::is(GameMode::Omikoshi)),
             measured_if!(Profile::is_loaded())
         ))
+        .points(points)
         .build()
 }
 
-pub fn obtain_omikoshi_clothes(description: &'static str) -> Achievement {
-    Achievement::builder("TBD - Obtain Omikoshi clothes")
-        .description(description)
-        .core(chain!(
-            delta!(Profile::num_omikoshi_clothes())
-                .build()
-                .eq(TOTAL_NUM_OMIKOSHI_CLOTHES - 1)
-                .resolve(),
-            measured!(
-                Profile::num_omikoshi_clothes()
-                    .build()
-                    .eq(TOTAL_NUM_OMIKOSHI_CLOTHES)
-            ),
-            measured_if!(GameMode::is(GameMode::Omikoshi)),
-            measured_if!(Profile::is_loaded())
-        ))
-        .build()
+pub fn obtain_omikoshi_headgear(
+    title: &str,
+    description: &'static str,
+    points: u32,
+) -> Achievement {
+    obtain_omikoshi(
+        title,
+        description,
+        points,
+        Profile::num_omikoshi_headgear(),
+        TOTAL_NUM_OMIKOSHI_HEADGEAR,
+    )
 }
 
-pub fn control_dojo(description: &'static str, dojos: u32) -> Achievement {
-    Achievement::builder("TBD - Control Dojo")
-        .description(description)
+pub fn obtain_omikoshi_clothes(title: &str, description: &'static str, points: u32) -> Achievement {
+    obtain_omikoshi(
+        title,
+        description,
+        points,
+        Profile::num_omikoshi_clothes(),
+        TOTAL_NUM_OMIKOSHI_CLOTHES,
+    )
+}
+
+pub fn control_dojo(title: &'static str, points: u32, target: u32) -> Achievement {
+    Achievement::builder(title)
+        .description("Control {dojo} dojo in Omikoshi mode")
         .core(chain!(
-            delta!(OmikoshiMode::number_of_controlled_prefectures().eq(dojos - 1)),
-            OmikoshiMode::number_of_controlled_prefectures().eq(dojos),
+            delta!(OmikoshiMode::number_of_controlled_prefectures().eq(target - 1)),
+            OmikoshiMode::number_of_controlled_prefectures().eq(target),
             GameMode::is(GameMode::Omikoshi),
             Profile::is_loaded(),
         ))
+        .points(points)
         .build()
 }

@@ -10,15 +10,21 @@ use crate::{
 };
 
 pub fn earn_silver_crowns(
-    description: &'static str,
+    title: &str,
+    points: u32,
     in_game_achievement: InGameAchievement,
-    n: u32,
+    target: u32,
     difficulty: Difficulty,
 ) -> Achievement {
-    InGameAchievementBuilder::new(description, in_game_achievement)
+    let description = format!(
+        "Earn {target} {} on {difficulty} difficulty",
+        SongResult::SilverCrown
+    );
+
+    InGameAchievementBuilder::new(title, &description, points, in_game_achievement)
         .extra_core(chain!(
             Profile::num_silver_crowns_or_higher_per_difficulty(difficulty),
-            Condition::always_false().with_hits(n),
+            Condition::always_false().with_hits(target),
             measured_if!(Profile::is_loaded()),
             reset_if!(
                 mem::currently_selected_profile().ne(delta!(mem::currently_selected_profile()))
@@ -28,15 +34,18 @@ pub fn earn_silver_crowns(
 }
 
 pub fn earn_golden_crowns(
-    description: &'static str,
+    title: &str,
+    points: u32,
     in_game_achievement: InGameAchievement,
-    n: u32,
+    target: u32,
 ) -> Achievement {
+    let description = format!("Earn {target} {}", SongResult::GoldenCrown);
+
     let measured_num_crowns =
         Profile::num_crowns_per_difficulty(Difficulty::Oni, SongResult::GoldenCrown)
-            .map_head(|h| measured!(h.lhs().eq(n)));
+            .map_head(|h| measured!(h.lhs().eq(target)));
 
-    InGameAchievementBuilder::new(description, in_game_achievement)
+    InGameAchievementBuilder::new(title, &description, points, in_game_achievement)
         .extra_core(chain!(
             Profile::num_crowns_per_difficulty(Difficulty::Kantan, SongResult::GoldenCrown),
             Profile::num_crowns_per_difficulty(Difficulty::Futsuu, SongResult::GoldenCrown),
@@ -48,13 +57,17 @@ pub fn earn_golden_crowns(
 }
 
 pub fn accumulate_hits(
-    description: &'static str,
+    title: &str,
+    points: u32,
     in_game_achievement: InGameAchievement,
-    hits: u32,
+    target: u32,
+    target_str: &str,
 ) -> Achievement {
-    InGameAchievementBuilder::new(description, in_game_achievement)
+    let description = format!("Accumulate {target_str} hits on the Taiko Counter");
+
+    InGameAchievementBuilder::new(title, &description, points, in_game_achievement)
         .extra_core(chain!(
-            measured!(Profile::total_drum_hits().ge(hits)),
+            measured!(Profile::total_drum_hits().ge(target)),
             measured_if!(Profile::is_loaded())
         ))
         .build()

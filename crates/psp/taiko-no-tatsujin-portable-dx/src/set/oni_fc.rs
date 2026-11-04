@@ -24,12 +24,7 @@ impl OniFCSubset {
         ALL_SONGS
             .iter()
             .map(|song| {
-                clear_song_with_result(
-                    "TBD - Song FC",
-                    song,
-                    SongResult::GoldenCrown,
-                    Difficulty::Oni,
-                )
+                clear_song_with_result("Oni FC", song, SongResult::GoldenCrown, Difficulty::Oni)
             })
             .collect()
     }
