@@ -11,7 +11,7 @@ use crate::{
 
 pub fn clear_song_with_result(
     title: &str,
-    song: &Song,
+    song: Song,
     result: SongResult,
     difficulty: Difficulty,
 ) -> Achievement {

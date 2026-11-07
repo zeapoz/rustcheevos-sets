@@ -32,11 +32,11 @@ macro_rules! gen_song_defs {
             const ALL: &[Song] = &[ $( Song::$variant ),* ];
 
             pub const LOOKUP_ENTRIES: &[(u32, &str)] = &[
-                $( ($data.id, $data.title) ),*
+                $( (Song::$variant.data().id, Song::$variant.data().title) ),*
             ];
 
             /// Returns the data of the song.
-            fn data(self) -> &'static SongData {
+            const fn data(self) -> &'static SongData {
                 match self {
                     $( Song::$variant => &$data ),*
                 }
@@ -84,34 +84,34 @@ gen_song_defs! {
     NoButs => SongData { id: 0x03, title: "No buts!", dlc: false },
 
     // DLC:
-    DetectiveConanMainTheme => SongData { id: 0x6b, title: "Detective Conan Main Theme",dlc: true },
-    GutsGuts => SongData { id: 0x6c, title: "Guts Guts!!",dlc: true },
-    MySoulYourBeats => SongData { id: 0x71, title: "My Soul, Your Beats!",dlc: true },
-    TougenkyouAlien => SongData { id: 0x72, title: "Tougenkyou Alien",dlc: true },
-    ACruelAngelsThesis => SongData { id: 0x79, title: "A Cruel Angel's Thesis",dlc: true },
-    Tank => SongData { id: 0x81, title: "Tank!",dlc: true },
-    TankUra => SongData { id: 0x82, title: "Tank! (Ura)",dlc: true },
-    SouseiNoAquarion => SongData { id: 0x83, title: "Sousei no Aquarion",dlc: true },
-    Ready => SongData { id: 0x8a, title: "READY!!",dlc: true },
-    LupinTheThirdTheme => SongData { id: 0x90, title: "Lupin III Theme '78",dlc: true },
-    Touch => SongData { id: 0x96, title: "Touch",dlc: true },
-    HareHareYukai => SongData { id: 0x97, title: "Hare Hare Yukai",dlc: true },
-    BoiledExtreme => SongData { id: 0x9a, title: "W-B-X ~W Boiled Extreme~",dlc: true },
-    WeAre => SongData { id: 0x9b, title: "We Are!",dlc: true },
+    DetectiveConanMainTheme => SongData { id: 0x6b, title: "Detective Conan Main Theme", dlc: true },
+    GutsGuts => SongData { id: 0x6c, title: "Guts Guts!!", dlc: true },
+    MySoulYourBeats => SongData { id: 0x71, title: "My Soul, Your Beats!", dlc: true },
+    TougenkyouAlien => SongData { id: 0x72, title: "Tougenkyou Alien", dlc: true },
+    ACruelAngelsThesis => SongData { id: 0x79, title: "A Cruel Angel's Thesis", dlc: true },
+    Tank => SongData { id: 0x81, title: "Tank!", dlc: true },
+    TankUra => SongData { id: 0x82, title: "Tank! (Ura)", dlc: true },
+    SouseiNoAquarion => SongData { id: 0x83, title: "Sousei no Aquarion", dlc: true },
+    Ready => SongData { id: 0x8a, title: "READY!!", dlc: true },
+    LupinTheThirdTheme => SongData { id: 0x90, title: "Lupin III Theme '78", dlc: true },
+    Touch => SongData { id: 0x96, title: "Touch", dlc: true },
+    HareHareYukai => SongData { id: 0x97, title: "Hare Hare Yukai", dlc: true },
+    BoiledExtreme => SongData { id: 0x9a, title: "W-B-X ~W Boiled Extreme~", dlc: true },
+    WeAre => SongData { id: 0x9b, title: "We Are!", dlc: true },
     Yuuki100Percent => SongData { id: 0xa0, title: "Yuuki 100%", dlc: true },
-    ChaLaHeadChaLa => SongData { id: 0xa1, title: "CHA-LA HEAD-CHA-LA",dlc: true },
-    SwitchOn => SongData { id: 0xa8, title: "SWITCH ON!",dlc: true },
-    MottekeSailorFuku => SongData { id: 0xab, title: "Motteke! Sailor Fuku",dlc: true },
-    OshiriKajiriMushi => SongData { id: 0xad, title: "Oshiri Kajiri Mushi",dlc: true },
-    Tomare => SongData { id: 0xae, title: "Tomare!",dlc: true },
-    OneDream => SongData { id: 0xb4, title: "1 Dream",dlc: true },
-    ByMySide => SongData { id: 0xc1, title: "By My Side",dlc: true },
-    WeGo => SongData { id: 0xca, title: "We Go!",dlc: true },
-    OrionONazoru => SongData { id: 0xcb, title: "Orion o Nazoru",dlc: true },
-    KillMeNoBaby => SongData { id: 0xd2, title: "Kill me no Baby!",dlc: true },
-    PegasusFantasy => SongData { id: 0xd4, title: "Pegasus Fantasy",dlc: true },
-    LifeIsShowTime => SongData { id: 0xda, title: "Life is SHOW TIME",dlc: true },
-    KimiONosete => SongData { id: 0xe3, title: "Kimi o Nosete",dlc: true },
+    ChaLaHeadChaLa => SongData { id: 0xa1, title: "CHA-LA HEAD-CHA-LA", dlc: true },
+    SwitchOn => SongData { id: 0xa8, title: "SWITCH ON!", dlc: true },
+    MottekeSailorFuku => SongData { id: 0xab, title: "Motteke! Sailor Fuku", dlc: true },
+    OshiriKajiriMushi => SongData { id: 0xad, title: "Oshiri Kajiri Mushi", dlc: true },
+    Tomare => SongData { id: 0xae, title: "Tomare!", dlc: true },
+    OneDream => SongData { id: 0xb4, title: "1 Dream", dlc: true },
+    ByMySide => SongData { id: 0xc1, title: "By My Side", dlc: true },
+    WeGo => SongData { id: 0xca, title: "We Go!", dlc: true },
+    OrionONazoru => SongData { id: 0xcb, title: "Orion o Nazoru", dlc: true },
+    KillMeNoBaby => SongData { id: 0xd2, title: "Kill me no Baby!", dlc: true },
+    PegasusFantasy => SongData { id: 0xd4, title: "Pegasus Fantasy", dlc: true },
+    LifeIsShowTime => SongData { id: 0xda, title: "Life is SHOW TIME", dlc: true },
+    KimiONosete => SongData { id: 0xe3, title: "Kimi o Nosete", dlc: true },
 
     // == J-Pop ==
     HeavyRotation => SongData { id: 0x04, title: "Heavy Rotation", dlc: false },

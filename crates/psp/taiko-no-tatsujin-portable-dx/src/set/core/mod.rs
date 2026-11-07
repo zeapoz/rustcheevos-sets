@@ -161,11 +161,104 @@ impl CoreSet {
             clear_song_with_modifier_active("TBD - In game", "Clear any song with the Random notes modifier active", 0, NoteModifier::is(NoteModifier::Random)),
             clear_song_with_modifier_active("TBD - In game", "Clear any song with the Reversed notes modifier active", 0, NoteModifier::is(NoteModifier::Reveresed)),
         ];
-
-        let all_songs_fc = ALL_STANDARD_SONGS.iter().map(|song|
-            clear_song_with_result("Song FC", song, SongResult::GoldenCrown, Difficulty::Muzukashii)
-        );
-        core.extend(all_songs_fc);
+        core.extend(Self::generate_song_full_combos());
         core
+    }
+
+    #[rustfmt::skip]
+    fn generate_song_full_combos() -> Vec<Achievement> {
+        vec![
+            // Anime
+            clear_song_with_result("Song FC - One day", Song::OneDay, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Lovers", Song::Lovers, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Lion", Song::Lion, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - No buts!", Song::NoButs, SongResult::GoldenCrown, Difficulty::Muzukashii),
+
+            // J-Pop
+            clear_song_with_result("Song FC - Heavy Rotation", Song::HeavyRotation, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Yoku Asobi Yoku Manabe", Song::YokuAsobiYokuManabe, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - I Wish For You", Song::IWishForYou, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Arigatou", Song::Arigatou, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Joyful", Song::Joyful, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Natsu Matsuri", Song::NatsuMatsuri, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Tentai Kansoku", Song::TentaiKansou, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Kurenai", Song::Kurenai, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Punishment", Song::Punishment, SongResult::GoldenCrown, Difficulty::Muzukashii),
+
+            // Variety
+            clear_song_with_result("Song FC - MISTER", Song::Mister, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Jounetsu Tairiku", Song::JounetsuTairiku, SongResult::GoldenCrown, Difficulty::Muzukashii),
+
+            // Classic
+            clear_song_with_result("Song FC - Pavane for a Dead Princess ～Kimi no Kodou～", Song::PavaneForADeadPrincess, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Ninth Symphony", Song::NinthSymphony, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Excerpt from Light Cavalry Overture", Song::ExcerptFromLightCavalryOverture, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Eine Kleine Nachtmuzik", Song::EineKleineNachtmuzik, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Violin Concerto in E Minor", Song::ViolinConcertoInEMinor, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Radetzky March", Song::RadetzkyMarch, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Kare Kano Kanon", Song::KareKantonoKanonan, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Etude Op.10-4", Song::EtudeOp104, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Etude Op.10-4 (Ura)", Song::EtudeOp104Ura, SongResult::GoldenCrown, Difficulty::Muzukashii),
+
+            // Game Music
+            clear_song_with_result("Song FC - Monster Hunter Medley", Song::MonsterHunterMedley, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - MachineGun Kiss", Song::MachineGunKiss, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - The world is all one!!", Song::TheWorldIsAllOne, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Kirame Kirari", Song::KirameKirari, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Mujihi na Ou", Song::MujihiNaOu, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - KARMA", Song::Karma, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Bambini", Song::Bambini, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - PaPaPa Love", Song::PaPaPaLove, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Mappy Medley", Song::MappyMedley, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - MAGICAL SOUND SHOWER", Song::MagicalSoundShower, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Hatsune Miku no Gekishou", Song::HatsuneMikuNoGekishou, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Hatsune Miku no Gekishou (Ura)", Song::HatsuneMikuNoGekishouUra, SongResult::GoldenCrown, Difficulty::Muzukashii),
+
+            // Namco Original
+            clear_song_with_result("Song FC - DokoDON MatsuRhythm", Song::DokoDONMatsuRhythm, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Canadea", Song::Canadea, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - SORA-V Cosmic Bird", Song::SORAVCosmicBird, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Wanya World", Song::WanyaWorld, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - All Night de Indenai", Song::AllNightdeIndenai, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Magical Little Spaceship", Song::MagicalLittleSpaceship, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Shiro Neko Caramel Mugen no Wata ame", Song::ShiroNekoCaramelMugennoWataame, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - White Rose Insanity", Song::WhiteRoseInsanity, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - White Rose Insanity (Ura)", Song::WhiteRoseInsanityUra, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Ao no Senritsu", Song::AoNoSenritsu, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Inu Hoeru", Song::InuHoeru, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - LOVE Ikusa!!", Song::LOVEIkusa, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Taiyou mo Yappappa", Song::TaiyouMoYappappa, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Taiyou mo Yappappa (Ura)", Song::TaiyouMoYappappaUra, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Sports Digestdon", Song::SportsDigestDon, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Sports Digestdon (Ura)", Song::SportsDigestDonUra, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Happy & Peace", Song::HappyPeace, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Ra Morena Kumonai", Song::RaMorenaKumonai, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Desert de Yakiniku", Song::DesertDeYakiniku, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Rinda wa Kyou mo Zekkouchou", Song::RindaWaKyoumoZekkouchou, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Rinda wa Kyou mo Zekkouchou (Ura)", Song::RindaWaKyoumoZekkouchouUra, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Densetsu no Matsuri", Song::DensetsunoMatsuri, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - DON'T CUT", Song::DontCut, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - DON'T CUT (Ura)", Song::DontCutUra, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Dun Aonghasa no Fuefuki", Song::DunAonghasanoFuefuki, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Rumble Ranbu", Song::RumbleRanbu, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Rumble Ranbu (Ura)", Song::RumbleRanbuUra, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Buru-chan no Oya 2", Song::BuruChanNoOya2, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Kissa Rain", Song::KissaRain, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Dodododo-Donderful!", Song::DodododoDonderful, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Akuukan Yuuei ac12.5", Song::AkuukanYuueiac125, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Jigoku no Taiko Jiten", Song::JigokunoTaikoJiten, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - BE THE ACE", Song::BeTheAce, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Mulberry", Song::Mulberry, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Sengoku Sangen", Song::SengokuSangen, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Hyakki Yakou", Song::HyakkiYakou, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Rotter Tarmination", Song::RotterTarmination, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Rotter Tarmination (Ura)", Song::RotterTarminationUra, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Black Rose Apostle", Song::BlackRoseApostle, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Black Rose Apostle (Ura)", Song::BlackRoseApostleUra, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Soroban 2000", Song::Soroban2000, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - X-DAY 2000", Song::XDay2000, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Mata Saitama 2000", Song::MataSaitama2000, SongResult::GoldenCrown, Difficulty::Muzukashii),
+            clear_song_with_result("Song FC - Cycle of Rebirth", Song::CycleOfRebirth, SongResult::GoldenCrown, Difficulty::Muzukashii),
+        ]
     }
 }
