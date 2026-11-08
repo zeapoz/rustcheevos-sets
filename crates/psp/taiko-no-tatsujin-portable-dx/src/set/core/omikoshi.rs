@@ -1,6 +1,8 @@
-use rustcheevos::prelude::*;
 use rustcheevos::types::achievement::Achievement;
+use rustcheevos::{prelude::*, types::achievement::Tag};
 
+use crate::set::core::in_game_achievement::InGameAchievementBuilder;
+use crate::types::achievement::InGameAchievement;
 use crate::{
     types::{
         menu::GameMode,
@@ -20,6 +22,19 @@ pub fn beat_boss(title: &str, description: &str, points: u32, boss: BattleOppone
             Profile::is_loaded(),
         ))
         .points(points)
+        .tag(Tag::Progression)
+        .build()
+}
+
+pub fn clear_omikoshi(
+    title: &str,
+    description: &str,
+    points: u32,
+    in_game_achievement: InGameAchievement,
+) -> Achievement {
+    InGameAchievementBuilder::new(title, description, points, in_game_achievement)
+        .extra_core(Profile::is_loaded())
+        .tag(Tag::WinCondition)
         .build()
 }
 

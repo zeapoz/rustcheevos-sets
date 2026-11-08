@@ -1,6 +1,9 @@
 use rustcheevos::{
     prelude::*,
-    types::{achievement::Achievement, chain::ResolvedChain},
+    types::{
+        achievement::{Achievement, Tag},
+        chain::ResolvedChain,
+    },
 };
 
 use crate::types::{
@@ -17,6 +20,7 @@ pub struct InGameAchievementBuilder {
     extra_core: ResolvedChain,
     alt_groups: Vec<ResolvedChain>,
     trigger: bool,
+    tag: Option<Tag>,
 }
 
 impl InGameAchievementBuilder {
@@ -34,6 +38,7 @@ impl InGameAchievementBuilder {
             extra_core: ResolvedChain::new(),
             alt_groups: Vec::new(),
             trigger: false,
+            tag: None,
         }
     }
 
@@ -52,13 +57,23 @@ impl InGameAchievementBuilder {
         self
     }
 
+    pub fn tag(mut self, tag: Tag) -> Self {
+        self.tag = Some(tag);
+        self
+    }
+
     pub fn build(self) -> Achievement {
-        Achievement::builder(&self.title)
+        let mut builder = Achievement::builder(&self.title)
             .description(&self.description)
             .points(self.points)
             .core(self.build_core())
-            .alt_groups(self.alt_groups)
-            .build()
+            .alt_groups(self.alt_groups);
+
+        if let Some(tag) = self.tag {
+            builder = builder.tag(tag);
+        }
+
+        builder.build()
     }
 
     fn build_core(&self) -> ResolvedChain {
