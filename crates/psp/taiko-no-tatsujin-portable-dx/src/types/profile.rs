@@ -138,7 +138,7 @@ impl Profile {
             .map(|s| {
                 chain!(
                     Profile::offset_for_current(),
-                    add_hits!(s.best_result(difficulty).ne(SongResult::Fail as u32))
+                    add_hits!(s.best_result(difficulty).ne(SongResult::Fail as u32)).with_hits(1)
                 )
             })
             .collect()

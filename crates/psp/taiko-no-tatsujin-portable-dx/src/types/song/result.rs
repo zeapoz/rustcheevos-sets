@@ -32,8 +32,8 @@ impl fmt::Display for SongResult {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let s = match self {
             SongResult::Fail => "Fail",
-            SongResult::SilverCrown => "Silver Crown",
-            SongResult::GoldenCrown => "Golden Crown",
+            SongResult::SilverCrown => "Crown",
+            SongResult::GoldenCrown => "Gold Crown",
         };
         write!(f, "{s}")
     }

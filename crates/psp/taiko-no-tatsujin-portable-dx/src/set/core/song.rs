@@ -3,7 +3,7 @@ use rustcheevos::types::achievement::Achievement;
 use rustcheevos::types::requirement::Condition;
 
 use crate::mem;
-use crate::types::menu::{FreeplayState, GameMode, MenuState};
+use crate::types::menu::{FreeplayState, GameMode, GeneralMenuState, MenuState};
 use crate::types::modifier::SpecialModifier;
 use crate::types::song::in_game_stats::InGameStats;
 use crate::types::song::result::SongResult;
@@ -144,11 +144,12 @@ fn trigger_challenge_achievement(
         .extra_core(chain!(
             restriction,
             reset_if!(MenuState::is(FreeplayState::SongSelect as u32)),
+            reset_if!(MenuState::is(GeneralMenuState::MainMenu as u32)),
             GameMode::is(GameMode::Freeplay),
         ))
         .alt_group(chain!(
             and_next!(delta!(InGameStats::pointer_is_null())),
-            and_next!(InGameStats::pointer_not_null()),
+            InGameStats::pointer_not_null().with_hits(1),
         ))
         .alt_group(chain!(
             and_next!(InGameStats::pointer_not_null()),

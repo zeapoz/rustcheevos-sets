@@ -3,6 +3,7 @@ use rustcheevos::types::achievement::Achievement;
 use rustcheevos::types::requirement::Condition;
 
 use crate::mem;
+use crate::types::song::Song;
 use crate::types::song::result::SongResult;
 use crate::{
     set::core::in_game_achievement::InGameAchievementBuilder,
@@ -15,16 +16,23 @@ pub fn earn_silver_crowns(
     in_game_achievement: InGameAchievement,
     target: u32,
     difficulty: Difficulty,
+    unlock_str: Option<&str>,
 ) -> Achievement {
+    let unlock_str = if let Some(unlock_str) = unlock_str {
+        format!(" and unlock {unlock_str}")
+    } else {
+        "".to_string()
+    };
+
     let description = format!(
-        "Earn {target} {} on {difficulty} difficulty",
+        "Earn {target} {}s on {difficulty} difficulty{unlock_str}",
         SongResult::SilverCrown
     );
 
     InGameAchievementBuilder::new(title, &description, points, in_game_achievement)
         .extra_core(chain!(
             Profile::num_silver_crowns_or_higher_per_difficulty(difficulty),
-            Condition::always_false().with_hits(target),
+            measured!(Condition::always_false().with_hits(target)),
             measured_if!(Profile::is_loaded()),
             reset_if!(
                 mem::currently_selected_profile().ne(delta!(mem::currently_selected_profile()))
@@ -38,8 +46,13 @@ pub fn earn_golden_crowns(
     points: u32,
     in_game_achievement: InGameAchievement,
     target: u32,
+    unlock_str: &str,
 ) -> Achievement {
-    let description = format!("Earn {target} {}", SongResult::GoldenCrown);
+    let description = format!(
+        "Earn {target} {}s and unlock {}",
+        SongResult::GoldenCrown,
+        unlock_str
+    );
 
     let measured_num_crowns =
         Profile::num_crowns_per_difficulty(Difficulty::Oni, SongResult::GoldenCrown)
@@ -62,8 +75,10 @@ pub fn accumulate_hits(
     in_game_achievement: InGameAchievement,
     target: u32,
     target_str: &str,
+    unlock_song: Song,
 ) -> Achievement {
-    let description = format!("Accumulate {target_str} hits on the Taiko Counter");
+    let description =
+        format!("Accumulate {target_str} hits on the Taiko Counter and unlock \"{unlock_song}\"");
 
     InGameAchievementBuilder::new(title, &description, points, in_game_achievement)
         .extra_core(chain!(

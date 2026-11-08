@@ -16,7 +16,7 @@ impl SpeedModifier {
     fn get() -> Chain<MemoryRef> {
         chain!(
             Profile::offset_for_current(),
-            mem::file_1_game_modifiers_special()
+            mem::file_1_game_modifiers_speed()
         )
     }
 
@@ -55,16 +55,16 @@ impl SpecialModifier {
 
 pub enum NoteModifier {
     Normal = 0x0,
-    Whimsical,
-    Random,
-    Reveresed,
+    Whimsical = 0x1,
+    Random = 0x2,
+    Reveresed = 0x3,
 }
 
 impl NoteModifier {
     fn get() -> Chain<MemoryRef> {
         chain!(
             Profile::offset_for_current(),
-            mem::file_1_game_modifiers_special()
+            mem::file_1_game_modifiers_note()
         )
     }
 

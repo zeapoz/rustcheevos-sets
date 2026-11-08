@@ -4,11 +4,7 @@ use rustcheevos::{prelude::*, types::achievement::Tag};
 use crate::set::core::in_game_achievement::InGameAchievementBuilder;
 use crate::types::achievement::InGameAchievement;
 use crate::{
-    types::{
-        menu::GameMode,
-        mode::omikoshi::{BattleOpponent, OmikoshiMode},
-        profile::Profile,
-    },
+    types::{menu::GameMode, mode::omikoshi::BattleOpponent, profile::Profile},
     util::{ByteArrayCounterBuilder, TOTAL_NUM_OMIKOSHI_CLOTHES, TOTAL_NUM_OMIKOSHI_HEADGEAR},
 };
 
@@ -79,17 +75,4 @@ pub fn obtain_omikoshi_clothes(title: &str, description: &'static str, points: u
         Profile::num_omikoshi_clothes(),
         TOTAL_NUM_OMIKOSHI_CLOTHES,
     )
-}
-
-pub fn control_dojo(title: &str, description: &str, points: u32, target: u32) -> Achievement {
-    Achievement::builder(title)
-        .description(description)
-        .core(chain!(
-            delta!(OmikoshiMode::number_of_controlled_prefectures().eq(target - 1)),
-            OmikoshiMode::number_of_controlled_prefectures().eq(target),
-            GameMode::is(GameMode::Omikoshi),
-            Profile::is_loaded(),
-        ))
-        .points(points)
-        .build()
 }
