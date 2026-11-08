@@ -10,9 +10,9 @@ use crate::{
     util::{ByteArrayCounterBuilder, TOTAL_NUM_OMIKOSHI_CLOTHES, TOTAL_NUM_OMIKOSHI_HEADGEAR},
 };
 
-pub fn beat_boss(title: &str, points: u32, boss: BattleOpponent) -> Achievement {
+pub fn beat_boss(title: &str, description: &str, points: u32, boss: BattleOpponent) -> Achievement {
     Achievement::builder(title)
-        .description(format!("Defeat {boss} in the Omikoshi story mode"))
+        .description(description)
         .core(chain!(
             delta!(boss.defeated_stats().eq(BattleOpponent::UNLOCKED_FLAG)),
             boss.defeated_stats().eq(BattleOpponent::BOSS_DEFEATED_FLAG),
@@ -66,9 +66,9 @@ pub fn obtain_omikoshi_clothes(title: &str, description: &'static str, points: u
     )
 }
 
-pub fn control_dojo(title: &'static str, points: u32, target: u32) -> Achievement {
+pub fn control_dojo(title: &str, description: &str, points: u32, target: u32) -> Achievement {
     Achievement::builder(title)
-        .description("Control {dojo} dojo in Omikoshi mode")
+        .description(description)
         .core(chain!(
             delta!(OmikoshiMode::number_of_controlled_prefectures().eq(target - 1)),
             OmikoshiMode::number_of_controlled_prefectures().eq(target),

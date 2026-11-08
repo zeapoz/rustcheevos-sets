@@ -18,11 +18,19 @@ pub fn earn_gold_on(
     in_game_achievement: InGameAchievement,
     song: Song,
     difficulty: Difficulty,
+    unlock_item: Option<&str>,
 ) -> Achievement {
-    let description = format!(
-        "Earn a {} on \"{song}\" on {difficulty} difficulty",
-        SongResult::GoldenCrown
-    );
+    let description = if let Some(item) = unlock_item {
+        format!(
+            "Earn a {} on \"{song}\" on {difficulty} difficulty and obtain the {item}",
+            SongResult::GoldenCrown
+        )
+    } else {
+        format!(
+            "Earn a {} on \"{song}\" on {difficulty} difficulty",
+            SongResult::GoldenCrown
+        )
+    };
 
     InGameAchievementBuilder::new(title, &description, points, in_game_achievement)
         .extra_core(chain!(
