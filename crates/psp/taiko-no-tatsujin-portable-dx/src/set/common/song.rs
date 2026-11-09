@@ -11,6 +11,7 @@ use crate::{
 
 pub fn clear_song_with_result(
     title: &str,
+    points: u32,
     song: Song,
     result: SongResult,
     difficulty: Difficulty,
@@ -36,6 +37,6 @@ pub fn clear_song_with_result(
             "Earn a {result} {insert}on \"{song}\" on {difficulty} difficulty"
         ))
         .core(core)
-        .points(20)
+        .points(points)
         .build()
 }
