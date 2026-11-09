@@ -74,14 +74,14 @@ impl CoreSet {
             obtain_omikoshi_headgear("Headgear Hunter", "Collect all available headgear in Omikoshi Story Mode", 10),
             obtain_omikoshi_clothes("Fearless Fashionista", "Collect all available clothing in Omikoshi Story Mode", 10),
 
-            in_game_achievement("Novice Buzzer", "Clear 5 Dojo challenges on a single difficulty and unlock the Cameraman sound", 3, InGameAchievement::Clear5DojoTrainingStages),
+            in_game_achievement("Novice of the Dojo", "Clear 5 Dojo challenges on a single difficulty and unlock the Cameraman sound", 3, InGameAchievement::Clear5DojoTrainingStages),
             in_game_achievement("Apprentice of the Dojo", "Clear 10 Dojo challenges on a single difficulty and unlock the Wooden Fish sound", 5, InGameAchievement::Clear10DojoTrainingStages),
             in_game_achievement("Adept of the Dojo", "Clear 20 Dojo challenges on a single difficulty and unlock the Bell sound", 5, InGameAchievement::Clear20DojoTrainingStages),
             in_game_achievement("Veteran of the Dojo", "Clear 30 Dojo challenges on a single difficulty and unlock the Sneeze sound", 10, InGameAchievement::Clear30DojoTrainingStages),
             in_game_achievement("Expert of the Dojo", "Clear 40 Dojo challenges on a single difficulty and unlock the Clapping sound", 10, InGameAchievement::Clear40DojoTrainingStages),
             in_game_achievement("Master of the Dojo", "Clear 50 Dojo challenges on a single difficulty and unlock the Rap sound", 25, InGameAchievement::Clear50DojoTrainingStages),
 
-            in_game_achievement("Overwhelming Victory", "Beat the opponent by more than 9 meters in an Omikoshi battle", 5, InGameAchievement::BeatTheOpponentByMoreThan9MetersInADojoBattle),
+            in_game_achievement("Don-chan Army, Take Charge!", "Achieve an overwhelming victory in Omikoshi Battle", 5, InGameAchievement::BeatTheOpponentByMoreThan9MetersInADojoBattle),
 
             // In-game achievements
             in_game_achievement("First Beat", "Clear your first song", 3, InGameAchievement::FirstClear),
@@ -91,11 +91,11 @@ impl CoreSet {
             earn_silver_crowns("Rhythm Warm-Up", 5, InGameAchievement::Earn15SilverCrownsOnFutsuu, 15, Difficulty::Futsuu, None),
             earn_silver_crowns("Beat Brawler", 5, InGameAchievement::Earn30SilverCrownsOnFutsuu, 30, Difficulty::Futsuu, Some("the Invisible modifier")),
             earn_silver_crowns("Futsuu Finished", 10, InGameAchievement::Earn70SilverCrownsOnFutsuu, 70, Difficulty::Futsuu, None),
-            earn_silver_crowns("Dealing with the Devil", 5, InGameAchievement::Earn15SilverCrownsOnMuzukashii, 15, Difficulty::Muzukashii, Some("Oni Difficulty")),
+            earn_silver_crowns("Dealing with the Devil", 5, InGameAchievement::Earn15SilverCrownsOnMuzukashii, 15, Difficulty::Muzukashii, Some("Oni difficulty")),
             earn_silver_crowns("Beat Breaker", 10, InGameAchievement::Earn30SilverCrownsOnMuzukashii, 30, Difficulty::Muzukashii, Some("the Random modifier")),
             earn_silver_crowns("Muzukashii Master", 25, InGameAchievement::Earn70SilverCrownsOnMuzukashii, 70, Difficulty::Muzukashii, None),
             earn_silver_crowns("Oni Overlord", 10, InGameAchievement::Earn15SilverCrownsOnOni, 15, Difficulty::Oni, Some("the Triple Speed modifier")),
-            earn_silver_crowns("Beat Behemoth", 25, InGameAchievement::Earn30SilverCrownsOnOni, 30, Difficulty::Oni, Some("the Quadruple Speed Modifier")),
+            earn_silver_crowns("Beat Behemoth", 25, InGameAchievement::Earn30SilverCrownsOnOni, 30, Difficulty::Oni, Some("the Quadruple Speed modifier")),
             earn_silver_crowns("Oni Obliterator", 50, InGameAchievement::Earn70SilverCrownsOnOni, 70, Difficulty::Oni, None),
             earn_golden_crowns("Crown Chaser", 5, InGameAchievement::Earn10GoldenCrowns, 10, "the Sudden Death modifier"),
             earn_golden_crowns("Full Crescendo", 10, InGameAchievement::Earn25GoldenCrowns, 25, "the Tsuzumi sound"),
