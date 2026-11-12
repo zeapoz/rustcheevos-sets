@@ -198,7 +198,7 @@ pub(crate) fn generate_rich_presence() -> RichPresence {
     );
     rp.add_conditional_display(
         MenuState::is(GeneralMenuState::MainMenu as u32),
-        format!("In the main menu • 🥁x{taiko_counter}"),
+        format!("In the main menu • {taiko_counter} 🥁"),
     );
 
     rp.add_conditional_display(
@@ -207,7 +207,7 @@ pub(crate) fn generate_rich_presence() -> RichPresence {
             MenuState::is(FreeplayState::SongSelect as u32)
         ),
         format!(
-            "{} • 🥇x{} • 🥈x{}",
+            "{} • 🥇 {} • 🥈 {}",
             rp_handles.menu_state, rp_handles.golden_crowns, rp_handles.silver_crowns
         ),
     );
